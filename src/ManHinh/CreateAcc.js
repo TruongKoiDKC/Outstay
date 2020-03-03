@@ -22,6 +22,7 @@ export default class Login extends React.Component{
     this.state={
       typing_email: false,
       typing_password: false,
+      typing_repassword:false,
       animation_login : new Animated.Value(width-40),
       enable:true
     }
@@ -31,15 +32,26 @@ export default class Login extends React.Component{
     if(value=="email"){
       this.setState({
         typing_email: true,
-        typing_password: false
+        typing_password: false,
+        typing_repassword: false
       })
     }
+
+    else if(value=="password"){
+        this.setState({
+          typing_email: false,
+          typing_password: true,
+          typing_repassword: false
+        })
+      }
+      
     else{
-      this.setState({
-        typing_email: false,
-        typing_password: true
-      })
-    }
+        this.setState({
+          typing_email: false,
+          typing_password: false,
+          typing_repassword: true
+        })
+      }
   }
 
   _typing(){
@@ -64,7 +76,8 @@ export default class Login extends React.Component{
       this.setState({
         enable:false,
         typing_email: false,
-        typing_password: false
+        typing_password: false,
+        typing_repassword: false
       })
     }, 150);
   }
@@ -99,7 +112,7 @@ export default class Login extends React.Component{
                 <View style={styles.action}>
                     <TextInput 
                       secureTextEntry
-                      placeholder="Mật Khẩu"
+                      placeholder="Mật khẩu"
                       style={styles.textInput}
                       onFocus={()=>this._foucus("password")}
                     />
@@ -107,15 +120,27 @@ export default class Login extends React.Component{
                       this._typing()
                     : null}
                 </View>
+
+                <View style={styles.action}>
+                    <TextInput 
+                      secureTextEntry
+                      placeholder="Xác nhận mật khẩu"
+                      style={styles.textInput}
+                      onFocus={()=>this._foucus("repassword")}
+                    />
+                    {this.state.typing_repassword ?
+                      this._typing()
+                    : null}
+                </View>
                 
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhHome") && this._animation()}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhLogin")}>
 
                   <View style={styles.button_container}>
                         <Animated.View style={[styles.animation,{
                           width
                         }]}>
                           {this.state.enable ?
-                            <Text style={styles.textLogin}>Đăng Nhập</Text>
+                            <Text style={styles.textLogin}>Đăng ký</Text>
                             :
                             <Animatable.View
                             animation="bounceIn"
@@ -131,14 +156,8 @@ export default class Login extends React.Component{
                   </View>
                 </TouchableOpacity>      
 
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhTaoTK")}>
                 <View style={styles.signUp}>
-                      <Text style={{color:'#93278f'}}>Đăng ký ?</Text>
-                </View>
-                </TouchableOpacity>
-
-                <View style={styles.signUp}>
-                      <Text style={{color:'red'}}> Quên mật khẩu?</Text>
+                      <Text style={{color:'red'}}> Bạn đã có mật khẩu chưa ?</Text>
                 </View>
 
           </View>
@@ -190,7 +209,6 @@ var styles = StyleSheet.create({
   button_container: {
     alignItems: 'center',
     justifyContent:'center'
-
   },
   animation: {
     backgroundColor:'#93278f',
@@ -198,7 +216,7 @@ var styles = StyleSheet.create({
     marginTop:30,
     borderRadius:100,
     justifyContent:'center',
-    alignItems:'center',
+    alignItems:'center'
   },
   textLogin: {
     color:'white',
