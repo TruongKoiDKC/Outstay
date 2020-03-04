@@ -125,7 +125,7 @@ var styles = StyleSheet.create({
     },
 
     header: {
-      flex:0.35,
+      flex:0.35, 
       backgroundColor:'#93278f',
       justifyContent:'center',
       alignItems:'center'
