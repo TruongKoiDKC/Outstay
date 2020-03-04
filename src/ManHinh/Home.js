@@ -13,7 +13,6 @@ import {
 } from "react-native";
 
 
-
 export default class Home extends React.Component {
     render() {
 
@@ -21,49 +20,96 @@ export default class Home extends React.Component {
         <View style={styles.container}>
 
           <View style={styles.header}>
-          <Text style={{color:'#93278f', fontSize: 40}}>Outstay</Text>
+            <Text style={{color:'white', fontSize: 30, fontWeight: "bold"}}>Outstay</Text>
           </View>
 
           <View style={styles.body}>
-          <ImageBackground
-          source={require("../images/iconfinder_compose_406731.png")}
-          style={styles.ImageBackground}
-          >
-          <View style={{ top: 85,justifyContent: 'center'}}>
-          <Text style={{textAlign:'center'}}>Danh sách dịch vụ</Text>
-           </View>
-          </ImageBackground>
+            <View style={styles.ImageBackgroundTop}>
+              <View>
+                <TouchableOpacity onPress={this._onPressButton}>
+                   <Image
+                   style={{width: 90, height: 90, marginLeft: 70, marginTop: 40}}
+                   source={require('../images/iconfinder_compose_406731.png')}
+                   />
+                  <Text style={{fontWeight:"bold", fontSize: 20, marginLeft: 80 }}>
+                    Dịch vụ
+                  </Text>
+                </TouchableOpacity>
+                
+              </View>
 
-          <ImageBackground
-          source={require("../images/iconfinder_calculator_406835.png")}
-          style={styles.ImageBackground}
-          >
-          <View style={{ top: 85,justifyContent: 'center'}}>
-          <Text style={{textAlign:'center'}}>Hoá đơn thu tiền</Text>
-           </View>
-          </ImageBackground>
+              <View>
+                <TouchableOpacity onPress={this._onPressButton}>
+                  <Image 
+                  style={{width: 90, height: 90, marginLeft: 90, marginTop: 40}}
+                  source={require('../images/iconfinder_door_406820.png')}
+                  />
+                  <Text style={{fontWeight:"bold", fontSize: 20, marginLeft: 90 }}>
+                    Phòng trọ
+                  </Text>
+                </TouchableOpacity> 
+              
+              </View>
+            </View>
 
-          <ImageBackground
-          source={require("../images/iconfinder_chat_406814.png")}
-          style={styles.ImageBackground}
-          >
-          <View style={{ top: 85,justifyContent: 'center', 
-           alignItems: 'center'}}>
-           <Text>Nhắn tin</Text>
-           </View>
-          </ImageBackground>
+            <View style={styles.ImageBackgroundMid}>
+              <View>
+                <TouchableOpacity>
+                <Image
+                 style={{width: 90, height: 90, marginLeft: 70, marginTop: 40}}
+                  source={require('../images/iconfinder_calculator_406835.png')}
+                />
+                <Text style={{fontWeight:"bold", fontSize: 20, marginLeft: 80 }}>
+                    Hóa đơn
+                  </Text>
+                </TouchableOpacity>
+                
+              </View>
 
-          
+              <View>
+                <TouchableOpacity>
+                <Image
+                 style={{width: 90, height: 90, marginLeft: 90, marginTop: 40}}
+                  source={require('../images/iconfinder_barchart_406826.png')}
+                />
+                <Text style={{fontWeight:"bold", fontSize: 20, marginLeft:90 }}>
+                    Thống kê
+                </Text>
+                </TouchableOpacity>
+                
+              </View>
+            </View>
 
+            <View style={styles.ImageBackgroundBot}>
+            <View>
+              <TouchableOpacity>
+              <Image
+                 style={{width: 90, height: 90, marginLeft: 70, marginTop: 40}}
+                  source={require('../images/iconfinder_chat_406814.png')}
+                />
+                <Text style={{fontWeight:"bold", fontSize: 20, marginLeft: 80 }}>
+                    Nhắn tin
+                </Text>
+              </TouchableOpacity>
+              </View>
+
+              <View>
+                <TouchableOpacity>
+                  <Image
+                   style={{width: 90, height: 90, marginLeft: 90, marginTop: 40}}
+                    source={require('../images/iconfinder_gear_406863.png')}
+                  />
+                  <Text style={{fontWeight:"bold", fontSize: 20, marginLeft: 105 }}>
+                    Cài đặt
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+            </View>
           </View>
 
           <View style={styles.footer}>
-          <Image
-          source={require("../images/iconfinder_star_406773.png")}
-          style={{width: 60, height: 60}}
-          >
-          </Image>
-
+             
           </View>
         </View>
         )
@@ -77,36 +123,35 @@ var styles = StyleSheet.create({
       backgroundColor:'white',
       justifyContent:'center'
     },
+
     header: {
-      flex:0.5,
-      backgroundColor:'white',
+      flex:0.35,
+      backgroundColor:'#93278f',
       justifyContent:'center',
       alignItems:'center'
     },
 
     body: {
-        backgroundColor: '#E1E0DE',
-        flex:3.5,
-        padding:20,
-        paddingVertical : 20
+        backgroundColor: 'white',
+        flex:3.5
     },
 
     footer:{
-        flex: 0.5,
-        alignSelf: 'center',
-        justifyContent: 'center'
-
-
+        flex: 0.25,
     },
 
+    ImageBackgroundTop:{
+        flex: 1,
+        flexDirection: "row",
+    },
 
-    ImageBackground: {
-        width: 80,
-        height: 80,
-        marginLeft: 50,
-        marginTop: 50
-    }
+    ImageBackgroundMid:{
+      flex: 1,
+      flexDirection: "row",
+    },
 
-
-
+    ImageBackgroundBot:{
+      flex: 1,
+      flexDirection: "row",
+    },
 });
