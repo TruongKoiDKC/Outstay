@@ -121,11 +121,11 @@ var styles = StyleSheet.create({
     container: {
       flex:1,
       backgroundColor:'white',
-      justifyContent:'center'
+      justifyContent:'center' 
     },
 
     header: {
-      flex:0.35, 
+      flex:0.35,
       backgroundColor:'#93278f',
       justifyContent:'center',
       alignItems:'center'
