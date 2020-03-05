@@ -5,6 +5,7 @@ import { createStackNavigator} from "react-navigation-stack";
 import Login from './ManHinh/Login';
 import Home from './ManHinh/Home';
 import CreateAcc from './ManHinh/CreateAcc';
+import Chat from './ManHinh/Chat';
 
 const StackNav = createStackNavigator({
     ManHinhLogin: {
@@ -23,6 +24,13 @@ const StackNav = createStackNavigator({
 
     ManHinhTaoTK: {
         screen: CreateAcc,
+        navigationOptions:{
+            headerShown: false
+        }
+    },
+
+    ManHinhChat: {
+        screen: Chat,
         navigationOptions:{
             headerShown: false
         }
