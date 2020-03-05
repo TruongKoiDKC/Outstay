@@ -1,13 +1,23 @@
 import React from 'react';
 import {createAppContainer} from 'react-navigation';
-import { createStackNavigator} from "react-navigation-stack";
+import { createStackNavigator,createSwitchNavigator} from "react-navigation-stack";
 
 import Login from './ManHinh/Login';
 import Home from './ManHinh/Home';
 import CreateAcc from './ManHinh/CreateAcc';
 import Chat from './ManHinh/Chat';
+import Splash from './ManHinh/Splash';
+
+
 
 const StackNav = createStackNavigator({
+    ManHinhSplash:{
+        screen: Splash,
+        navigationOptions:{
+            headerShown: false
+        }
+    },
+
     ManHinhLogin: {
         screen: Login,
         navigationOptions:{
@@ -34,11 +44,12 @@ const StackNav = createStackNavigator({
         navigationOptions:{
             headerShown: false
         }
-    }
-
+    },
 
 
 });
+
+
 
 export default createAppContainer(StackNav);
 
