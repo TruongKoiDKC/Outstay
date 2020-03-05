@@ -20,7 +20,7 @@ export default class Home extends React.Component {
         <View style={styles.container}>
 
           <View style={styles.header}>
-            <Text style={{color:'white', fontSize: 30, fontWeight: "bold"}}>Outstay</Text>
+            <Text style={{color:'#93278f', fontSize: 30, fontWeight:'bold' }}>Outstay</Text>
           </View>
 
           <View style={styles.body}>
@@ -31,7 +31,7 @@ export default class Home extends React.Component {
                    style={{width: 90, height: 90, marginLeft: 70, marginTop: 40}}
                    source={require('../images/iconfinder_compose_406731.png')}
                    />
-                  <Text style={{fontWeight:"bold", fontSize: 20, marginLeft: 80 }}>
+                  <Text style={{fontStyle:'italic',fontWeight:"bold", fontSize: 20, marginLeft: 80 }}>
                     Dịch vụ
                   </Text>
                 </TouchableOpacity>
@@ -44,7 +44,7 @@ export default class Home extends React.Component {
                   style={{width: 90, height: 90, marginLeft: 90, marginTop: 40}}
                   source={require('../images/iconfinder_door_406820.png')}
                   />
-                  <Text style={{fontWeight:"bold", fontSize: 20, marginLeft: 90 }}>
+                  <Text style={{fontStyle:'italic',fontWeight: 'bold', fontSize: 20, marginLeft: 90 }}>
                     Phòng trọ
                   </Text>
                 </TouchableOpacity> 
@@ -59,7 +59,7 @@ export default class Home extends React.Component {
                  style={{width: 90, height: 90, marginLeft: 70, marginTop: 40}}
                   source={require('../images/iconfinder_calculator_406835.png')}
                 />
-                <Text style={{fontWeight:"bold", fontSize: 20, marginLeft: 80 }}>
+                <Text style={{fontStyle:'italic',fontWeight:"bold", fontSize: 20, marginLeft: 80 }}>
                     Hóa đơn
                   </Text>
                 </TouchableOpacity>
@@ -72,7 +72,7 @@ export default class Home extends React.Component {
                  style={{width: 90, height: 90, marginLeft: 90, marginTop: 40}}
                   source={require('../images/iconfinder_barchart_406826.png')}
                 />
-                <Text style={{fontWeight:"bold", fontSize: 20, marginLeft:90 }}>
+                <Text style={{fontStyle:'italic',fontWeight:"bold", fontSize: 20, marginLeft:90 }}>
                     Thống kê
                 </Text>
                 </TouchableOpacity>
@@ -82,12 +82,12 @@ export default class Home extends React.Component {
 
             <View style={styles.ImageBackgroundBot}>
             <View>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhChat")}>
               <Image
                  style={{width: 90, height: 90, marginLeft: 70, marginTop: 40}}
                   source={require('../images/iconfinder_chat_406814.png')}
                 />
-                <Text style={{fontWeight:"bold", fontSize: 20, marginLeft: 80 }}>
+                <Text style={{fontStyle:'italic',fontWeight:"bold", fontSize: 20, marginLeft: 80 }}>
                     Nhắn tin
                 </Text>
               </TouchableOpacity>
@@ -99,7 +99,7 @@ export default class Home extends React.Component {
                    style={{width: 90, height: 90, marginLeft: 90, marginTop: 40}}
                     source={require('../images/iconfinder_gear_406863.png')}
                   />
-                  <Text style={{fontWeight:"bold", fontSize: 20, marginLeft: 105 }}>
+                  <Text style={{fontStyle:'italic',fontWeight:"bold", fontSize: 20, marginLeft: 105 }}>
                     Cài đặt
                   </Text>
                 </TouchableOpacity>
@@ -109,7 +109,14 @@ export default class Home extends React.Component {
           </View>
 
           <View style={styles.footer}>
-             
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhLogin")}>
+              <Image
+                  source={require("../images/iconfinder_star_406773.png")}
+                  style={{width: 60, height: 60}}
+              >
+              </Image>
+              </TouchableOpacity>
+
           </View>
         </View>
         )
@@ -125,19 +132,22 @@ var styles = StyleSheet.create({
     },
 
     header: {
-      flex:0.35,
-      backgroundColor:'#93278f',
+      flex:0.3,
+      //backgroundColor:'white',
       justifyContent:'center',
       alignItems:'center'
     },
 
     body: {
-        backgroundColor: 'white',
-        flex:3.5
+        backgroundColor: '#E3E3E3',
+        flex:4.0
     },
 
     footer:{
-        flex: 0.25,
+        flex: 0.5,
+        backgroundColor: 'white',
+        alignItems:'center',
+        justifyContent: 'center'
     },
 
     ImageBackgroundTop:{
