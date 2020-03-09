@@ -27,7 +27,7 @@ export default class Home extends React.Component {
                 >
                 </Image>
             </TouchableOpacity>    
-                <Text style={{color:'#93278f', fontSize: 30, fontWeight:'bold',marginRight:120}}>Outstay</Text>
+                <Text style={{color:'#93278f', fontSize: 30, fontWeight:'bold',marginRight:128}}>Outstay</Text>
           </View>
 
 
@@ -44,16 +44,7 @@ export default class Home extends React.Component {
           </View>
 
 
-          <View style={styles.footer}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhLogin")}>
-              <Image
-                  source={require("../images/iconfinder_star_406773.png")}
-                  style={{width: 60, height: 60}}
-              >
-              </Image>
-              </TouchableOpacity>
-
-          </View>
+        
         </View>
         )
     }
