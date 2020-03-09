@@ -15,6 +15,7 @@ import HoaDon from './ManHinh/HoaDon';
 import PhongTro from './ManHinh/PhongTro';
 import DichVu from './ManHinh/DichVu';
 import ThongKe from './ManHinh/ThongKe';
+import CaiDat from './ManHinh/CaiDat';
 
 //import các thư viện Icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -173,6 +174,14 @@ const StackNav = createStackNavigator({
             headerShown: false
         }
     },
+    ManHinhCaiDat: {
+        screen: CaiDat,
+        navigationOptions:{
+            headerShown: false
+        }
+    },
+
+    
 });
 
 export default createAppContainer(StackNav);
