@@ -85,12 +85,7 @@ export default class Home extends React.Component {
                 </Text>
             </TouchableOpacity>
           </View>
-
-
-                
-
-                
-          </View>
+        </View>
 
 
         

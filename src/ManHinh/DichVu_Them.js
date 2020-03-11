@@ -7,16 +7,9 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-} from "react-native"
-import SelectMultiple from 'react-native-select-multiple'
+} from "react-native";
 
-const ChonLoai = ['Gác', 'Wifi', 'Tivi','WC','Tủ lạnh', 'Khác ...']
 export default class Home extends React.Component {
-    state = { selectedFruits: [] }
-    onSelectionsChange = (selectedFruits) => {
-        // selectedFruits is array of { label, value }
-        this.setState({ selectedFruits })
-      }
     render() {
         return(
         <View style={styles.container}>
@@ -43,40 +36,25 @@ export default class Home extends React.Component {
             </View>    
 
             <View style={styles.body}>
-                <View style={styles.action}>
-                    <TextInput 
-                            secureTextEntry
-                            placeholder="Tên phòng "
-                            style={styles.textInput}
-                            
+                <TextInput 
+                        secureTextEntry
+                        placeholder="Tên dịch vụ "
+                        style={styles.textInput}
+                        
 
-                    />
-                    <TextInput 
-                            secureTextEntry
-                            placeholder="Loại phòng"
-                            style={styles.textInput}
+                />
+                <TextInput 
+                        secureTextEntry
+                        placeholder="Đơn giá"
+                        style={styles.textInput}
 
-                    />
-                    <TextInput 
-                            secureTextEntry
-                            placeholder="Tầng"
-                            style={styles.textInput}
+                />
+                <TextInput 
+                        secureTextEntry
+                        placeholder="Đơn vị"
+                        style={styles.textInput}
 
-                    />
-                    <TextInput 
-                            secureTextEntry
-                            placeholder="Diện tích"
-                            style={styles.textInput}
-
-                    />
-                </View>
-            </View>    
-
-            <View style={styles.footer}>
-            <SelectMultiple
-                items={ChonLoai}
-                selectedItems={this.state.selectedFruits}
-                onSelectionsChange={this.onSelectionsChange} />
+                />
             </View> 
      
 
@@ -94,7 +72,7 @@ var styles = StyleSheet.create({
     },
 
     header: {
-      flex:0.5,
+      flex:0.3,
       flexDirection: "row",
       //backgroundColor:'white',
       justifyContent:'center',
@@ -105,8 +83,7 @@ var styles = StyleSheet.create({
     body: {
         paddingTop: 10,
         backgroundColor: '#E3E3E3',
-        flex:2,
-        borderBottomColor: 'black'
+        flex:4.0,
         //alignItems: 'center',
         //justifyContent: 'center',
 
@@ -118,8 +95,6 @@ var styles = StyleSheet.create({
         paddingBottom:5,
         paddingLeft: 10,
         color:'gray',
-        fontStyle: 'italic',
-
+        fontStyle: 'italic'
     },
-
 })
