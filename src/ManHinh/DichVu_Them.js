@@ -7,7 +7,13 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  ScrollView
 } from "react-native";
+
+//Thư viện giúp keyboard ko che holder textinput
+
+//import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default class Home extends React.Component {
     render() {
@@ -33,15 +39,14 @@ export default class Home extends React.Component {
                         </Image>
                 </TouchableOpacity>
 
-            </View>    
+            </View>  
 
             <View style={styles.body}>
                 <TextInput 
                         secureTextEntry
                         placeholder="Tên dịch vụ "
                         style={styles.textInput}
-                        
-
+                                    
                 />
                 <TextInput 
                         secureTextEntry
@@ -55,9 +60,8 @@ export default class Home extends React.Component {
                         style={styles.textInput}
 
                 />
-            </View> 
+            </View>   
      
-
         </View>
         )
     }
@@ -66,13 +70,13 @@ export default class Home extends React.Component {
 const width = Dimensions.get("screen").width;
 var styles = StyleSheet.create({
     container: {
-      flex:1,
+      flex:0.3,
       backgroundColor:'white',
       justifyContent:'center' 
     },
 
     header: {
-      flex:0.3,
+      flex:1,
       flexDirection: "row",
       //backgroundColor:'white',
       justifyContent:'center',
