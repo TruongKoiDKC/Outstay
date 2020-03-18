@@ -198,5 +198,4 @@ var styles = StyleSheet.create({
     justifyContent:'center',
     marginTop: 15,
   }
-  
 });
