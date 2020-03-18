@@ -13,6 +13,7 @@ import {
 import { TypingAnimation } from 'react-native-typing-animation';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import * as Animatable from 'react-native-animatable';
+import { ScrollView } from "react-native-gesture-handler";
 
 
 
@@ -57,8 +58,8 @@ export default class Login extends React.Component{
   _typing(){
     return(
       <TypingAnimation 
-        dotColor="#93278f"
-        style={{marginRight:25}}
+        dotColor="black"
+        style={{marginRight:25,marginTop:50}}
       />
     )
   }
@@ -85,82 +86,83 @@ export default class Login extends React.Component{
   render(){
     const width = this.state.animation_login;
     return(
-
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-          <View style={styles.header}>
-              <ImageBackground
-                source={require("../images/header.png")}
-                style={styles.imageBackground}
-                resizeMode = "contain"
-              >
-              </ImageBackground>
+          <View style={{alignItems:"center", justifyContent:"center"}}>
+            <Text style={{color:'black', fontSize: 21, fontWeight:'bold'}}>Đăng ký</Text>
           </View>
-          <View style={styles.footer}>
-                
-                <View style={styles.action}>
-                    <TextInput 
-                      placeholder="Tên đăng nhập"
-                      style={styles.textInput}
-                      onFocus={()=>this._foucus("email")}
-                    />
-                    {this.state.typing_email ?
-                      this._typing()
-                    : null}
-                </View>
 
-                <View style={styles.action}>
-                    <TextInput 
-                      secureTextEntry
-                      placeholder="Mật khẩu"
-                      style={styles.textInput}
-                      onFocus={()=>this._foucus("password")}
-                    />
-                    {this.state.typing_password ?
-                      this._typing()
-                    : null}
-                </View>
-
-                <View style={styles.action}>
-                    <TextInput 
-                      secureTextEntry
-                      placeholder="Xác nhận mật khẩu"
-                      style={styles.textInput}
-                      onFocus={()=>this._foucus("repassword")}
-                    />
-                    {this.state.typing_repassword ?
-                      this._typing()
-                    : null}
-                </View>
-                
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhLogin")}>
-
-                  <View style={styles.button_container}>
-                        <Animated.View style={[styles.animation,{
-                          width
-                        }]}>
-                          {this.state.enable ?
-                            <Text style={styles.textLogin}>Đăng ký</Text>
-                            :
-                            <Animatable.View
-                            animation="bounceIn"
-                            delay={50}>
-                              <FontAwesome 
-                                name="check"
-                                color="white"
-                                size={20}
-                              />
-                            </Animatable.View>
-                          }
-                        </Animated.View>
-                  </View>
-                </TouchableOpacity>      
-
-                <View style={styles.signUp}>
-                      <Text style={{color:'red'}}> Bạn đã có mật khẩu chưa ?</Text>
-                </View>
-
+          <ScrollView>
+          <View style={{marginTop:40}}>
+            <Text style={{fontSize: 25, fontWeight:"bold"}}>
+              Xin chào,
+            </Text>
+            <Text style={{fontSize: 15}}>
+              Hãy tạo tài khoản Outstay của bạn.
+            </Text>
           </View>
+
+          <View style={styles.action}>
+            <TextInput 
+              placeholder="Tên đăng nhập"
+              style={styles.textInput}
+              onFocus={()=>this._foucus("email")}
+            />
+              {this.state.typing_email ?
+              this._typing()
+              : null}
+          </View>
+
+          <View style={styles.action}>
+            <TextInput 
+              secureTextEntry
+              placeholder="Mật khẩu"
+              style={styles.textInput}
+              onFocus={()=>this._foucus("password")}
+            />
+              {this.state.typing_password ?
+              this._typing()
+              : null}
+          </View>
+
+          <View style={styles.action}>
+            <TextInput 
+              secureTextEntry
+              placeholder="Xác nhận mật khẩu"
+              style={styles.textInput}
+              onFocus={()=>this._foucus("repassword")}
+            />
+              {this.state.typing_repassword ?
+              this._typing()
+              : null}
+          </View>
+                
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhLogin")}>
+            <View style={styles.button_container}>
+              <Animated.View style={[styles.animation,{width}]}>
+                {this.state.enable ?
+                  <Text style={styles.textLogin}>Đăng ký</Text>
+                    :
+                  <Animatable.View
+                    animation="bounceIn"
+                    delay={50}>
+                    <FontAwesome 
+                      name="check"
+                      color="white"
+                      size={20}
+                    />
+                  </Animatable.View>
+                }
+              </Animated.View>
+            </View>   
+          </TouchableOpacity>     
+
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhLogin")}>
+            <View style={styles.signUp}>
+              <Text style={{color:'red'}}>Bạn đã có mật khẩu ?</Text>
+            </View>
+          </TouchableOpacity> 
+          </ScrollView>             
       </View>
     )
   }
@@ -172,61 +174,45 @@ var styles = StyleSheet.create({
   container: {
     flex:1,
     backgroundColor:'white',
-    justifyContent:'center'
+    padding: 20
   },
-  header: {
-    flex:1,
-  },
-  footer: {
-    marginTop:200,
-    flex:2,
-    padding:20
-  },
-  imageBackground:{
-    flex:1,
-    justifyContent:'center',
-    marginTop : 10,
-    alignSelf:'center',
-    width:250,
-    height:250
-  },
-  title: {
-    color:'black',
-    fontWeight:'bold'
-  },
+
   action: {
     flexDirection: 'row',
-    borderBottomWidth:1,
-    borderBottomColor:'#93278f'
+    borderBottomWidth:1.5,
+    borderBottomColor:'black'
   },
+
   textInput: {
     flex:1,
-    marginTop:5,
+    marginTop:30,
     paddingBottom:5,
-    color:'gray',
-    fontStyle: 'italic'
+    color:'gray'
   },
+  
   button_container: {
     alignItems: 'center',
     justifyContent:'center'
   },
+
   animation: {
-    backgroundColor:'#93278f',
+    backgroundColor:'black',
     paddingVertical:10,
-    marginTop:30,
+    marginTop:50,
     borderRadius:100,
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
   },
+
   textLogin: {
     color:'white',
     fontWeight:'bold',
     fontSize:18
   },
+
   signUp: {
     flexDirection:'row',
     justifyContent:'center',
     marginTop:20,
-
   }
 });

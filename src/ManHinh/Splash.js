@@ -17,8 +17,8 @@ class SplashScreen extends React.Component {
     return (
       <View style={viewStyles}>
         <Image
-            style={{width: 220, height: 220}}
-            source={require('../images/header.png')}
+            style={{width: 350, height: 350}}
+            source={require('../images/Store.jpg')}
             resizeMode= 'contain'
         ></Image>    
         <Text style={textStyles}>
@@ -64,24 +64,31 @@ export default class App extends React.Component {
 
     <View style={styles.header}> 
       <View style={styles.Image}>
-       
         <Image
-            style={{width: 220, height: 220}}
-            source={require('../images/header.png')}
+            style={{width: 280, height: 280}}
+            source={require('../images/Store.jpg')}
             resizeMode= 'contain'
         />
-            <Text style={{fontWeight:"bold", fontSize: 20,marginTop: 40,color:"#CCCCCC"}}>
-                        CHÀO MỪNG BẠN ĐẾN VỚI 
-            </Text>
-            <Text style={{fontStyle:'italic',fontWeight:"bold", fontSize: 30,color:"#93278f"}}>
-                        OUTSTAY
-            </Text>
+      </View>
 
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhLogin")}>
-                <Text style={{fontWeight:"bold", fontSize: 25,color:"black",marginTop:280}}>
-                        BẮT ĐẦU
-                </Text>
-            </TouchableOpacity>    
+      <View style={styles.Intro}>
+        <Text style={{marginTop:5, fontSize: 20, color: "#cfcfcf"}}>
+          Chào mừng bạn đến với
+        </Text>
+
+        <Text style={{fontWeight:"bold", fontSize: 30, color: "#a57db8"}}>
+          OUTSTAY
+        </Text>
+
+        <Text style={{fontSize: 19, textAlign: "center", alignItems: "center", marginTop:40, padding: 20,fontFamily:'RobotoMono-Italic'}}>
+        Outstay được ra đời giúp người quản lý tính toán chính xác tiền phòng, dịch vụ, tiết kiệm thời gian ghi chép, thống kê.
+        </Text>
+      
+        <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhLogin")}>
+          <Text style={{fontWeight:"bold", fontSize: 25, color:"black", marginTop: 85}}>
+            BẮT ĐẦU
+          </Text>
+        </TouchableOpacity>    
       </View>
     </View> 
 
@@ -96,23 +103,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+
   header:{
-      flex: 1
+      flex: 1,
+      backgroundColor: "white"
   },
 
   Image:{
       justifyContent:'center',
       alignItems: 'center'
+  },
 
+  Intro:{
+    textAlign: "center",
+    alignItems: "center"
   }
 });
