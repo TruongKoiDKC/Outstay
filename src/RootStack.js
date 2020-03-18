@@ -4,7 +4,6 @@ import { createStackNavigator,
          createSwitchNavigator,} from "react-navigation-stack";
 import { createBottomTabNavigator} from 'react-navigation-tabs';        
 import Login from './ManHinh/Login';
-import Home from './ManHinh/Home';
 import CreateAcc from './ManHinh/CreateAcc';
 
 import Splash from './ManHinh/Splash';
@@ -16,7 +15,11 @@ import DichVu from './ManHinh/DichVu';
 import ThongKe from './ManHinh/ThongKe';
 import CaiDat from './ManHinh/CaiDat';
 
+<<<<<<< HEAD
 import DichVu_Them from './ManHinh/DichVu_Them';
+=======
+import LoaiPhong from './ManHinh/LoaiPhong';
+>>>>>>> Tien
 
 //import các thư viện Icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -25,46 +28,6 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
 
 const TabsNav = createBottomTabNavigator({
-    ManHinhHome:{
-        screen:Home,
-        navigationOptions:{
-            tabBarLabel: 'Home',
-            tabBarIcon: ({tintColor,focused}) => {
-                if(focused){
-                    return (
-                        <MaterialIcons name="home" size={28}
-                        color={tintColor} />
-                    )
-                }
-                else{
-                    return(
-                        <MaterialIcons name="home" size={28}
-                        color={"#93278f"} />
-                )
-                }
-            }
-        }
-    },
-    ManHinhDichVu:{
-        screen:DichVu,
-        navigationOptions:{
-            tabBarLabel: 'Dịch vụ',
-            tabBarIcon: ({tintColor,focused}) => {
-                if(focused){
-                    return (
-                        <Foundation name="clipboard-notes" size={25}
-                        color={tintColor} />
-                    )
-                }
-                else{
-                    return(
-                        <Foundation name="clipboard-notes" size={25}
-                        color={"#93278f"} />
-                )
-                }
-            }
-        }
-    },
     ManHinhPhongTro:{
         screen:PhongTro,
         navigationOptions:{
@@ -73,18 +36,40 @@ const TabsNav = createBottomTabNavigator({
                 if(focused){
                     return (
                         <FontAwesome5 name="door-open" size={22}
-                        color={tintColor} />
+                        color={"black"} />
                     )
                 }
                 else{
                     return(
                         <FontAwesome5 name="door-open" size={22}
-                        color={"#93278f"} />
+                        color={"gray"} />
                 )
                 }
             }
         }
     },
+
+    ManHinhDichVu:{
+        screen:DichVu,
+        navigationOptions:{
+            tabBarLabel: 'Dịch vụ',
+            tabBarIcon: ({tintColor,focused}) => {
+                if(focused){
+                    return (
+                        <Foundation name="clipboard-notes" size={25}
+                        color={"black"} />
+                    )
+                }
+                else{
+                    return(
+                        <Foundation name="clipboard-notes" size={25}
+                        color={"gray"} />
+                )
+                }
+            }
+        }
+    },
+    
     ManHinhHoaDon:{
         screen:HoaDon,
         navigationOptions:{
@@ -93,18 +78,19 @@ const TabsNav = createBottomTabNavigator({
                 if(focused){
                     return (
                         <FontAwesome5 name="receipt" size={23}
-                        color={tintColor} />
+                        color={"black"} />
                     )
                 }
                 else{
                     return(
                         <FontAwesome5 name="receipt" size={23}
-                        color={"#93278f"} />
+                        color={"gray"} />
                 )
                 }
             }
         }
     },
+    
     ManHinhThongKe:{
         screen:ThongKe,
         navigationOptions:{
@@ -113,18 +99,19 @@ const TabsNav = createBottomTabNavigator({
                 if(focused){
                     return (
                         <Foundation name="graph-trend" size={30}
-                        color={tintColor} />
+                        color={"black"} />
                     )
                 }
                 else{
                     return(
                         <Foundation name="graph-trend" size={30}
-                        color={"#93278f"} />
+                        color={"gray"} />
                 )
                 }
             }
         }
     },
+
     ManHinhChat:{
         screen:Chat,
         navigationOptions:{
@@ -133,18 +120,39 @@ const TabsNav = createBottomTabNavigator({
                 if(focused){
                     return (
                         <MaterialIcons name="message" size={25}
-                        color={tintColor} />
+                        color={"black"} />
                     )
                 }
                 else{
                     return(
                         <MaterialIcons name="message" size={25}
-                        color={"#93278f"} />
+                        color={"gray"} />
                 )
                 }
             }
         }
-    }
+    },
+
+    ManHinhCaiDat:{
+        screen:CaiDat,
+        navigationOptions:{
+            tabBarLabel: 'Cài đặt',
+            tabBarIcon: ({tintColor,focused}) => {
+                if(focused){
+                    return (
+                        <MaterialIcons name="settings" size={25}
+                        color={"black"} />
+                    )
+                }
+                else{
+                    return(
+                        <MaterialIcons name="settings" size={25}
+                        color={"gray"} />
+                )
+                }
+            }
+        }
+    },
 })
 
 //stack chuyển màn hình 
@@ -182,6 +190,7 @@ const StackNav = createStackNavigator({
             headerShown: false
         }
     },
+<<<<<<< HEAD
     ManHinhDichVu: {
         screen: DichVu,
         navigationOptions:{
@@ -196,6 +205,9 @@ const StackNav = createStackNavigator({
     },
   
   
+=======
+    
+>>>>>>> Tien
 });
 
 export default createAppContainer(StackNav);

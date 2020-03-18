@@ -35,4 +35,8 @@ allprojects {
         jcenter()
         maven { url 'https://jitpack.io' }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> Tien
