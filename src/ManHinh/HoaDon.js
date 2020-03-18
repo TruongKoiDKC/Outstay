@@ -34,5 +34,4 @@ var styles = StyleSheet.create({
       backgroundColor:'white',
       padding: 20
     }
-
 });
