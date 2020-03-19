@@ -2,7 +2,8 @@ import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import { createStackNavigator,
          createSwitchNavigator,} from "react-navigation-stack";
-import { createBottomTabNavigator} from 'react-navigation-tabs';        
+import { createBottomTabNavigator } from 'react-navigation-tabs';        
+
 import Login from './ManHinh/Login';
 import CreateAcc from './ManHinh/CreateAcc';
 
@@ -16,16 +17,19 @@ import ThongKe from './ManHinh/ThongKe';
 import CaiDat from './ManHinh/CaiDat';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import DichVu_Them from './ManHinh/DichVu_Them';
 =======
 import LoaiPhong from './ManHinh/LoaiPhong';
 >>>>>>> Tien
+=======
+import LoaiPhong from './ManHinh/LoaiPhong';
+>>>>>>> 76b85a003646c0616021370080f04356df0e07cb
 
 //import các thư viện Icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Foundation from 'react-native-vector-icons/Foundation'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-
 
 const TabsNav = createBottomTabNavigator({
     ManHinhPhongTro:{
@@ -127,6 +131,7 @@ const TabsNav = createBottomTabNavigator({
                     return(
                         <MaterialIcons name="message" size={25}
                         color={"gray"} />
+<<<<<<< HEAD
                 )
                 }
             }
@@ -148,11 +153,37 @@ const TabsNav = createBottomTabNavigator({
                     return(
                         <MaterialIcons name="settings" size={25}
                         color={"gray"} />
+=======
+>>>>>>> 76b85a003646c0616021370080f04356df0e07cb
                 )
                 }
             }
         }
     },
+<<<<<<< HEAD
+=======
+
+    ManHinhCaiDat:{
+        screen:CaiDat,
+        navigationOptions:{
+            tabBarLabel: 'Cài đặt',
+            tabBarIcon: ({tintColor,focused}) => {
+                if(focused){
+                    return (
+                        <MaterialIcons name="settings" size={25}
+                        color={"black"} />
+                    )
+                }
+                else{
+                    return(
+                        <MaterialIcons name="settings" size={25}
+                        color={"gray"} />
+                )
+                }
+            }
+        }
+    },
+>>>>>>> 76b85a003646c0616021370080f04356df0e07cb
 })
 
 //stack chuyển màn hình 
@@ -170,7 +201,7 @@ const StackNav = createStackNavigator({
             headerShown: false
         }
     },
-    // Chỗ này là để BottomTab hiện trong screen Home
+
     ManHinhHome: {
         screen: TabsNav,
         navigationOptions:{
@@ -191,6 +222,7 @@ const StackNav = createStackNavigator({
         }
     },
 <<<<<<< HEAD
+<<<<<<< HEAD
     ManHinhDichVu: {
         screen: DichVu,
         navigationOptions:{
@@ -208,6 +240,9 @@ const StackNav = createStackNavigator({
 =======
     
 >>>>>>> Tien
+=======
+    
+>>>>>>> 76b85a003646c0616021370080f04356df0e07cb
 });
 
 export default createAppContainer(StackNav);

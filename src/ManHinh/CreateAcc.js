@@ -58,8 +58,8 @@ export default class Login extends React.Component{
   _typing(){
     return(
       <TypingAnimation 
-        dotColor="#93278f"
-        style={{marginRight:25}}
+        dotColor="black"
+        style={{marginRight:25,marginTop:50}}
       />
     )
   }
