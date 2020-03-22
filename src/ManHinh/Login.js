@@ -134,17 +134,59 @@ export default class Login extends React.Component{
                 }
                 </Animated.View>  
             </View>
-          </TouchableOpacity>      
+          </TouchableOpacity> 
 
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhTaoTK")}>
-            <View style={styles.signUp}>
-              <Text style={{color:'black'}}>Đăng ký ?</Text>
-            </View>
-          </TouchableOpacity>
-
-          <View style={styles.signUp}>
+          <View style={{alignItems: "center",justifyContent:"center", marginTop: 10}}>
             <Text style={{color:'red'}}> Quên mật khẩu ?</Text>
           </View>
+
+          <View style={{marginTop: 20, alignItems:"center"}}>
+            <Text>Hoặc</Text>
+          </View>
+
+          <View style={styles.fbgm}>
+            <View>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("") && this._animation()}>
+              <Animated.View style={[styles.btfb,{
+                }]}>
+                {this.state.enable ?
+                <Text style={{fontWeight:"bold", fontSize: 20, color: 'white'}}> FACEBOOK </Text>
+                :
+                <Animatable.View
+                  animation="bounceIn"
+                  delay={50}>
+                </Animatable.View>
+                }
+              </Animated.View>
+              </TouchableOpacity>
+            </View>
+
+            <View style={{marginLeft:20}}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("") && this._animation()}>
+              <Animated.View style={[styles.btgmail,{
+                }]}>
+                {this.state.enable ?
+                <Text style={{fontWeight:"bold", fontSize: 20, color: 'white'}}> G-MAIL </Text>
+                :
+                <Animatable.View
+                  animation="bounceIn"
+                  delay={50}>
+                </Animatable.View>
+                }
+              </Animated.View>
+              </TouchableOpacity>
+
+            </View>
+            
+          </View>    
+
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhTaoTK")}>
+            <View style={{marginTop: 30, alignItems:"center"}}>
+              <Text style={{color:'black', fontSize: 18, color:"#cfcfcf"}}>Bạn không có tài khoản? 
+                <Text style={{color: "#bb29f0", fontWeight:"bold", fontSize: 20}}>  Đăng ký</Text>
+              </Text>
+            </View>
+          </TouchableOpacity>
           </ScrollView>
       </View>
     )
@@ -190,12 +232,34 @@ var styles = StyleSheet.create({
   textLogin: {
     color:'white',
     fontWeight:'bold',
-    fontSize:18
+    fontSize:20
   },
 
-  signUp: {
-    flexDirection:'row',
+  fbgm: {
+    flexDirection: "row",
+    marginTop: 30,
+    justifyContent:"center"
+  },
+
+  btfb:{
+    backgroundColor: '#58a0e8',
+    paddingVertical:10,
     justifyContent:'center',
-    marginTop: 15,
+    alignItems:'center',
+    borderColor: '#58a0e8',
+    borderWidth: 2,
+    width: 150,
+    height: 50,
+  },
+
+  btgmail:{
+    backgroundColor: '#e85858',
+    paddingVertical:10,
+    justifyContent:'center',
+    alignItems:'center',
+    borderColor: '#e85858',
+    borderWidth: 2,
+    width: 150,
+    height: 50,
   }
 });

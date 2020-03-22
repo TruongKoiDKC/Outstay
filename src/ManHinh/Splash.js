@@ -86,7 +86,7 @@ export default class App extends React.Component {
         </Text>
       
         <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhLogin")}>
-          <Text style={{fontWeight:"bold", fontSize: 25, color:"black", marginTop: 85}}>
+          <Text style={{fontWeight:"bold", fontSize: 25, color:"black", marginTop: 100}}>
             BẮT ĐẦU
           </Text>
         </TouchableOpacity>   

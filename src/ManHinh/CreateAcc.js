@@ -159,7 +159,7 @@ export default class Login extends React.Component{
 
           <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhLogin")}>
             <View style={styles.signUp}>
-              <Text style={{color:'red'}}>Bạn đã có mật khẩu ?</Text>
+              <Text style={{color:'red'}}>Bạn đã có tài khoản ?</Text>
             </View>
           </TouchableOpacity> 
           </ScrollView>             
