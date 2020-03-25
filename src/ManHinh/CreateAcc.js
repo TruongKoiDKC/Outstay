@@ -174,13 +174,13 @@ var styles = StyleSheet.create({
   container: {
     flex:1,
     backgroundColor:'white',
-    padding: 20
+    padding: "5%"
   },
 
   action: {
     flexDirection: 'row',
     borderBottomWidth:1.5,
-    borderBottomColor:'black'
+    borderBottomColor:'#5aaf76'
   },
 
   textInput: {
@@ -196,7 +196,7 @@ var styles = StyleSheet.create({
   },
 
   animation: {
-    backgroundColor:'black',
+    backgroundColor:'#5aaf76',
     paddingVertical:10,
     marginTop:50,
     borderRadius:100,

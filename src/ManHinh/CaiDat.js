@@ -35,7 +35,7 @@ var styles = StyleSheet.create({
     container: {
       flex:1,
       backgroundColor:'white',
-      padding: 20
+      padding: "5%"
     }
 
 });

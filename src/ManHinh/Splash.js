@@ -76,17 +76,17 @@ export default class App extends React.Component {
           Chào mừng bạn đến với
         </Text>
 
-        <Text style={{fontWeight:"bold", fontSize: 30, color: "#a57db8"}}>
+        <Text style={{fontWeight:"bold", fontSize: 30, color: "#5aaf76"}}>
           OUTSTAY
         </Text>
 
 
-        <Text style={{fontSize: 19,fontFamily:"AsapCondensed-Bold", textAlign: "center", alignItems: "center", marginTop:40, padding: 20}}>
+        <Text style={{fontSize: 19,fontFamily:"AsapCondensed-Bold", textAlign: "center", alignItems: "center", marginTop: "15%", padding: "5%"}}>
           Outstay được ra đời giúp người quản lý tính toán chính xác tiền phòng, dịch vụ, tiết kiệm thời gian ghi chép, thống kê.
         </Text>
       
         <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhLogin")}>
-          <Text style={{fontWeight:"bold", fontSize: 25, color:"black", marginTop: 100}}>
+          <Text style={{fontWeight:"bold", fontSize: 25, color:"black", marginTop: "35%"}}>
             BẮT ĐẦU
           </Text>
         </TouchableOpacity>   

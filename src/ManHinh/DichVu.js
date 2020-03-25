@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  ImageBackground
 } from "react-native";
 
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
@@ -15,11 +16,26 @@ export default class Home extends React.Component {
     render() {
         return(
           <View style={styles.container}>
-                <View style={{alignItems:"center", justifyContent:"center"}}>
+            <View style={{flexDirection: 'row', justifyContent:"center", alignItems:"center"}}>
+              <View style={{flex: 1}}>
+              </View>
+
+              <View style={{alignItems:"center", justifyContent:"center"}}>
                     <Text style={{color:'black', fontSize: 21, fontWeight:'bold'}}>
                         Dịch vụ
                     </Text>
-                </View>
+              </View>
+
+              <View style={{flex: 1}}>
+                    <TouchableOpacity>
+                        <ImageBackground source={require('../images/iconfinder_plus_4115237.png')}
+                        style={{width: 30, height: 30, marginLeft:"75%"}}>
+                        </ImageBackground>
+                    </TouchableOpacity>
+              </View>
+
+            </View>
+                
              
                 <View style={styles.tabbar}>
                   <ScrollableTabView
@@ -45,7 +61,7 @@ var styles = StyleSheet.create({
   container: {
     flex:1,
     backgroundColor:'white',
-    padding: 20
+    padding: "5%"
   },
 
   tabbar:{

@@ -15,8 +15,6 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import * as Animatable from 'react-native-animatable';
 import { ScrollView } from "react-native-gesture-handler";
 
-
-
 export default class Login extends React.Component{
   constructor(props){
     super(props);
@@ -73,7 +71,6 @@ export default class Login extends React.Component{
   render(){
     const width = this.state.animation_login;
     return(
-
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
           
@@ -146,44 +143,26 @@ export default class Login extends React.Component{
 
           <View style={styles.fbgm}>
             <View>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate("") && this._animation()}>
-              <Animated.View style={[styles.btfb,{
-                }]}>
-                {this.state.enable ?
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("") }>
+              <Animated.View style={[styles.btfb]}>
                 <Text style={{fontWeight:"bold", fontSize: 20, color: 'white'}}> FACEBOOK </Text>
-                :
-                <Animatable.View
-                  animation="bounceIn"
-                  delay={50}>
-                </Animatable.View>
-                }
               </Animated.View>
               </TouchableOpacity>
             </View>
 
             <View style={{marginLeft:20}}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate("") && this._animation()}>
-              <Animated.View style={[styles.btgmail,{
-                }]}>
-                {this.state.enable ?
-                <Text style={{fontWeight:"bold", fontSize: 20, color: 'white'}}> G-MAIL </Text>
-                :
-                <Animatable.View
-                  animation="bounceIn"
-                  delay={50}>
-                </Animatable.View>
-                }
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("")}>
+              <Animated.View style={[styles.btgmail]}>
+                <Text style={{fontWeight:"bold", fontSize: 20, color: 'white'}}> GOOGLE </Text>
               </Animated.View>
               </TouchableOpacity>
-
             </View>
-            
           </View>    
 
           <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhTaoTK")}>
             <View style={{marginTop: 30, alignItems:"center"}}>
-              <Text style={{color:'black', fontSize: 18, color:"#cfcfcf"}}>Bạn không có tài khoản? 
-                <Text style={{color: "#bb29f0", fontWeight:"bold", fontSize: 20}}>  Đăng ký</Text>
+              <Text style={{color:'black', fontSize: 18, color:"#b0ada9"}}>Bạn không có tài khoản? 
+                <Text style={{color: "#5aaf76", fontWeight:"bold", fontSize: 20}}>  Đăng ký</Text>
               </Text>
             </View>
           </TouchableOpacity>
@@ -199,13 +178,13 @@ var styles = StyleSheet.create({
   container: {
     flex:1,
     backgroundColor:'white',
-    padding: 20
+    padding: "5%"
   },
 
   action: {
     flexDirection: 'row',
     borderBottomWidth:1.5,
-    borderBottomColor:'black'
+    borderBottomColor:'#5aaf76'
   },
 
   textInput: {
@@ -221,9 +200,9 @@ var styles = StyleSheet.create({
   },
 
   animation: {
-    backgroundColor:'black',
+    backgroundColor:'#5aaf76',
     paddingVertical:10,
-    marginTop:50,
+    marginTop: 40,
     borderRadius:100,
     justifyContent:'center',
     alignItems:'center',
