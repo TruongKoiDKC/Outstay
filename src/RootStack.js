@@ -6,9 +6,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import Login from './ManHinh/Login';
 import CreateAcc from './ManHinh/CreateAcc';
-
 import Splash from './ManHinh/Splash';
-
 import Chat from './ManHinh/Chat';
 import HoaDon from './ManHinh/HoaDon';
 import PhongTro from './ManHinh/PhongTro';
@@ -16,9 +14,8 @@ import DichVu from './ManHinh/DichVu';
 import ThongKe from './ManHinh/ThongKe';
 import CaiDat from './ManHinh/CaiDat';
 import DichVu_Them from './ManHinh/DichVu_Them';
-
-
-import LoaiPhong from './ManHinh/LoaiPhong';
+//import LoaiPhong from './ManHinh/LoaiPhong';
+import Chitiet_PhongTro from "./ManHinh/Chitiet_PhongTro";
 
 //import các thư viện Icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -34,7 +31,7 @@ const TabsNav = createBottomTabNavigator({
                 if(focused){
                     return (
                         <FontAwesome5 name="door-open" size={22}
-                        color={"black"} />
+                        color={"#5aaf76"} />
                     )
                 }
                 else{
@@ -55,7 +52,7 @@ const TabsNav = createBottomTabNavigator({
                 if(focused){
                     return (
                         <Foundation name="clipboard-notes" size={25}
-                        color={"black"} />
+                        color={"#5aaf76"} />
                     )
                 }
                 else{
@@ -76,7 +73,7 @@ const TabsNav = createBottomTabNavigator({
                 if(focused){
                     return (
                         <FontAwesome5 name="receipt" size={23}
-                        color={"black"} />
+                        color={"#5aaf76"} />
                     )
                 }
                 else{
@@ -97,7 +94,7 @@ const TabsNav = createBottomTabNavigator({
                 if(focused){
                     return (
                         <Foundation name="graph-trend" size={30}
-                        color={"black"} />
+                        color={"#5aaf76"} />
                     )
                 }
                 else{
@@ -113,12 +110,12 @@ const TabsNav = createBottomTabNavigator({
     ManHinhChat:{
         screen:Chat,
         navigationOptions:{
-            tabBarLabel: 'Chat',
+            tabBarLabel: 'Nhắn tin',
             tabBarIcon: ({tintColor,focused}) => {
                 if(focused){
                     return (
                         <MaterialIcons name="message" size={25}
-                        color={"black"} />
+                        color={"#5aaf76"} />
                     )
                 }
                 else{
@@ -139,7 +136,7 @@ const TabsNav = createBottomTabNavigator({
                 if(focused){
                     return (
                         <MaterialIcons name="settings" size={25}
-                        color={"black"} />
+                        color={"#5aaf76"} />
                     )
                 }
                 else{
@@ -161,7 +158,7 @@ const TabsNav = createBottomTabNavigator({
                 if(focused){
                     return (
                         <MaterialIcons name="settings" size={25}
-                        color={"black"} />
+                        color={"#5aaf76"} />
                     )
                 }
                 else{
@@ -219,6 +216,12 @@ const StackNav = createStackNavigator({
     },
     ManHinhDichVu_Them: {
         screen: DichVu_Them,
+        navigationOptions:{
+            headerShown: false
+        }
+    },
+    ManHinhCTPT: {
+        screen: Chitiet_PhongTro,
         navigationOptions:{
             headerShown: false
         }
