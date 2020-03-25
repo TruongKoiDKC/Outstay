@@ -43,123 +43,125 @@ export default class Chitiet_PhongTro extends Component {
                     </View>
                 </View>
 
-                <ScrollView>
-                <View style={{flex: 1, marginTop: 20}}>
-                        <Animated.View style={styles.vienkhung}>
-                            <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
-                                Trạng thái phòng
-                            </Text>
-                            <View style={{padding: 8}}>
-                            <RadioForm
-                                radio_props={radio_props}
-                                initial={0}
-                                onPress={(value) => {this.setState({value:value})}}
-                                buttonColor={'#5aaf76'}
-                                labelColor={'#5aaf76'}
-                                labelStyle={{fontSize:15}}
-                            />
+                <View style={{height: 900,marginTop: 15}} >
+                        <ScrollView>
+                        <View style={{flex: 1}}>
+                                <Animated.View style={styles.vienkhung}>
+                                    <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
+                                        Trạng thái phòng
+                                    </Text>
+                                    <View style={{padding: 8}}>
+                                    <RadioForm
+                                        radio_props={radio_props}
+                                        initial={0}
+                                        onPress={(value) => {this.setState({value:value})}}
+                                        buttonColor={'#5aaf76'}
+                                        labelColor={'#5aaf76'}
+                                        labelStyle={{fontSize:15}}
+                                    />
+                                    </View>
+                                </Animated.View>    
                             </View>
-                        </Animated.View>    
-                    </View>
 
-                    <View style={{flex: 1, marginTop: 20}}>
-                        <Animated.View style={styles.vienkhung}>
-                            <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
-                                Thông tin phòng
-                            </Text>
-                            <View style={{padding: 8}}>
-                                <TextInput 
-                                    placeholder="Tiền phòng"
-                                    style={styles.TextInput}
-                                />
-                                <TextInput 
-                                    placeholder="Số điện cũ"
-                                    style={styles.TextInput}
-                                />
-                                <TextInput 
-                                    placeholder="Số điện mới"
-                                    style={styles.TextInput}
-                                />
-                                <TextInput 
-                                    placeholder="Số nước cũ"
-                                    style={styles.TextInput}
-                                />
-                                <TextInput 
-                                    placeholder="Số nước mới"
-                                    style={styles.TextInput}
-                                />
-                                <TextInput 
-                                    placeholder="Phí dịch vụ"
-                                    style={styles.TextInput}
-                                />
+                            <View style={{flex: 1, marginTop: 20}}>
+                                <Animated.View style={styles.vienkhung}>
+                                    <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
+                                        Thông tin phòng
+                                    </Text>
+                                    <View style={{padding: 8}}>
+                                        <TextInput 
+                                            placeholder="Tiền phòng"
+                                            style={styles.TextInput}
+                                        />
+                                        <TextInput 
+                                            placeholder="Số điện cũ"
+                                            style={styles.TextInput}
+                                        />
+                                        <TextInput 
+                                            placeholder="Số điện mới"
+                                            style={styles.TextInput}
+                                        />
+                                        <TextInput 
+                                            placeholder="Số nước cũ"
+                                            style={styles.TextInput}
+                                        />
+                                        <TextInput 
+                                            placeholder="Số nước mới"
+                                            style={styles.TextInput}
+                                        />
+                                        <TextInput 
+                                            placeholder="Phí dịch vụ"
+                                            style={styles.TextInput}
+                                        />
+                                    </View>
+                                </Animated.View>    
                             </View>
-                        </Animated.View>    
-                    </View>
 
-                    <View style={{flex: 1, marginTop: 20}}>
-                        <Animated.View style={styles.vienkhung}>
-                            <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
-                                Thông tin người ở
-                            </Text>
-                            <View style={{padding: 8}}>
-                                <TextInput 
-                                    placeholder="Họ và tên"
-                                    style={styles.TextInput}
-                                />
-                                <TextInput 
-                                    placeholder="Ngày tháng năm sinh"
-                                    style={styles.TextInput}
-                                />
-                                <TextInput 
-                                    placeholder="Địa chỉ thường trú"
-                                    style={styles.TextInput}
-                                />
-                                <TextInput 
-                                    placeholder="CMND/CCCD/CMT"
-                                    style={styles.TextInput}
-                                />
-                                <TextInput 
-                                    placeholder="Số điện thoại"
-                                    style={styles.TextInput}
-                                />
-                                <TextInput 
-                                    placeholder="Email"
-                                    style={styles.TextInput}
-                                />
+                            <View style={{flex: 1, marginTop: 20}}>
+                                <Animated.View style={styles.vienkhung}>
+                                    <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
+                                        Thông tin người ở
+                                    </Text>
+                                    <View style={{padding: 8}}>
+                                        <TextInput 
+                                            placeholder="Họ và tên"
+                                            style={styles.TextInput}
+                                        />
+                                        <TextInput 
+                                            placeholder="Ngày tháng năm sinh"
+                                            style={styles.TextInput}
+                                        />
+                                        <TextInput 
+                                            placeholder="Địa chỉ thường trú"
+                                            style={styles.TextInput}
+                                        />
+                                        <TextInput 
+                                            placeholder="CMND/CCCD/CMT"
+                                            style={styles.TextInput}
+                                        />
+                                        <TextInput 
+                                            placeholder="Số điện thoại"
+                                            style={styles.TextInput}
+                                        />
+                                        <TextInput 
+                                            placeholder="Email"
+                                            style={styles.TextInput}
+                                        />
+                                    </View>
+                                </Animated.View>    
                             </View>
-                        </Animated.View>    
-                    </View>
-                        
-                    <View style={{ marginTop: 20}}>
-                        <Animated.View style={styles.vienkhung}>
-                            <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
-                                Thông tin hợp đồng
-                            </Text>
-                            <View style={{padding: 8}}>
-                                <TextInput 
-                                    placeholder="Ngày khách vào"
-                                    style={styles.TextInput}
-                                />
-                                <TextInput 
-                                    placeholder="Thời hạn hợp đồng"
-                                    style={styles.TextInput}
-                                />
-                                <TextInput 
-                                    placeholder="Tiền phòng"
-                                    style={styles.TextInput}
-                                />
-                                <TextInput 
-                                    placeholder="Tiền cọc"
-                                    style={styles.TextInput}
-                                />
-                                <TextInput 
-                                    placeholder="Chu ký thanh toán"
-                                    style={styles.TextInput}
-                                />
+                                
+                            <View style={{ marginTop: 20}}>
+                                <Animated.View style={styles.vienkhung}>
+                                    <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
+                                        Thông tin hợp đồng
+                                    </Text>
+                                    <View style={{padding: 8}}>
+                                        <TextInput 
+                                            placeholder="Ngày khách vào"
+                                            style={styles.TextInput}
+                                        />
+                                        <TextInput 
+                                            placeholder="Thời hạn hợp đồng"
+                                            style={styles.TextInput}
+                                        />
+                                        <TextInput 
+                                            placeholder="Tiền phòng"
+                                            style={styles.TextInput}
+                                        />
+                                        <TextInput 
+                                            placeholder="Tiền cọc"
+                                            style={styles.TextInput}
+                                        />
+                                        <TextInput 
+                                            placeholder="Chu ký thanh toán"
+                                            style={styles.TextInput}
+                                        />
+                                    </View>
+                                </Animated.View>    
                             </View>
-                        </Animated.View>    
-                    </View>
-                </ScrollView>
+                        </ScrollView>
+                </View>
             </View>
         )
     }
