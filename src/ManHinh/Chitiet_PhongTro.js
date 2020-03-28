@@ -19,10 +19,10 @@ import { Input } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Foundation from 'react-native-vector-icons/Foundation'
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { Jiro } from 'react-native-textinput-effects';
-import ModalDropdown from 'react-native-modal-dropdown';
 
 var radio_props = [
     {label: 'Phòng trống', value: 0 },
@@ -87,48 +87,7 @@ export default class Chitiet_PhongTro extends Component {
                                 Thông tin phòng
                             </Text>
                             <View style={{padding: 8}}>
-                                <Jiro
-                                    label={'Loại phòng'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
-                                <Jiro
-                                    label={'Tiền phòng'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
-                                <Jiro
-                                    label={'Số điện cũ'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
-                                <Jiro
-                                    label={'Số điện mới'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
-                                <Jiro
-                                    label={'Số nước cũ'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
-                                <Jiro
-                                    label={'Số nước mới'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
-                                <Jiro
-                                    label={'Phí dịch vụ'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
+                                
                             </View>
                         </Animated.View>    
                     </View>
@@ -139,62 +98,7 @@ export default class Chitiet_PhongTro extends Component {
                                 Thông tin người ở
                             </Text>
                             <View style={{padding: 8}}>
-                                <Jiro
-                                    label={'Họ và tên'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
-                                <View style={{flexDirection:'row'}}>
-                                   <View style={{flex:1}}>
-                                   <Jiro
-                                    label={'Ngày sinh'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                    />
-                                   </View>
-                                   <View style={{flex:1}}>
-                                   <Jiro
-                                    label={'Tháng sinh'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                    />
-                                   </View>
-                                   <View style={{flex:1}}>
-                                   <Jiro
-                                    label={'Năm sinh'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                    />
-                                   </View>
-                               </View>
-                                <Jiro
-                                    label={'Địa chỉ thường trú'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
-                                <Jiro
-                                    label={'CMND/CMT/CCCD'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
-                                <Jiro
-                                    label={'E-mail'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
-                                <Jiro
-                                    label={'Số điện thoại'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
+                                
                             </View>
                         </Animated.View>    
                     </View>
@@ -205,56 +109,9 @@ export default class Chitiet_PhongTro extends Component {
                                 Thông tin hợp đồng
                             </Text>
                             <View style={{padding: 8}}>
-                            <View style={{flexDirection:'row'}}>
-                                   <View style={{flex:1}}>
-                                   <Jiro
-                                    label={'Ngày vào'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                    />
-                                   </View>
-                                   <View style={{flex:1}}>
-                                   <Jiro
-                                    label={'Tháng vào'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                    />
-                                   </View>
-                                   <View style={{flex:1}}>
-                                   <Jiro
-                                    label={'Năm vào'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                    />
-                                   </View>
-                               </View>
-                                <Jiro
-                                    label={'Thời hạn hợp đồng'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
-                                <Jiro
-                                    label={'Tiền phòng'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
-                                <Jiro
-                                    label={'Tiền cọc'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
-                                <Jiro
-                                    label={'Chu kỳ thanh toán'}
-                                    borderColor={'#5aaf76'}
-                                    inputPadding={16}
-                                    inputStyle={{ color: 'white' }}
-                                />
+                            
+                                   
+                                   
                             </View>
                         </Animated.View>  
                     </View>  
@@ -282,12 +139,12 @@ var styles = StyleSheet.create({
         borderRadius: 20
     },
 
-    TextInput:{
-        borderBottomWidth: 1, 
-        paddingBottom: 0, 
-        marginTop: 5,
+    textInput: {
+        flex: 1,
+        //paddingBottom: 5,
+        //color:'gray',
         borderBottomColor:'#5aaf76',
-        fontSize: 15
-    }
+        marginTop: 10
+    },
 
 })

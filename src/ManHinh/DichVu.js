@@ -27,7 +27,7 @@ export default class Home extends React.Component {
               </View>
 
               <View style={{flex: 1}}>
-                    <TouchableOpacity>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhDichVu_Them")}>
                         <ImageBackground source={require('../images/iconfinder_plus_4115237.png')}
                         style={{width: 30, height: 30, marginLeft:"75%"}}>
                         </ImageBackground>

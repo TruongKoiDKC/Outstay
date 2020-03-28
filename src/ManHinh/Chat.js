@@ -22,7 +22,7 @@ export default class Home extends React.Component {
             </Text>
           </View>
 
-          <View style={{justifyContent:"center", alignItems:"center", marginTop: 250}}>
+          <View style={{justifyContent:"center", alignItems:"center", marginTop: '100%'}}>
                 <Text style={{fontStyle:'italic', fontSize: 15, color:"gray" }}>
                     Tính năng này đang được phát triển !!!
                 </Text>

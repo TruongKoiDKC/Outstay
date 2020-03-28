@@ -54,7 +54,7 @@ export default class PhongTro extends React.Component {
                     onChangeText={this.updateSearch}
                     value={search}
                     platform ="android"
-                    underlineColorAndroid = "black"
+                    underlineColorAndroid = "#5aaf76"
                 />
             </View>
         </View>

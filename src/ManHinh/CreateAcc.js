@@ -14,7 +14,7 @@ import { TypingAnimation } from 'react-native-typing-animation';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import * as Animatable from 'react-native-animatable';
 import { ScrollView } from "react-native-gesture-handler";
-
+import {firebaseApp} from '../components/FirebaseConfig'
 
 
 export default class Login extends React.Component{
@@ -23,7 +23,6 @@ export default class Login extends React.Component{
     this.state={
       typing_email: false,
       typing_password: false,
-      typing_repassword:false,
       animation_login : new Animated.Value(width-40),
       enable:true
     }
@@ -34,7 +33,6 @@ export default class Login extends React.Component{
       this.setState({
         typing_email: true,
         typing_password: false,
-        typing_repassword: false
       })
     }
 
@@ -42,7 +40,6 @@ export default class Login extends React.Component{
         this.setState({
           typing_email: false,
           typing_password: true,
-          typing_repassword: false
         })
       }
       
@@ -50,7 +47,6 @@ export default class Login extends React.Component{
         this.setState({
           typing_email: false,
           typing_password: false,
-          typing_repassword: true
         })
       }
   }
@@ -77,10 +73,44 @@ export default class Login extends React.Component{
       this.setState({
         enable:false,
         typing_email: false,
-        typing_password: false,
-        typing_repassword: false
+        typing_password: false
       })
     }, 150);
+  }
+
+  goLogin(){
+    const {navigate} = this.props.navigation;
+    navigate('Login');
+  }
+
+  Dangky(){
+    firebaseApp.auth().createUserWithEmailAndPassword(this.state.typing_email, this.state.typing_password)
+    .then(()=>{
+      Alert.alert(
+        'Alert Title',
+        'Đăng ký thành công !',
+        [
+          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          {text: 'OK', onPress: () => this.goLogin()},
+        ],
+        { cancelable: false }
+      )
+      this.setState({
+        typing_email:'',
+        typing_password:''
+      })
+    })
+    .catch(function(error) {
+      Alert.alert(
+        'Alert Title',
+        'Đăng ký thất bại !',
+        [
+          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: false }
+      )
+    });
   }
 
   render(){
@@ -107,6 +137,7 @@ export default class Login extends React.Component{
               placeholder="Tên đăng nhập"
               style={styles.textInput}
               onFocus={()=>this._foucus("email")}
+              keyboardType='email-address'
             />
               {this.state.typing_email ?
               this._typing()
@@ -119,25 +150,14 @@ export default class Login extends React.Component{
               placeholder="Mật khẩu"
               style={styles.textInput}
               onFocus={()=>this._foucus("password")}
+              keyboardType='default'
             />
               {this.state.typing_password ?
               this._typing()
               : null}
           </View>
 
-          <View style={styles.action}>
-            <TextInput 
-              secureTextEntry
-              placeholder="Xác nhận mật khẩu"
-              style={styles.textInput}
-              onFocus={()=>this._foucus("repassword")}
-            />
-              {this.state.typing_repassword ?
-              this._typing()
-              : null}
-          </View>
-                
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhLogin")}>
+          <TouchableOpacity onPress={() => {this.Dangky()}}>
             <View style={styles.button_container}>
               <Animated.View style={[styles.animation,{width}]}>
                 {this.state.enable ?

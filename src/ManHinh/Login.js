@@ -11,9 +11,11 @@ import {
   TouchableOpacity
 } from "react-native";
 import { TypingAnimation } from 'react-native-typing-animation';
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import FontAwesome  from "react-native-vector-icons/FontAwesome";
 import * as Animatable from 'react-native-animatable';
 import { ScrollView } from "react-native-gesture-handler";
+import {firebaseApp} from '../components/FirebaseConfig.js'
+import { SocialIcon } from 'react-native-elements'
 
 export default class Login extends React.Component{
   constructor(props){
@@ -144,17 +146,19 @@ export default class Login extends React.Component{
           <View style={styles.fbgm}>
             <View>
               <TouchableOpacity onPress={() => this.props.navigation.navigate("") }>
-              <Animated.View style={[styles.btfb]}>
-                <Text style={{fontWeight:"bold", fontSize: 20, color: 'white'}}> FACEBOOK </Text>
-              </Animated.View>
+              <SocialIcon
+                title='Sign In With Facebook'
+                button
+                type='facebook'/>
               </TouchableOpacity>
             </View>
 
-            <View style={{marginLeft:20}}>
+            <View>
               <TouchableOpacity onPress={() => this.props.navigation.navigate("")}>
-              <Animated.View style={[styles.btgmail]}>
-                <Text style={{fontWeight:"bold", fontSize: 20, color: 'white'}}> GOOGLE </Text>
-              </Animated.View>
+              <SocialIcon
+                title='Sign In With Gmail'
+                button
+                type='google'/>
               </TouchableOpacity>
             </View>
           </View>    
@@ -215,7 +219,7 @@ var styles = StyleSheet.create({
   },
 
   fbgm: {
-    flexDirection: "row",
+    //flexDirection: "row",
     marginTop: 30,
     justifyContent:"center"
   },

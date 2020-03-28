@@ -17,6 +17,13 @@ import { Jiro } from 'react-native-textinput-effects';
 
 //import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+//thay đôỉ componentWill.. thành UNSAFE_component.....
+//nó chỉ cài package kia mà t cài nó vâ4n bị
+const DEPRECATED_APIS = Object.create(null);
+DEPRECATED_APIS.componentWillReceiveProps = 'UNSAFE_componentWillReceiveProps';
+DEPRECATED_APIS.componentWillUpdate = 'UNSAFE_componentWillUpdate';
+//
+
 export default class Home extends React.Component {
     render() {
             let data = [{
@@ -24,7 +31,7 @@ export default class Home extends React.Component {
             }, {
               value: 'Mango',
             }, {
-              value: 'Pear',
+              value: 'Khỉ',
             }];
         return(
         <View style={styles.container}>
@@ -115,8 +122,9 @@ var styles = StyleSheet.create({
 
     Dropdown:{
         fontStyle: 'italic',
+
         paddingLeft: 20,
-        paddingHorizontal: 20,
+        paddingStart: 20,
         color: 'gray'
     },
 
