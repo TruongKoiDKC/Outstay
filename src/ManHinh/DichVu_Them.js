@@ -8,15 +8,24 @@ import {
   Dimensions,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ScrollView
+  ScrollView,
+  
 } from "react-native";
-
+import { Dropdown } from 'react-native-material-dropdown';
+import { Jiro } from 'react-native-textinput-effects';
 //Thư viện giúp keyboard ko che holder textinput
 
 //import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default class Home extends React.Component {
     render() {
+            let data = [{
+              value: 'Banana',
+            }, {
+              value: 'Mango',
+            }, {
+              value: 'Pear',
+            }];
         return(
         <View style={styles.container}>
 
@@ -29,7 +38,7 @@ export default class Home extends React.Component {
                     </Image>
                 </TouchableOpacity>    
 
-                    <Text style={{color:'#93278f', fontSize: 30, fontWeight:'bold',marginRight:100}}>Outstay</Text>
+                    <Text style={{color:'black', fontSize: 25, fontWeight:'bold',marginRight:100}}>Dịch vụ</Text>
 
                     <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhHome")}>
                         <Image
@@ -42,24 +51,35 @@ export default class Home extends React.Component {
             </View>  
 
             <View style={styles.body}>
-                <TextInput 
-                        secureTextEntry
-                        placeholder="Tên dịch vụ "
-                        style={styles.textInput}
-                                    
+                <Dropdown
+                    label='Loại hình và dịch vụ '
+                    style={{fontStyle: 'italic'}}
+                    data={data}
+                    style={styles.Dropdown}
                 />
-                <TextInput 
-                        secureTextEntry
-                        placeholder="Đơn giá"
-                        style={styles.textInput}
 
+                <Jiro
+                    label={'Tên dịch vụ'}
+                    borderColor={'#5aaf76'}
+                    inputPadding={16}
+                    inputStyle={{ color: 'white' }}
                 />
-                <TextInput 
-                        secureTextEntry
-                        placeholder="Đơn vị"
-                        style={styles.textInput}
 
+                <Jiro
+                    label={'Đơn giá'}
+                    labelStyle= {'italic'}
+                    borderColor={'#5aaf76'}
+                    inputPadding={16}
+                    inputStyle={{ color: 'white' }}
+                />   
+
+                <Jiro
+                    label={'Đơn vị tính'}
+                    borderColor={'#5aaf76'}
+                    inputPadding={16}
+                    inputStyle={{ color: 'white' }}
                 />
+                
             </View>   
      
         </View>
@@ -93,9 +113,16 @@ var styles = StyleSheet.create({
 
     },
 
-    textInput: {
+    Dropdown:{
+        fontStyle: 'italic',
+        paddingLeft: 20,
+        paddingHorizontal: 20,
+        color: 'gray'
+    },
+
+    Jiro: {
         backgroundColor: 'white',
-        marginTop:5,
+        marginTop:2,
         paddingBottom:5,
         paddingLeft: 10,
         color:'gray',
