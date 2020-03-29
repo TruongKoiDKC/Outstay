@@ -147,18 +147,20 @@ export default class Login extends React.Component{
             <View>
               <TouchableOpacity onPress={() => this.props.navigation.navigate("") }>
               <SocialIcon
-                title='Sign In With Facebook'
+                title='FACEBOOK'
                 button
-                type='facebook'/>
+                type='facebook'
+                style={{height:50, width:130, borderRadius:1}}/>
               </TouchableOpacity>
             </View>
 
             <View>
               <TouchableOpacity onPress={() => this.props.navigation.navigate("")}>
               <SocialIcon
-                title='Sign In With Gmail'
+                title='GMAIL'
                 button
-                type='google'/>
+                type='google'
+                style={{height:50, width:130, borderRadius:1}}/>
               </TouchableOpacity>
             </View>
           </View>    
@@ -219,9 +221,9 @@ var styles = StyleSheet.create({
   },
 
   fbgm: {
-    //flexDirection: "row",
-    marginTop: 30,
-    justifyContent:"center"
+    marginTop: 25,
+    justifyContent:"center",
+    flexDirection:'row'
   },
 
   btfb:{
