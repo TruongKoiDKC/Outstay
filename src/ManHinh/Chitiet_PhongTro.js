@@ -1,4 +1,4 @@
-import React,  {useState, Component } from 'react'
+import React,  { Component } from 'react'
 import { View,
     Text,
     TextInput,
@@ -14,8 +14,11 @@ import { View,
 import { ScrollView } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-import DatePicker from 'react-native-datepicker'
 import { Input } from 'react-native-elements';
+import {Sae} from 'react-native-textinput-effects';
+
+import DatePicker from 'react-native-datepicker';
+
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -32,20 +35,18 @@ var radio_props = [
 ];
 
 
-
 export default class Chitiet_PhongTro extends Component {
-    
     constructor(props){
-        var d = new Date();
-        super(props)
-        this.state = {date: d.getDate()}
+        super(props);
+        this.state = {
+        chosenDate: new Date(),
+        date: '' ,
+        visible: false
+        };
     }
 
-    state = {
-        language: 'Day',
-      };
-
     render () {
+
         return ( 
             
             <View style={styles.container}>
@@ -105,124 +106,130 @@ export default class Chitiet_PhongTro extends Component {
                             <TextInput
                                 placeholder='Tên phòng'
                                 underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
                             />
                             <TextInput
                                 placeholder='Loại phòng'
                                 underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
                             />
                             <TextInput
                                 placeholder='Tiền phòng'
                                 underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
                             />
                             <TextInput
                                 placeholder='Số điện cũ'
                                 underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
                             />
                             <TextInput
                                 placeholder='Số điện hiện tại'
                                 underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
                             />
                             <TextInput
                                 placeholder='Số nước cũ'
                                 underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
                             />
                             <TextInput
                                 placeholder='Số nước hiện tại'
                                 underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
                             />
                             <TextInput
                                 placeholder='Phí dịch vụ'
                                 underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
                             />
                             </View>
                         </Animated.View>    
                     </View>
 
-                    <View style={{flex: 1, marginTop: 20}}>
-                        <Animated.View style={styles.vienkhung}>
-                            <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
-                                Thông tin người ở
-                            </Text>
-                            <View style={{padding: 8}}>
-                            <TextInput
-                                placeholder='Họ và tên'
-                                underlineColorAndroid='#5aaf76'
-                            />
-                            <View style={{flexDirection:'row'}}>
-                            <TextInput
-                                style={{flex:1}}
-                                placeholder='Ngày sinh'
-                                underlineColorAndroid='#5aaf76'
-                            />
-                            <TextInput
-                                style={{flex:1}}
-                                placeholder='Tháng sinh'
-                                underlineColorAndroid='#5aaf76'
-                            />
-                            <TextInput
-                                style={{flex:1}}
-                                placeholder='Năm sinh'
-                                underlineColorAndroid='#5aaf76'
-                            />
-                            </View>
-                            <TextInput
-                                placeholder='Địa chỉ thường trú'
-                                underlineColorAndroid='#5aaf76'
-                            />
-                            <TextInput
-                                placeholder='CMND/CMT/CCCD'
-                                underlineColorAndroid='#5aaf76'
-                            />
-                            <TextInput
-                                placeholder='Số điện thoại'
-                                underlineColorAndroid='#5aaf76'
-                            />
-                            <TextInput
-                                placeholder='E-mail'
-                                underlineColorAndroid='#5aaf76'
-                            />
-                            </View>
-                        </Animated.View>    
-                    </View>
-                        
                     <View style={{ marginTop: 20}}>
                         <Animated.View style={styles.vienkhung}>
                             <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
                                 Thông tin hợp đồng
                             </Text>
                             <View style={{padding: 8}}>
-                            <View style={{flexDirection:'row'}}>
                             <TextInput
-                                style={{flex:1}}
-                                placeholder='Ngày vào'
+                                placeholder='Họ và tên'
                                 underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
                             />
-                            <TextInput
-                                style={{flex:1}}
-                                placeholder='Tháng vào'
-                                underlineColorAndroid='#5aaf76'
-                            />
-                            <TextInput
-                                style={{flex:1}}
-                                placeholder='Năm vào'
-                                underlineColorAndroid='#5aaf76'
+                            <View style={{padding:4}}>
+                            <DatePicker
+                                style={{width: '100%'}}
+                                placeholder= "Ngày / tháng / năm sinh"
+                                date={this.state.date} 
+                                mode="date" 
+                                format="DD-MM-YYYY"
+                                minDate="01-01-1900"
+                                confirmBtnText="Confirm"
+                                cancelBtnText="Cancel"  
+                                androidMode='spinner' 
+                                showIcon={false}
+                                onDateChange={date => {this.setState({ date: date }); }}
+                                customStyles={{
+                                  dateInput: { 
+                                    borderWidth: 0,
+                                    borderBottomWidth: 1,
+                                    borderBottomColor:'#5aaf76',
+                                    alignItems: "flex-start",
+                                    
+                                  },
+                                  placeholderText:{
+                                    color:'#9e9e9e',
+                                    fontSize: 15,
+                                  },
+                                  dateText: {
+                                    fontSize: 15,
+                                    color: "black",
+                                    alignItems: "flex-start"
+                                  }
+                                }}
                             />
                             </View>
+                            <TextInput
+                                placeholder='Địa chỉ thường trú'
+                                underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
+                            />
+                            <TextInput
+                                placeholder='CMND/CMT/CCCD'
+                                underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
+                            />
+                            <TextInput
+                                placeholder='Số điện thoại'
+                                underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
+                            />
+                            <TextInput
+                                placeholder='E-mail'
+                                underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
+                            />
                              <TextInput
                                 placeholder='Thời hạn hợp đồng'
                                 underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
                             />
                             <TextInput
                                 placeholder='Tiền phòng'
                                 underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
                             />
                             <TextInput
                                 placeholder='Tiền cọc'
                                 underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
                             />
                             <TextInput
                                 placeholder='Chu kỳ thanh toán'
                                 underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
                             />   
                             </View>
                         </Animated.View>  
@@ -249,5 +256,5 @@ var styles = StyleSheet.create({
         borderWidth: 4,
         padding: 15,
         borderRadius: 20
-    },
+    }
 })

@@ -39,7 +39,7 @@ export default class HoaDon extends Component {
                         onChangeText={this.updateSearch}
                         value={search}
                         platform ="android"
-                        underlineColorAndroid = "black"
+                        underlineColorAndroid = "#5aaf76"
                     />
                 </View>
             </View>

@@ -35,16 +35,14 @@ export default class Home extends React.Component {
               </View>
 
             </View>
-                
-             
                 <View style={styles.tabbar}>
                   <ScrollableTabView
                     style={{marginTop: 10,}}
                     initialPage={1}
-                    tabBarActiveTextColor= 'black'
+                    tabBarActiveTextColor= '#5aaf76'
                     renderTabBar={() => <DefaultTabBar 
                       underlineStyle={{
-                        backgroundColor:'black'
+                        backgroundColor:'#5aaf76'
                       }}/>}
                   >
                     <Text tabLabel='Dịch vụ'>Dịch vụ</Text>

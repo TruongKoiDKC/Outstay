@@ -11,10 +11,10 @@ import {
   ImageBackground
 } from "react-native";
 
-import { Jiro } from 'react-native-textinput-effects';
 import { ScrollView } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated';
 import RNPickerSelect from 'react-native-picker-select';
+
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Foundation from 'react-native-vector-icons/Foundation'
