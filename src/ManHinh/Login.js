@@ -3,7 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
-  ImageBackground,
+  Alert,
   StatusBar,
   TextInput,
   Animated,
@@ -14,8 +14,8 @@ import { TypingAnimation } from 'react-native-typing-animation';
 import FontAwesome  from "react-native-vector-icons/FontAwesome";
 import * as Animatable from 'react-native-animatable';
 import { ScrollView } from "react-native-gesture-handler";
-import {firebaseApp} from '../components/FirebaseConfig.js'
 import { SocialIcon } from 'react-native-elements'
+import firebase from 'react-native-firebase'
 
 export default class Login extends React.Component{
   constructor(props){
@@ -24,7 +24,7 @@ export default class Login extends React.Component{
       typing_email: false,
       typing_password: false,
       animation_login : new Animated.Value(width-40),
-      enable:true
+      enable:true ,
     }
   }
 
@@ -70,6 +70,41 @@ export default class Login extends React.Component{
     }, 150);
   }
 
+  goHome(){
+    const {navigate} = this.props.navigation;
+    navigate('ManHinhHome');
+  }
+
+  Dangnhap(){
+    firebase.auth().signInWithEmailAndPassword(this.state.typedEmail, this.state.typedPassword)
+    .then(()=>{
+      Alert.alert(
+        'Thông báo !!!',
+        'Đăng nhập thành công !',
+        [
+          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          {text: 'OK', onPress: () => this.goHome()},
+        ],
+        { cancelable: false }
+      )
+      this.setState({
+        typedEmail:'',
+        typedPassword:''
+      })
+    })
+    .catch(function(error) {
+      Alert.alert(
+        'Thông báo !!!',
+        'Đăng nhập thất bại !',
+        [
+          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: false }
+      )
+    });
+  }
+
   render(){
     const width = this.state.animation_login;
     return(
@@ -95,7 +130,12 @@ export default class Login extends React.Component{
               placeholder="Tên đăng nhập"
               style={styles.textInput}
               onFocus={()=>this._foucus("email")}
-              />
+              onChangeText={
+                (text) => {
+                  this.setState({ typedEmail: text});
+                }
+              }
+            />
               {this.state.typing_email ?
               this._typing()
               : null}
@@ -107,17 +147,22 @@ export default class Login extends React.Component{
               placeholder="Mật Khẩu"
               style={styles.textInput}
               onFocus={()=>this._foucus("password")}
+              onChangeText={
+                (text) => {
+                  this.setState({ typedPassword: text});
+                }
+              }
             />
               {this.state.typing_password ?
               this._typing()
               : null}
+
+
           </View>
                 
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhHome") && this._animation()}>
+          <TouchableOpacity onPress={() => {this.Dangnhap()}}>
             <View style={styles.button_container}>
-              <Animated.View style={[styles.animation,{
-                width
-                }]}>
+              <Animated.View style={[styles.animation,{width}]}>
                 {this.state.enable ?
                 <Text style={styles.textLogin}>Đăng Nhập</Text>
                   :
@@ -150,7 +195,7 @@ export default class Login extends React.Component{
                 title='FACEBOOK'
                 button
                 type='facebook'
-                style={{height:50, width:130, borderRadius:1}}/>
+                style={{height:50, width:130, borderRadius:10,marginLeft:5}}/>
               </TouchableOpacity>
             </View>
 
@@ -160,7 +205,7 @@ export default class Login extends React.Component{
                 title='GMAIL'
                 button
                 type='google'
-                style={{height:50, width:130, borderRadius:1}}/>
+                style={{height:50, width:130, borderRadius:10,marginRight:5}}/>
               </TouchableOpacity>
             </View>
           </View>    
@@ -223,7 +268,7 @@ var styles = StyleSheet.create({
   fbgm: {
     marginTop: 25,
     justifyContent:"center",
-    flexDirection:'row'
+    flexDirection:'row',
   },
 
   btfb:{

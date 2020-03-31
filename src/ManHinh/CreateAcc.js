@@ -3,28 +3,30 @@ import {
   View,
   Text,
   StyleSheet,
-  ImageBackground,
   StatusBar,
   TextInput,
   Animated,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from "react-native";
 import { TypingAnimation } from 'react-native-typing-animation';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import * as Animatable from 'react-native-animatable';
 import { ScrollView } from "react-native-gesture-handler";
-import {firebaseApp} from '../components/FirebaseConfig'
+import firebase from 'react-native-firebase';
 
 
-export default class Login extends React.Component{
+export default class CreateAcc extends React.Component{
   constructor(props){
     super(props);
     this.state={
       typing_email: false,
       typing_password: false,
       animation_login : new Animated.Value(width-40),
-      enable:true
+      enable:true,
+
+
     }
   }
 
@@ -80,14 +82,14 @@ export default class Login extends React.Component{
 
   goLogin(){
     const {navigate} = this.props.navigation;
-    navigate('Login');
+    navigate('ManHinhLogin');
   }
 
   Dangky(){
-    firebaseApp.auth().createUserWithEmailAndPassword(this.state.typing_email, this.state.typing_password)
+    firebase.auth().createUserWithEmailAndPassword(this.state.typedEmail, this.state.typedPassword)
     .then(()=>{
       Alert.alert(
-        'Alert Title',
+        'Thông báo !!!',
         'Đăng ký thành công !',
         [
           {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -96,13 +98,13 @@ export default class Login extends React.Component{
         { cancelable: false }
       )
       this.setState({
-        typing_email:'',
-        typing_password:''
+        typedEmail:'',
+        typedPassword:''
       })
     })
     .catch(function(error) {
       Alert.alert(
-        'Alert Title',
+        'Thông báo !!!',
         'Đăng ký thất bại !',
         [
           {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -138,10 +140,17 @@ export default class Login extends React.Component{
               style={styles.textInput}
               onFocus={()=>this._foucus("email")}
               keyboardType='email-address'
+              onChangeText={
+                (text) => {
+                  this.setState({ typedEmail: text});
+                }
+              }
             />
               {this.state.typing_email ?
               this._typing()
               : null}
+
+              
           </View>
 
           <View style={styles.action}>
@@ -151,10 +160,17 @@ export default class Login extends React.Component{
               style={styles.textInput}
               onFocus={()=>this._foucus("password")}
               keyboardType='default'
+              onChangeText={
+                (text) => {
+                  this.setState({ typedPassword: text});
+                }
+              }
             />
               {this.state.typing_password ?
               this._typing()
               : null}
+
+              
           </View>
 
           <TouchableOpacity onPress={() => {this.Dangky()}}>
