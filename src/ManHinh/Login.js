@@ -17,7 +17,7 @@ import * as Animatable from 'react-native-animatable';
 import { ScrollView } from "react-native-gesture-handler";
 import { SocialIcon } from 'react-native-elements'
 import firebase from 'react-native-firebase'
-import { GoogleSignin ,GoogleSigninButton , statusCodes} from '@react-native-community/google-signin';
+import { GoogleSignin , statusCodes} from '@react-native-community/google-signin';
 
 export default class Login extends React.Component{
   constructor(props){
@@ -123,24 +123,40 @@ export default class Login extends React.Component{
 
   _signInGG= async()=>{
     try {
+      // add any configuration settings here:
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo)
-      //this.setState({ userInfo });
+      this.setState({ userInfo: userInfo, loggedIn: true });
+      // create a new firebase credential with the token
+      const credential = firebase.auth.GoogleAuthProvider.credential(userInfo.idToken, userInfo.accessToken)
+      // login with credential
+      firebase.auth().signInWithCredential(credential);
+      Alert.alert(
+        'Thông báo !!!',
+        'Đăng nhập Google thành công !',
+        [
+          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          {text: 'OK', onPress: () => this.goHome()},
+        ],
+        { cancelable: false }
+      )
+      this.setState({
+        typedEmail:'',
+        typedPassword:''
+      })
     } catch (error) {
+      console.log(error)
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
+        // operation (f.e. sign in) is in progress already
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
       } else {
         // some other error happened
       }
-      console.log(error)
-      const {navigate} = this.props.navigation;
-      navigate('ManHinhHome');
     }
+    
   }
 
   render(){
