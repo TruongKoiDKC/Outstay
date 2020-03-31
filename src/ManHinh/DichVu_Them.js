@@ -114,4 +114,3 @@ var styles = StyleSheet.create({
     },
 
 })
-
