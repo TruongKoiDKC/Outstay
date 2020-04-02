@@ -18,6 +18,10 @@ import { ScrollView } from "react-native-gesture-handler";
 import { SocialIcon } from 'react-native-elements'
 import firebase from 'react-native-firebase'
 import { GoogleSignin , statusCodes} from '@react-native-community/google-signin';
+<<<<<<< HEAD
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
+=======
+>>>>>>> 19544a09428bb9d8d38d702ba935e4b7398c23fb
 
 export default class Login extends React.Component{
   constructor(props){
@@ -71,12 +75,28 @@ export default class Login extends React.Component{
       })
     }, 150);
   }
+  
+  CheckTextInput = () => {
+        //Handler for the Submit onPress
+        if (this.state.typedEmail != '') {
+          //Check for the Name TextInput
+          if (this.state.typedPassword != '') {
+            //Check for the Email TextInput
+            Alert.alert('Success')
+          } else {
+            Alert.alert('Please Enter Email');
+          }
+        } else {
+          Alert.alert('Please Enter Name');
+        }
+  };
 
   goHome(){
     const {navigate} = this.props.navigation;
     navigate('ManHinhHome');
   }
 
+  //Đăng nhập bằng Email vs Password push lên firebase 
   Dangnhap(){
     firebase.auth().signInWithEmailAndPassword(this.state.typedEmail, this.state.typedPassword)
     .then(()=>{
@@ -91,8 +111,9 @@ export default class Login extends React.Component{
       )
       this.setState({
         typedEmail:'',
-        typedPassword:''
-      })
+        typedPassword:'',
+      }
+      )
     })
     .catch(function(error) {
       Alert.alert(
@@ -106,6 +127,8 @@ export default class Login extends React.Component{
       )
     });
   }
+  
+  
 
   //Google Login 
   componentDidMount(){
@@ -156,8 +179,61 @@ export default class Login extends React.Component{
         // some other error happened
       }
     }
+<<<<<<< HEAD
+  
+=======
     
+>>>>>>> 19544a09428bb9d8d38d702ba935e4b7398c23fb
   }
+
+
+  //Đăng nhập bằng FB 
+  _signInFB= async()=>{
+    try {
+      const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+  
+      if (result.isCancelled) {
+        // handle this however suites the flow of your app
+        throw new Error('User cancelled request'); 
+      }
+  
+      console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
+  
+      // get the access token
+      const data = await AccessToken.getCurrentAccessToken();
+  
+      if (!data) {
+        // handle this however suites the flow of your app
+        throw new Error('Something went wrong obtaining the users access token');
+      }
+  
+      // create a new firebase credential with the token
+      const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+  
+      // login with credential
+      firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
+      Alert.alert(
+          'Thông báo !!!',
+          'Đăng nhập Google thành công !',
+          [
+            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+            {text: 'OK', onPress: () => this.goHome()},
+          ],
+          { cancelable: false }
+        )
+        this.setState({
+          typedEmail:'',
+          typedPassword:''
+      })
+    } 
+    catch (e) {
+      console.error(e);
+    }
+  }
+    
+  
+
+
 
   render(){
     const width = this.state.animation_login;
@@ -220,6 +296,7 @@ export default class Login extends React.Component{
                 {this.state.enable ?
                 <Text style={styles.textLogin}>Đăng Nhập</Text>
                   :
+                  
                 <Animatable.View
                   animation="bounceIn"
                   delay={50}>
@@ -230,6 +307,7 @@ export default class Login extends React.Component{
                   />
                 </Animatable.View>
                 }
+                
                 </Animated.View>  
             </View>
           </TouchableOpacity> 
@@ -244,7 +322,7 @@ export default class Login extends React.Component{
 
           <View style={styles.fbgm}>
             <View>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate("") }>
+              <TouchableOpacity onPress={this._signInFB}>
               <SocialIcon
                 title='FACEBOOK'
                 button
@@ -317,7 +395,7 @@ var styles = StyleSheet.create({
   textLogin: {
     color:'white',
     fontWeight:'bold',
-    fontSize:20
+    fontSize:20,
   },
 
   fbgm: {
