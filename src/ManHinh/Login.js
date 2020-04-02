@@ -16,12 +16,9 @@ import FontAwesome  from "react-native-vector-icons/FontAwesome";
 import * as Animatable from 'react-native-animatable';
 import { ScrollView } from "react-native-gesture-handler";
 import { SocialIcon } from 'react-native-elements'
-import firebase from 'react-native-firebase'
+import firebase  from 'react-native-firebase'
 import { GoogleSignin , statusCodes} from '@react-native-community/google-signin';
-<<<<<<< HEAD
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
-=======
->>>>>>> 19544a09428bb9d8d38d702ba935e4b7398c23fb
 
 export default class Login extends React.Component{
   constructor(props){
@@ -158,7 +155,6 @@ export default class Login extends React.Component{
         'Thông báo !!!',
         'Đăng nhập Google thành công !',
         [
-          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
           {text: 'OK', onPress: () => this.goHome()},
         ],
         { cancelable: false }
@@ -179,56 +175,38 @@ export default class Login extends React.Component{
         // some other error happened
       }
     }
-<<<<<<< HEAD
   
-=======
-    
->>>>>>> 19544a09428bb9d8d38d702ba935e4b7398c23fb
   }
 
 
   //Đăng nhập bằng FB 
   _signInFB= async()=>{
-    try {
-      const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
-  
-      if (result.isCancelled) {
-        // handle this however suites the flow of your app
-        throw new Error('User cancelled request'); 
-      }
-  
-      console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
-  
-      // get the access token
-      const data = await AccessToken.getCurrentAccessToken();
-  
-      if (!data) {
-        // handle this however suites the flow of your app
-        throw new Error('Something went wrong obtaining the users access token');
-      }
-  
-      // create a new firebase credential with the token
-      const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
-  
-      // login with credential
-      firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
-      Alert.alert(
-          'Thông báo !!!',
-          'Đăng nhập Google thành công !',
-          [
-            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-            {text: 'OK', onPress: () => this.goHome()},
-          ],
-          { cancelable: false }
-        )
-        this.setState({
-          typedEmail:'',
-          typedPassword:''
-      })
-    } 
-    catch (e) {
-      console.error(e);
+    const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+ 
+    if (result.isCancelled) {
+      throw new Error('User cancelled the login process');
     }
+    const data = await AccessToken.getCurrentAccessToken();
+ 
+    if (!data) {
+      throw new Error('Something went wrong obtaining access token');
+    }
+    const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+    await firebase.auth().signInWithCredential(credential);
+
+    Alert.alert(
+      'Thông báo !!!',
+      'Đăng nhập Facebook thành công !',
+      [
+        {text: 'OK', onPress: () => this.goHome()},
+      ],
+      { cancelable: false }
+    )
+    this.setState({
+      typedEmail:'',
+      typedPassword:'',
+    }
+    )
   }
     
   
