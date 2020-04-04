@@ -50,7 +50,7 @@ export default class Login extends React.Component{
     return(
       <TypingAnimation 
         dotColor="black"
-        style={{marginRight:25,marginTop:50}}
+        style={{marginRight:25, marginTop:50}}
       />
     )
   }
@@ -208,11 +208,9 @@ export default class Login extends React.Component{
     }
     )
   }
-    
+
+
   
-
-
-
   render(){
     const width = this.state.animation_login;
     return(
@@ -264,10 +262,8 @@ export default class Login extends React.Component{
               {this.state.typing_password ?
               this._typing()
               : null}
-
-
           </View>
-                
+
           <TouchableOpacity onPress={() => {this.Dangnhap()}}>
             <View style={styles.button_container}>
               <Animated.View style={[styles.animation,{width}]}>
@@ -290,8 +286,8 @@ export default class Login extends React.Component{
             </View>
           </TouchableOpacity> 
 
-          <View style={{alignItems: "center",justifyContent:"center", marginTop: 10}}>
-            <Text style={{color:'red'}}> Quên mật khẩu ?</Text>
+          <View style={{marginTop: 20, flexDirection:'row', justifyContent:'center'}}>
+            <Text style={{color:'red', fontSize:15}}> Quên mật khẩu ?</Text>
           </View>
 
           <View style={{marginTop: 20, alignItems:"center"}}>
@@ -353,7 +349,8 @@ var styles = StyleSheet.create({
     flex:1,
     marginTop:30,
     paddingBottom:5,
-    color:'gray'
+    color:'gray',
+    fontSize: 15
   },
 
   button_container: {
@@ -364,7 +361,7 @@ var styles = StyleSheet.create({
   animation: {
     backgroundColor:'#5aaf76',
     paddingVertical:10,
-    marginTop: 40,
+    marginTop: 30,
     borderRadius:100,
     justifyContent:'center',
     alignItems:'center',

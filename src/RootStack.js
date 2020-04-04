@@ -16,6 +16,8 @@ import CaiDat from './ManHinh/CaiDat';
 import DichVu_Them from './ManHinh/DichVu_Them';
 //import LoaiPhong from './ManHinh/LoaiPhong';
 import Chitiet_PhongTro from "./ManHinh/Chitiet_PhongTro";
+import KhachHang from "./ManHinh/KhachHang";
+import HopDong from "./ManHinh/HopDong"
 
 //import các thư viện Icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -226,6 +228,18 @@ const StackNav = createStackNavigator({
             headerShown: false
         }
     },
+    ManHinhKhachHang:{
+        screen: KhachHang,
+        navigationOptions:{
+            headerShown: false
+        }
+    },
+    ManHinhHopDong:{
+        screen: HopDong,
+        navigationOptions:{
+            headerShown: false
+        }
+    }
 });
 
 export default createAppContainer(StackNav);

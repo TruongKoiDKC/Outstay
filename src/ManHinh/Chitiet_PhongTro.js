@@ -8,17 +8,16 @@ import { View,
     TouchableOpacity,
     StatusBar,
     ImageBackground,
-    Picker 
+    Picker,
+    Alert
 } from 'react-native'
 
 import { ScrollView } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import { Input } from 'react-native-elements';
-import {Sae} from 'react-native-textinput-effects';
-
 import DatePicker from 'react-native-datepicker';
-
+import OptionsMenu from "react-native-options-menu";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -26,13 +25,20 @@ import Foundation from 'react-native-vector-icons/Foundation'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import KhachHang from './KhachHang';
 
-
+//RadioForm
 var radio_props = [
     {label: 'Phòng trống', value: 0 },
     {label: 'Đã cọc', value: 1 },
     {label: 'Đang ở', value: 2 }
 ];
+
+//Icon 3 chấm 
+const myIcon = (<Icon 
+    name='ellipsis-h'
+    type='FontAwesome5'
+    style={{fontSize:25, marginLeft:"60%"}}/>)
 
 
 export default class Chitiet_PhongTro extends Component {
@@ -44,6 +50,16 @@ export default class Chitiet_PhongTro extends Component {
         visible: false
         };
     }
+    
+    KH(){
+        const {navigate} = this.props.navigation;
+        navigate('ManHinhKhachHang');
+    }
+    HD(){
+        const {navigate} = this.props.navigation;
+        navigate('ManHinhHopDong');
+    }
+
 
     render () {
 
@@ -53,11 +69,11 @@ export default class Chitiet_PhongTro extends Component {
                 <View style={{flexDirection: 'row', justifyContent:"center", alignItems:"center"}}>
                     <View style={{flex: 1}}>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhPhongTro")}>
-                            <Image
-                                source={require("../images/iconfinder_left_2_4829870.png")}
-                                style={{width: 25, height: 25,marginRight: 100}}
-                            >
-                            </Image>
+                            <Icon
+                            name='chevron-left'
+                            type='FontAwesome5'
+                            style={{fontSize: 20}}
+                            />
                         </TouchableOpacity>
                     </View>
 
@@ -68,16 +84,16 @@ export default class Chitiet_PhongTro extends Component {
                     </View>
 
                     <View style={{flex: 1}}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('ManHinhCTLP')}>
-                            <ImageBackground source={require('../images/iconfinder_checkmark_4115228.png')}
-                                style={{width: 30, height: 30, marginLeft:"50%"}}>
-                            </ImageBackground>
-                        </TouchableOpacity>
+                        <OptionsMenu
+                            customButton={myIcon}
+                            destructiveIndex={1}
+                            options={["Tạo khách hàng", "Tạo hợp đồng"]}
+                            actions={[this.KH(), this.HD()]}/>
                     </View>
                 </View>
 
                 
-                <View style={{}}>
+                <View>
                     <ScrollView>
                         <View style={{flex: 1, marginTop: 20}}>
                         <Animated.View style={styles.vienkhung}>
@@ -147,93 +163,15 @@ export default class Chitiet_PhongTro extends Component {
                         </Animated.View>    
                     </View>
 
-                    <View style={{ marginTop: 20}}>
-                        <Animated.View style={styles.vienkhung}>
-                            <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
-                                Thông tin hợp đồng
-                            </Text>
-                            <View style={{padding: 8}}>
-                            <TextInput
-                                placeholder='Họ và tên'
-                                underlineColorAndroid='#5aaf76'
-                                style={{fontSize:15}}
-                            />
-                            <View style={{padding:4}}>
-                            <DatePicker
-                                style={{width: '100%'}}
-                                placeholder= "Ngày / tháng / năm sinh"
-                                date={this.state.date} 
-                                mode="date" 
-                                format="DD-MM-YYYY"
-                                minDate="01-01-1900"
-                                confirmBtnText="Confirm"
-                                cancelBtnText="Cancel"  
-                                androidMode='spinner' 
-                                showIcon={false}
-                                onDateChange={date => {this.setState({ date: date }); }}
-                                customStyles={{
-                                  dateInput: { 
-                                    borderWidth: 0,
-                                    borderBottomWidth: 1,
-                                    borderBottomColor:'#5aaf76',
-                                    alignItems: "flex-start",
-                                    
-                                  },
-                                  placeholderText:{
-                                    color:'#9e9e9e',
-                                    fontSize: 15,
-                                  },
-                                  dateText: {
-                                    fontSize: 15,
-                                    color: "black",
-                                    alignItems: "flex-start"
-                                  }
-                                }}
-                            />
-                            </View>
-                            <TextInput
-                                placeholder='Địa chỉ thường trú'
-                                underlineColorAndroid='#5aaf76'
-                                style={{fontSize:15}}
-                            />
-                            <TextInput
-                                placeholder='CMND/CMT/CCCD'
-                                underlineColorAndroid='#5aaf76'
-                                style={{fontSize:15}}
-                            />
-                            <TextInput
-                                placeholder='Số điện thoại'
-                                underlineColorAndroid='#5aaf76'
-                                style={{fontSize:15}}
-                            />
-                            <TextInput
-                                placeholder='E-mail'
-                                underlineColorAndroid='#5aaf76'
-                                style={{fontSize:15}}
-                            />
-                             <TextInput
-                                placeholder='Thời hạn hợp đồng'
-                                underlineColorAndroid='#5aaf76'
-                                style={{fontSize:15}}
-                            />
-                            <TextInput
-                                placeholder='Tiền phòng'
-                                underlineColorAndroid='#5aaf76'
-                                style={{fontSize:15}}
-                            />
-                            <TextInput
-                                placeholder='Tiền cọc'
-                                underlineColorAndroid='#5aaf76'
-                                style={{fontSize:15}}
-                            />
-                            <TextInput
-                                placeholder='Chu kỳ thanh toán'
-                                underlineColorAndroid='#5aaf76'
-                                style={{fontSize:15}}
-                            />   
-                            </View>
-                        </Animated.View>  
-                    </View>  
+                    <TouchableOpacity>
+                        <View style ={{marginTop:20, justifyContent:'center', alignItems:'center'}}>
+                            <Animated.View style={styles.btn}>
+                                <Text style={{fontSize: 20, color:'white', fontWeight:'bold'}}>Lưu</Text>
+                            </Animated.View>
+                        </View>
+                    </TouchableOpacity>
+
+                    
                     </ScrollView>
                 </View>    
             </View>
@@ -256,5 +194,17 @@ var styles = StyleSheet.create({
         borderWidth: 4,
         padding: 15,
         borderRadius: 20
+    },
+
+    btn:{
+        borderColor:'#5aaf76',
+        backgroundColor:'#5aaf76',
+        borderWidth: 4,
+        padding: 15,
+        borderRadius: 20,
+        width:130,
+        height: 50,
+        justifyContent:'center',
+        alignItems:'center'
     }
 })

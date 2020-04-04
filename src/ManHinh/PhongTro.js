@@ -15,6 +15,8 @@ import { SearchBar } from 'react-native-elements'
 import SelectMultiple from 'react-native-select-multiple'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 export default class PhongTro extends React.Component {
     state = {
         search: '',
@@ -41,9 +43,11 @@ export default class PhongTro extends React.Component {
 
                 <View style={{flex: 1}}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('ManHinhCTPT')}>
-                        <ImageBackground source={require('../images/iconfinder_plus_4115237.png')}
-                            style={{width: 30, height: 30, marginLeft:"50%"}}>
-                        </ImageBackground>
+                    <Icon
+                            name='plus'
+                            type='FontAwesome5'
+                            style={{fontSize:25, marginLeft:"60%"}}
+                            />
                     </TouchableOpacity>
                 </View>
             </View>
