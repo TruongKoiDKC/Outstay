@@ -17,15 +17,16 @@ import Animated from 'react-native-reanimated';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import { Input } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
-import OptionsMenu from "react-native-options-menu";
+import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
+//import OptionsMenu from "react-native-options-menu";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Foundation from 'react-native-vector-icons/Foundation'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import KhachHang from './KhachHang';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 
 //RadioForm
 var radio_props = [
@@ -40,7 +41,6 @@ const myIcon = (<Icon
     type='FontAwesome5'
     style={{fontSize:25, marginLeft:"60%"}}/>)
 
-
 export default class Chitiet_PhongTro extends Component {
     constructor(props){
         super(props);
@@ -50,6 +50,16 @@ export default class Chitiet_PhongTro extends Component {
         visible: false
         };
     }
+
+    
+    menu = null;
+ 
+    setMenuRef = ref => {
+      this.menu = ref;
+    };
+    showMenu = () => {
+      this.menu.show();
+    };
     
     KH(){
         const {navigate} = this.props.navigation;
@@ -62,9 +72,7 @@ export default class Chitiet_PhongTro extends Component {
 
 
     render () {
-
         return ( 
-            
             <View style={styles.container}>
                 <View style={{flexDirection: 'row', justifyContent:"center", alignItems:"center"}}>
                     <View style={{flex: 1}}>
@@ -84,11 +92,22 @@ export default class Chitiet_PhongTro extends Component {
                     </View>
 
                     <View style={{flex: 1}}>
-                        <OptionsMenu
-                            customButton={myIcon}
-                            destructiveIndex={1}
-                            options={["Tạo khách hàng", "Tạo hợp đồng"]}
-                            actions={[this.KH(), this.HD()]}/>
+                        <Menu
+                            style={{width: 150, height: 100}}
+                            ref={this.setMenuRef}
+                            button={ 
+                            <Text style={{marginLeft: '80%'}} onPress={this.showMenu}>
+                                <Icon
+                                    name='ellipsis-v'
+                                    type='FontAwesome5'
+                                    style={{fontSize: 25}}
+                                />
+                            </Text>}
+                        >
+                            <MenuItem onPress={() => this.props.navigation.navigate('ManHinhKhachHang')}>Tạo khách hàng</MenuItem>
+                            <MenuItem onPress={() => this.props.navigation.navigate('ManHinhHopDong')}>Tạo hợp đồng</MenuItem>
+                            <MenuItem onPress={this.hideMenu} disabled> </MenuItem>
+                        </Menu>
                     </View>
                 </View>
 
@@ -122,7 +141,7 @@ export default class Chitiet_PhongTro extends Component {
                             <TextInput
                                 placeholder='Tên phòng'
                                 underlineColorAndroid='#5aaf76'
-                                style={{fontSize:15}}
+                                style={[{fontSize:15}]}
                             />
                             <TextInput
                                 placeholder='Loại phòng'
@@ -163,15 +182,19 @@ export default class Chitiet_PhongTro extends Component {
                         </Animated.View>    
                     </View>
 
-                    <TouchableOpacity>
-                        <View style ={{marginTop:20, justifyContent:'center', alignItems:'center'}}>
-                            <Animated.View style={styles.btn}>
-                                <Text style={{fontSize: 20, color:'white', fontWeight:'bold'}}>Lưu</Text>
-                            </Animated.View>
-                        </View>
-                    </TouchableOpacity>
-
                     
+                    <View style ={{marginTop:20, justifyContent:'center', alignItems:'center', flexDirection:'row'}}>
+                        <TouchableOpacity>
+                            <Animated.View style={[styles.btn,{height: 50, width: 150, backgroundColor:'white'}]}>
+                                <Text style={{fontSize: 20, color:'#5aaf76', fontWeight:'bold'}}>Lưu</Text>
+                            </Animated.View>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Animated.View style={[styles.btn,{height:50, marginLeft:20, backgroundColor:'#5aaf76'}]}>
+                                <Text style={{fontSize: 20, color:'white', fontWeight:'bold'}}>Xuất hóa đơn</Text>
+                            </Animated.View>
+                        </TouchableOpacity>
+                    </View>
                     </ScrollView>
                 </View>    
             </View>
@@ -198,12 +221,9 @@ var styles = StyleSheet.create({
 
     btn:{
         borderColor:'#5aaf76',
-        backgroundColor:'#5aaf76',
         borderWidth: 4,
         padding: 15,
         borderRadius: 20,
-        width:130,
-        height: 50,
         justifyContent:'center',
         alignItems:'center'
     }

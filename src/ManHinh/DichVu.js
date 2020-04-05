@@ -10,6 +10,7 @@ import {
 } from "react-native";
 
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class Home extends React.Component {
 
@@ -28,10 +29,12 @@ export default class Home extends React.Component {
 
               <View style={{flex: 1}}>
               <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhDichVu_Them")}>
-                        <ImageBackground source={require('../images/iconfinder_plus_4115237.png')}
-                        style={{width: 30, height: 30, marginLeft:"75%"}}>
-                        </ImageBackground>
-                    </TouchableOpacity>
+                <Icon
+                  name='plus'
+                  type='FontAwesome5'
+                  style={{fontSize:25, marginLeft:"80%"}}
+                />
+              </TouchableOpacity>
               </View>
 
             </View>

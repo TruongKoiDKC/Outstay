@@ -14,7 +14,7 @@ import {
 
 import * as Animatable from 'react-native-animatable';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { ListItem } from 'react-native-elements'
+import { ListItem } from 'react-native-elements';
 
 const Caidat = [
   {
@@ -81,6 +81,14 @@ export default class Home extends React.Component {
           ))
           }
           </View>
+
+          <View>
+            <TouchableOpacity>
+              <Animated.View style={styles.DX}>
+                <Text style={{fontSize: 18, color:'white', fontWeight:'bold'}}>Đăng xuất</Text>
+              </Animated.View>
+            </TouchableOpacity>
+          </View>
         </View>
       )
     }
@@ -92,6 +100,17 @@ var styles = StyleSheet.create({
       flex:1,
       backgroundColor:'white',
       padding: "5%"
+    },
+
+    DX:{
+        borderColor:'#ff4343',
+        backgroundColor:'#ff4343',
+        padding: 15,
+        borderRadius: 100,
+        justifyContent:'center',
+        alignItems:'center',
+        paddingVertical:10,
+        marginTop: 280
     }
 
 });

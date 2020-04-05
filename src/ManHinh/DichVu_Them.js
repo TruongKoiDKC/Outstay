@@ -4,17 +4,16 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Image,
   Dimensions,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ImageBackground
 } from "react-native";
 
 import { ScrollView } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated';
 import RNPickerSelect from 'react-native-picker-select';
 
+import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Foundation from 'react-native-vector-icons/Foundation'
@@ -33,11 +32,11 @@ export default class DichVu_Them extends React.Component {
                 <View style={{flexDirection: 'row', justifyContent:"center", alignItems:"center"}}>
                     <View style={{flex:1}}>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhDichVu")}>
-                            <Image
-                                source={require("../images/iconfinder_left_2_4829870.png")}
-                                style={{width: 25, height: 25,marginRight: 100}}
-                            >
-                            </Image>
+                            <Icon
+                            name='chevron-left'
+                            type='FontAwesome5'
+                            style={{fontSize: 20}}
+                            />
                         </TouchableOpacity>
                     </View>
 
@@ -49,15 +48,17 @@ export default class DichVu_Them extends React.Component {
 
                     <View style={{flex: 1}}>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('ManHinhHome')}>
-                            <ImageBackground source={require('../images/iconfinder_checkmark_4115228.png')}
-                                style={{width: 30, height: 30, marginLeft:"50%"}}>
-                            </ImageBackground>
+                        <Icon
+                            name='check'
+                            type='FontAwesome5'
+                            style={{fontSize: 25, marginLeft:'60%'}}
+                            />
                         </TouchableOpacity>
                     </View>
                 </View>
 
                 
-                <View style={{}}>
+                <View>
                     <ScrollView>
                         <View style={{flex: 1, marginTop: 20}}>
                             <Animated.View style={styles.vienkhung}>

@@ -43,11 +43,11 @@ export default class PhongTro extends React.Component {
 
                 <View style={{flex: 1}}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('ManHinhCTPT')}>
-                    <Icon
+                        <Icon
                             name='plus'
                             type='FontAwesome5'
                             style={{fontSize:25, marginLeft:"60%"}}
-                            />
+                        />
                     </TouchableOpacity>
                 </View>
             </View>
