@@ -18,7 +18,6 @@ import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-
 import { Input } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
-//import OptionsMenu from "react-native-options-menu";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Foundation from 'react-native-vector-icons/Foundation'
@@ -51,16 +50,14 @@ export default class Chitiet_PhongTro extends Component {
         };
     }
 
-    
+    //Menu chọn Khách hàng và Hợp đồng
     menu = null;
- 
     setMenuRef = ref => {
       this.menu = ref;
     };
     showMenu = () => {
       this.menu.show();
     };
-    
     KH(){
         const {navigate} = this.props.navigation;
         navigate('ManHinhKhachHang');
@@ -104,8 +101,8 @@ export default class Chitiet_PhongTro extends Component {
                                 />
                             </Text>}
                         >
-                            <MenuItem onPress={() => this.props.navigation.navigate('ManHinhKhachHang')}>Tạo khách hàng</MenuItem>
-                            <MenuItem onPress={() => this.props.navigation.navigate('ManHinhHopDong')}>Tạo hợp đồng</MenuItem>
+                            <MenuItem onPress={() => this.props.navigation.navigate('ManHinhKhachHang')}>Khách thuê</MenuItem>
+                            <MenuItem onPress={() => this.props.navigation.navigate('ManHinhHopDong')}>Hợp đồng</MenuItem>
                             <MenuItem onPress={this.hideMenu} disabled> </MenuItem>
                         </Menu>
                     </View>
@@ -185,13 +182,13 @@ export default class Chitiet_PhongTro extends Component {
                     
                     <View style ={{marginTop:20, justifyContent:'center', alignItems:'center', flexDirection:'row'}}>
                         <TouchableOpacity>
-                            <Animated.View style={[styles.btn,{height: 50, width: 150, backgroundColor:'white'}]}>
-                                <Text style={{fontSize: 20, color:'#5aaf76', fontWeight:'bold'}}>Lưu</Text>
+                            <Animated.View style={[styles.btn,{height:50, backgroundColor:'#5aaf76'}]}>
+                                <Text style={{fontSize: 20, color:'white', fontWeight:'bold'}}>Xuất hóa đơn</Text>
                             </Animated.View>
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Animated.View style={[styles.btn,{height:50, marginLeft:20, backgroundColor:'#5aaf76'}]}>
-                                <Text style={{fontSize: 20, color:'white', fontWeight:'bold'}}>Xuất hóa đơn</Text>
+                            <Animated.View style={[styles.btn,{height: 50, width: 150, backgroundColor:'white', marginLeft:20}]}>
+                                <Text style={{fontSize: 20, color:'#5aaf76', fontWeight:'bold'}}>Lưu</Text>
                             </Animated.View>
                         </TouchableOpacity>
                     </View>
