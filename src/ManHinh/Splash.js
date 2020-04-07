@@ -85,7 +85,7 @@ export default class App extends React.Component {
           Outstay được ra đời giúp người quản lý tính toán chính xác tiền phòng, dịch vụ, tiết kiệm thời gian ghi chép, thống kê.
         </Text>
       
-        <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhLogin")}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhPhongTro")}>
           <Text style={{fontWeight:"bold", fontSize: 25, color:"black", marginTop: "35%"}}>
             BẮT ĐẦU
           </Text>

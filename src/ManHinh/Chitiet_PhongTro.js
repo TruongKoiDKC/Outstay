@@ -34,11 +34,7 @@ var radio_props = [
     {label: 'Đang ở', value: 2 }
 ];
 
-//Icon 3 chấm 
-const myIcon = (<Icon 
-    name='ellipsis-h'
-    type='FontAwesome5'
-    style={{fontSize:25, marginLeft:"60%"}}/>)
+
 
 export default class Chitiet_PhongTro extends Component {
     constructor(props){
