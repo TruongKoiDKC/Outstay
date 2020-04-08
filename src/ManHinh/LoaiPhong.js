@@ -5,24 +5,25 @@ import {
     TextInput,
     StyleSheet,
     Dimensions,
-    TouchableOpacity,} from 'react-native'
+    TouchableOpacity,
+    YellowBox,
+} from 'react-native'
 
+import _ from 'lodash';
 import { ScrollView, } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import firebase from 'firebase';
 
 
-/*
-var config = {
-    databaseURL: "https://fir-outstay.firebaseio.com/",
-    projectId: "fir-outstay",
-};*/
-//firebase.initializeApp(config);
-/*
-if (!firebase.apps.length) {
-    firebase.initializeApp(config);
-}*/
+YellowBox.ignoreWarnings(["Setting a timer"]);
+const _console = _.clone(console);
+console.warn = (message) => {
+    if (message.indexOf("Setting a timer") <= -1) {
+    _console.warn(message);
+    }
+};
+
 try {
     firebase.initializeApp({
     apiKey: 'AIzaSyDYmW5KUcA4YK9RFX8rmozMCmtb1q2sL5Q',
@@ -39,7 +40,7 @@ try {
 }}
 
 const rootRef = firebase.database().ref();
-const LoaiPhongRef = rootRef.child('Loai Phong');
+const LoaiPhongRef = rootRef.child('Loại phòng');
 
 
 
@@ -105,7 +106,10 @@ export default class LoaiPhong extends Component {
         });
     }
     onPressAdd = () => {
-        if (this.state.textTenLoaiPhong.trim() === '') {
+        if (this.state.textTenLoaiPhong.trim() === '' && 
+        this.state.textDienTich.trim() === '' && 
+        this.state.textDonGia.trim() === '' && 
+        this.state.textDVT.trim() === '') {
             alert('Ban chưa nhập thông tin !!!');
             return;
         }
@@ -117,10 +121,7 @@ export default class LoaiPhong extends Component {
         });
     }
     
-    DichVu(){
-        const {navigate} = this.props.navigation;
-        navigate('ManHinhDichVu');
-    }
+
 
     render() {
         return (
