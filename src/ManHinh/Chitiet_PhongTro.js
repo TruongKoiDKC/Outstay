@@ -9,7 +9,8 @@ import { View,
     StatusBar,
     ImageBackground,
     Picker,
-    Alert
+    Alert,
+    YellowBox,
 } from 'react-native'
 
 import { ScrollView } from 'react-native-gesture-handler'
@@ -23,7 +24,34 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import firebase from 'firebase';
+import _ from 'lodash';
 
+YellowBox.ignoreWarnings(["Setting a timer"]);
+const _console = _.clone(console);
+console.warn = (message) => {
+    if (message.indexOf("Setting a timer") <= -1) {
+    _console.warn(message);
+    }
+};
+
+try {
+    firebase.initializeApp({
+    apiKey: 'AIzaSyDYmW5KUcA4YK9RFX8rmozMCmtb1q2sL5Q',
+    //authDomain: “FULL_AUTHDOMAIN_PUT_HERE”,
+    databaseURL: 'https://fir-outstay.firebaseio.com',
+    storageBucket: 'fir-outstay.appspot.com',
+    })
+    } catch (err) {
+    // we skip the “already exists” message which is
+    // not an actual error when we’re hot-reloading
+    if (!/already exists/.test(err.message)) {
+    console.error('Firebase initialization error raised', err.stack)
+    
+}}
+
+const rootRef = firebase.database().ref();
+const PhongTroRef = rootRef.child('Phòng trọ');
 
 //RadioForm
 var radio_props = [
@@ -39,8 +67,60 @@ export default class Chitiet_PhongTro extends Component {
         this.state = {
         chosenDate: new Date(),
         date: '' ,
-        visible: false
+        visible: false,
+
+        PhongTro: [],
+            textTenPhong: '',
+            textLoaiPhong: '',
+            textTien: '',
+            textSDTcu: '',
+            textSDTmoi: '',
+            textSoNuoccu: '',
+            textSoNuocmoi: '',
+            textPhiDV: '',
+            loading: false,
         };
+    }
+
+    UNSAFE_componentDidMount() {
+        PhongTroRef.on('value', (childSnapshot) => {
+            const phongtros = [];
+            childSnapshot.forEach((doc) => {
+                phongtros.push({
+                    key: doc.key,
+                    phongtroName: doc.toJSON().phongtroName
+                });
+                this.setState({
+                    phongtros: phongtros.sort((a, b) => {
+                        return (a.phongtroName < b.phongtroName);
+                    }),
+                    loading: false,
+                });
+            });
+        });
+    }
+    onPressAdd = () => {
+        if (this.state.textTenPhong.trim() === '' && 
+        this.state.textLoaiPhong.trim() === '' && 
+        this.state.textTien.trim() === '' &&
+        this.state.textSDTcu.trim() === '' &&  
+        this.state.textSDTmoi.trim() === '' && 
+        this.state.textSoNuoccu.trim() === '' && 
+        this.state.textSoNuocmoi.trim() === '' && 
+        this.state.textPhiDV.trim() === '' ){
+            alert('Ban chưa nhập thông tin !!!');
+            return;
+        }
+        PhongTroRef.push({
+            TenPhong: this.state.textTenPhong,
+            LoaiPhong: this.state.textLoaiPhong,
+            TienPhong: this.state.textTien,
+            SoDienCu: this.state.textSDTcu,
+            SoDienMoi: this.state.textSDTmoi,
+            SoNuocCu: this.state.textSoNuoccu,
+            SoNuocMoi: this.state.textSoNuocmoi,
+            PhiDichVu: this.state.textPhiDV,
+        });
     }
 
     //Menu chọn Khách hàng và Hợp đồng
@@ -51,15 +131,6 @@ export default class Chitiet_PhongTro extends Component {
     showMenu = () => {
       this.menu.show();
     };
-    KH(){
-        const {navigate} = this.props.navigation;
-        navigate('ManHinhKhachHang');
-    }
-    HD(){
-        const {navigate} = this.props.navigation;
-        navigate('ManHinhHopDong');
-    }
-
 
     render () {
         return ( 
@@ -132,41 +203,73 @@ export default class Chitiet_PhongTro extends Component {
                                 placeholder='Tên phòng'
                                 underlineColorAndroid='#5aaf76'
                                 style={[{fontSize:15}]}
+                                onChangeText={(text) => {this.setState({ textTenPhong: text });
+                                    }
+                                }
+                                 value={this.state.textTenPhong}
                             />
                             <TextInput
                                 placeholder='Loại phòng'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
+                                onChangeText={(text) => {this.setState({ textLoaiPhong: text });
+                                    }
+                                }
+                                 value={this.state.textLoaiPhong}
                             />
                             <TextInput
                                 placeholder='Tiền phòng'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
+                                onChangeText={(text) => {this.setState({ textTien: text });
+                                    }
+                                }
+                                 value={this.state.textTien}
                             />
                             <TextInput
                                 placeholder='Số điện cũ'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
+                                onChangeText={(text) => {this.setState({ textSDTcu: text });
+                                    }
+                                }
+                                 value={this.state.textSDTcu}
                             />
                             <TextInput
                                 placeholder='Số điện hiện tại'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
+                                onChangeText={(text) => {this.setState({ textSDTmoi: text });
+                                    }
+                                }
+                                 value={this.state.textSDTmoi}
                             />
                             <TextInput
                                 placeholder='Số nước cũ'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
+                                onChangeText={(text) => {this.setState({ textSoNuoccu: text });
+                                    }
+                                }
+                                 value={this.state.textSoNuoccu}
                             />
                             <TextInput
                                 placeholder='Số nước hiện tại'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
+                                onChangeText={(text) => {this.setState({ textSoNuocmoi: text });
+                                    }
+                                }
+                                 value={this.state.textSoNuocmoi}
                             />
                             <TextInput
                                 placeholder='Phí dịch vụ'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
+                                onChangeText={(text) => {this.setState({ textPhiDV: text });
+                                    }
+                                }
+                                 value={this.state.textPhiDV}
                             />
                             </View>
                         </Animated.View>    
@@ -181,7 +284,9 @@ export default class Chitiet_PhongTro extends Component {
                         </TouchableOpacity>
                         <TouchableOpacity>
                             <Animated.View style={[styles.btn,{height: 50, width: 150, backgroundColor:'white', marginLeft:20}]}>
-                                <Text style={{fontSize: 20, color:'#5aaf76', fontWeight:'bold'}}>Lưu</Text>
+                                <TouchableOpacity onPress={this.onPressAdd}>
+                                    <Text style={{fontSize: 20, color:'#5aaf76', fontWeight:'bold'}}>Lưu</Text>
+                                </TouchableOpacity>
                             </Animated.View>
                         </TouchableOpacity>
                     </View>
