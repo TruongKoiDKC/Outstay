@@ -15,8 +15,6 @@ import { View,
 import { ScrollView } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-import { Input } from 'react-native-elements';
-import DatePicker from 'react-native-datepicker';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
@@ -33,7 +31,6 @@ var radio_props = [
     {label: 'Đã cọc', value: 1 },
     {label: 'Đang ở', value: 2 }
 ];
-
 
 
 export default class Chitiet_PhongTro extends Component {

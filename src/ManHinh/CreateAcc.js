@@ -24,9 +24,7 @@ export default class CreateAcc extends React.Component{
       typing_email: false,
       typing_password: false,
       animation_login : new Animated.Value(width-40),
-      enable:true,
-
-
+      enable:true
     }
   }
 

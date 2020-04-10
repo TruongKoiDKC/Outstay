@@ -13,12 +13,9 @@ import PhongTro from './ManHinh/PhongTro';
 import DichVu from './ManHinh/DichVu';
 import ThongKe from './ManHinh/ThongKe';
 import CaiDat from './ManHinh/CaiDat';
-import DichVu_Them from './ManHinh/DichVu_Them';
-import LoaiPhong from './ManHinh/LoaiPhong';
 import Chitiet_PhongTro from "./ManHinh/Chitiet_PhongTro";
 import KhachHang from "./ManHinh/KhachHang";
 import HopDong from "./ManHinh/HopDong";
-import Chiphi_Dichvu from "./ManHinh/Chiphi_Dichvu"
 
 //import các thư viện Icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -217,12 +214,6 @@ const StackNav = createStackNavigator({
             headerShown: false
         }
     },
-    ManHinhDichVu_Them: {
-        screen: DichVu_Them,
-        navigationOptions:{
-            headerShown: false
-        }
-    },
     ManHinhCTPT: {
         screen: Chitiet_PhongTro,
         navigationOptions:{
@@ -237,18 +228,6 @@ const StackNav = createStackNavigator({
     },
     ManHinhHopDong:{
         screen: HopDong,
-        navigationOptions:{
-            headerShown: false
-        }
-    },
-    ManHinhLoaiPhong:{
-        screen: LoaiPhong,
-        navigationOptions:{
-            headerShown: false
-        }
-    },
-    ManHinhCPDV:{
-        screen: Chiphi_Dichvu,
         navigationOptions:{
             headerShown: false
         }
