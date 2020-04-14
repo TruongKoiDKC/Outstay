@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 
 import _ from 'lodash';
-import { ScrollView, } from 'react-native-gesture-handler'
+import { ScrollView } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import firebase from 'firebase';
@@ -41,47 +41,40 @@ try {
 }}
 
 const rootRef = firebase.database().ref();
-const LoaiPhongRef = rootRef.child('Loại phòng');
+const PhiDVRef = rootRef.child('Phí dịch vụ');
 
-
-export default class LoaiPhong extends Component {
+export default class Chiphi_Dichvu extends Component {
     constructor(props) {
         super(props);
         this.state = ({
-            LoaiPhong:[],
-            textTenLoaiPhong: '',
-            textDienTich: '',
+            PhiDichVu: [],
+            textTenPhiDV: '',
             textDonGia: '',
             textDVT: '',
             loading: false,
         });
     }
     componentDidMount() {
-        LoaiPhongRef.on('value', (childSnapshot) => {
-            const LoaiPhong = [];
+        PhiDVRef.on('value', (childSnapshot) => {
+            const PhiDichVu = [];
             childSnapshot.forEach((doc) => {
-                LoaiPhong.push({
+                PhiDichVu.push({
                     key: doc.key,
-                    TenLoaiPhong: doc.toJSON().TenLoaiPhong,
-                    DienTich: doc.toJSON().DienTich,
+                    PhiDichVu: doc.toJSON().PhiDichVu,
                     DonGia: doc.toJSON().DonGia,
                     DonViTinh: doc.toJSON().DonViTinh,
                     
                 });
                 this.setState({
-                    LoaiPhong: LoaiPhong.sort((a, b) => {
-                        return (a.TenLoaiPhong < b.TenLoaiPhong);
+                    PhiDichVu: PhiDichVu.sort((a, b) => {
+                        return (a.PhiDichVu < b.PhiDichVu);
                     }),
                     loading: false,
-                    LoaiPhong: LoaiPhong.sort((a, b) => {
-                        return (a.DienTich < b.DienTich);
-                    }),
-                    loading: false,
-                    LoaiPhong: LoaiPhong.sort((a, b) => {
+                    PhiDichVu: PhiDichVu.sort((a, b) => {
                         return (a.DonGia < b.DonGia);
                     }),
                     loading: false,
-                    LoaiPhong: LoaiPhong.sort((a, b) => {
+                    PhiDichVu: PhiDichVu.sort((a, b) => {
                         return (a.DonViTinh < b.DonViTinh);
                     }),
                     loading: false,
@@ -89,9 +82,8 @@ export default class LoaiPhong extends Component {
             });
         });
     }
-    onPressAddLoaiPhong = () => {
-        if (this.state.textTenLoaiPhong.trim() === '' || 
-            this.state.textDienTich.trim() === '' || 
+    onPressAdd = () => {
+        if (this.state.textTenPhiDV.trim() === '' || 
             this.state.textDonGia.trim() === '' ||
             this.state.textDVT.trim() === '' )
              {
@@ -101,9 +93,8 @@ export default class LoaiPhong extends Component {
         else{
             alert('Thông tin đã được lưu !')
         }
-        LoaiPhongRef.push({
-            TenLoaiPhong: this.state.textTenLoaiPhong,
-            DienTich: this.state.textDienTich,
+        PhiDVRef.push({
+            PhiDichVu: this.state.textTenPhiDV,
             DonGia: this.state.textDonGia,
             DonViTinh: this.state.textDVT,
         });
@@ -112,19 +103,18 @@ export default class LoaiPhong extends Component {
     _renderItem = ({item}) => {
 
         return(
-            <View style={{margin: 10}}>
-                <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Tên loại phòng :{item.TenLoaiPhong} </Text>
-                <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Diện tích :{item.DienTich}</Text>
+            <View style={{padding: 10,borderBottomColor: 'blue',borderWidth: 1}}>
+                
+                <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Tên phí dịch vụ :{item.PhiDichVu} </Text>
                 <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Đơn giá :{item.DonGia}</Text>
                 <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Đơn vị tính :{item.DonViTinh}</Text>
+                <Text style={{fontSize: 15,fontStyle: 'italic'}}> </Text>
             </View>
 
 
         );
 
     }
-
-
 
     render() {
         return (
@@ -142,18 +132,17 @@ export default class LoaiPhong extends Component {
 
                     <View style={{flex: 3, alignItems:"center"}}>
                         <Text style={{color:'black', fontSize: 21, fontWeight:'bold'}}>
-                            Loại phòng
+                            Chi phí dịch vụ
                         </Text>
                     </View>
 
                     <View style={{flex: 1}}>
                         <TouchableOpacity onPress={this.onPressAdd}>
-                            
-                            <Icon
-                                name='check'
-                                type='FontAwesome5'
-                                style={{fontSize: 25, marginLeft:'60%'}}
-                                />
+                        <Icon
+                            name='check'
+                            type='FontAwesome5'
+                            style={{fontSize: 25, marginLeft:'60%'}}
+                            />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -164,23 +153,13 @@ export default class LoaiPhong extends Component {
                             <Animated.View style={styles.vienkhung}>
                             <View style={{padding: 8}}>
                             <TextInput
-                                placeholder='Tên loại phòng'
+                                placeholder='Tên phí dịch vụ'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
-                                onChangeText={(text) => {this.setState({ textTenLoaiPhong: text });
+                                onChangeText={(text) => {this.setState({ textTenPhiDV: text });
                                     }
                                 }
-                                 value={this.state.textTenLoaiPhong}
-                                
-                            />
-                            <TextInput
-                                placeholder='Diện tích'
-                                underlineColorAndroid='#5aaf76'
-                                style={{fontSize:15}}
-                                onChangeText={(text) => {this.setState({ textDienTich: text });
-                                    }
-                                }
-                                 value={this.state.textDienTich}
+                                 value={this.state.textTenPhiDV}
                             />
                             <TextInput
                                 placeholder='Đơn giá'
@@ -200,22 +179,18 @@ export default class LoaiPhong extends Component {
                                 }
                                  value={this.state.textDVT}
                             />
-                            
                             </View> 
-                            </Animated.View>    
+                            </Animated.View>         
                         </View>
                     </ScrollView>
                 </View>
-                <View>
-                
-                </View>
-                <FlatList
-                    style={{borderColor: '#5aaf76',borderWidth: 4,height:100,marginTop: 20}}
-                    data={this.state.LoaiPhong}
-                    renderItem={this._renderItem}  
-                    
-                >
-                </FlatList>
+
+                    <FlatList
+                        style={{borderColor: '#5aaf76',borderWidth: 4,height:100,marginTop: 10,fontSize: 10}}
+                        data={this.state.PhiDichVu}
+                        renderItem={this._renderItem}
+                        >
+                    </FlatList>    
             </View>
         )
     }

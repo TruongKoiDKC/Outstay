@@ -126,7 +126,7 @@ export default class DatabaseComponent extends Component {
                     height: 64
                 }}>
                     <TextInput
-                                placeholder='Tên phí dịch vụ'
+                                placeholder='Tên loại phòng'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
                                 onChangeText={(text) => {this.setState({ textTenLoaiPhong: text });
@@ -135,7 +135,7 @@ export default class DatabaseComponent extends Component {
                                 value={this.state.textTenLoaiPhong}
                             />
                             <TextInput
-                                placeholder='Đơn giá'
+                                placeholder='Diện Tích'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
                                 onChangeText={(text) => {this.setState({ textDienTich: text });
@@ -151,7 +151,20 @@ export default class DatabaseComponent extends Component {
                                     }
                                 }
                                 value={this.state.textDonGia}
+                                
                             />
+
+                            <TextInput
+                                placeholder='DVT'
+                                underlineColorAndroid='#5aaf76'
+                                style={{fontSize:15}}
+                                onChangeText={(text) => {this.setState({ textDVT: text });
+                                    }
+                                }
+                                value={this.state.textDVT}
+                                
+                            />
+
                     <TouchableHighlight  
                         
                         underlayColor='tomato'

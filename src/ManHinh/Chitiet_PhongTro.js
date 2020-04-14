@@ -11,13 +11,14 @@ import { View,
     Picker,
     Alert,
     YellowBox,
+    CheckBox,
 } from 'react-native'
 
 import { ScrollView } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
-
+//import {CheckBox} from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Foundation from 'react-native-vector-icons/Foundation'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
@@ -53,12 +54,6 @@ try {
 const rootRef = firebase.database().ref();
 const PhongTroRef = rootRef.child('Phòng trọ');
 
-//RadioForm
-var radio_props = [
-    {label: 'Phòng trống', value: 0 },
-    {label: 'Đã cọc', value: 1 },
-    {label: 'Đang ở', value: 2 }
-];
 
 
 export default class Chitiet_PhongTro extends Component {
@@ -70,6 +65,7 @@ export default class Chitiet_PhongTro extends Component {
         visible: false,
 
         PhongTro: [],
+            textTrangThaiPhong:'',
             textTenPhong: '',
             textLoaiPhong: '',
             textTien: '',
@@ -100,7 +96,8 @@ export default class Chitiet_PhongTro extends Component {
         });
     }
     onPressAdd = () => {
-        if (this.state.textTenPhong.trim() === '' && 
+        if (this.state.textTrangThaiPhong.trim() === '' &&
+        this.state.textTenPhong.trim() === '' && 
         this.state.textLoaiPhong.trim() === '' && 
         this.state.textTien.trim() === '' &&
         this.state.textSDTcu.trim() === '' &&  
@@ -112,6 +109,7 @@ export default class Chitiet_PhongTro extends Component {
             return;
         }
         PhongTroRef.push({
+            TrangThaiPhong: this.state.textTrangThaiPhong,
             TenPhong: this.state.textTenPhong,
             LoaiPhong: this.state.textLoaiPhong,
             TienPhong: this.state.textTien,
@@ -175,30 +173,27 @@ export default class Chitiet_PhongTro extends Component {
                 
                 <View>
                     <ScrollView>
-                        <View style={{flex: 1, marginTop: 20}}>
-                        <Animated.View style={styles.vienkhung}>
-                            <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
-                                Trạng thái phòng
-                            </Text>
-                            <View style={{padding: 8}}>
-                            <RadioForm
-                                radio_props={radio_props}
-                                initial={0}
-                                onPress={(value) => {this.setState({value:value})}}
-                                buttonColor={'#5aaf76'}
-                                labelColor={'#5aaf76'}
-                                labelStyle={{fontSize:15}}
-                            />
-                            </View>
-                        </Animated.View>    
-                        </View>
+                        
 
                     <View style={{flex: 1, marginTop: 20}}>
                         <Animated.View style={styles.vienkhung}>
+                            
+                            <View style={{padding: 8}}>
                             <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
+                                Trạng thái phòng
+                            </Text>
+                            <TextInput
+                                placeholder='Phòng trống - Đã cọc - Đang ở'
+                                underlineColorAndroid='#5aaf76'
+                                style={[{fontSize:15,fontStyle: 'italic'}]}
+                                onChangeText={(text) => {this.setState({ textTrangThaiPhong: text });
+                                    }
+                                }
+                                 value={this.state.textTrangThaiPhong}
+                            />
+                            <Text style={{fontSize: 20, color: 'black', fontWeight: "bold"}}>
                                 Thông tin phòng
                             </Text>
-                            <View style={{padding: 8}}>
                             <TextInput
                                 placeholder='Tên phòng'
                                 underlineColorAndroid='#5aaf76'
