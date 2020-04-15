@@ -65,8 +65,8 @@ export default class PhongTro extends React.Component {
             loading: false,
             
             ////Khai báo Modal box
-            modalPhiDV: false,
-            modalLoaiPhong: false,
+            modal: false,
+
             //
             search: ''
         };
@@ -171,19 +171,29 @@ export default class PhongTro extends React.Component {
         return(
         <View style={styles.container}>
             <View style={{flexDirection: 'row', justifyContent:"center", alignItems:"center"}}>
-                    <View style={{flex: 2}}>
-                        <TouchableOpacity onPress={this.openModal}>
-                            <Icon
-                                name='plus'
-                                type='FontAwesome5'
-                                style={{fontSize:25, marginLeft:"60%"}}
-                            />
-                        </TouchableOpacity>
-                        <Modal isVisible={this.state.modal}>
+                <View style={{flex: 2}}>
+                    <TouchableOpacity onPress={this.openModal}>
+                        <Icon
+                            name='plus'
+                            type='FontAwesome5'
+                            style={{fontSize:25, marginLeft:"60%"}}
+                        />
+                    </TouchableOpacity>
+                        
+                        
+                            
+                    <Modal isVisible={this.state.modal}>
                         <View style={{width:350, height:600, backgroundColor:'white'}}>
                             <View style={{alignItems:"center"}}>
-                                <Text style={{color:'black', fontSize: 21, fontWeight:'bold', marginTop:'5%'}}>
-                                                Trạng thái phòng
+                            <Text style={{color:'black', fontSize: 21, fontWeight:'bold', marginTop:'5%'}}>
+                                Loại phòng
+                            </Text>
+                            </View>
+                            <View style={{marginTop: '2%'}}>
+                                <Animated.View style={styles.vienkhung}>
+                                <View style={{padding: 8}}>
+                                <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
+                                    Trạng thái phòng
                                 </Text>
                                 <TextInput
                                     placeholder='Phòng trống - Đã cọc - Đang ở'
@@ -268,31 +278,29 @@ export default class PhongTro extends React.Component {
                                         }
                                     }
                                     value={this.state.textPhiDV}
-                                />     
+                                />
+                    
+                                </View> 
+                                </Animated.View>    
                             </View>
-                            <View style ={{marginTop:20, justifyContent:'center', alignItems:'center', flexDirection:'row'}}>
-                                <TouchableOpacity>
-                                    <Animated.View style={[styles.btn,{height:50, backgroundColor:'#5aaf76'}]}>
-                                        <Text style={{fontSize: 20, color:'white', fontWeight:'bold'}}>Xuất hóa đơn</Text>
-                                    </Animated.View>
-                                </TouchableOpacity>
+                            <View style ={{ justifyContent:'center', alignItems:'center', flexDirection: 'row', marginTop:'5%'}}>
+                            <TouchableOpacity onPress={this.closeModal}>
+                                <Animated.View style={[styles.btn]}>
+                                    <Text style={{fontSize: 20, color:'#5aaf76', fontWeight:'bold'}}>Hủy bỏ</Text>
+                                </Animated.View>
+                            </TouchableOpacity>
 
-                                <TouchableOpacity onPress={this.closeModal}>
-                                    <Animated.View style={[styles.btn]}>
-                                        <Text style={{fontSize: 20, color:'#5aaf76', fontWeight:'bold'}}>Hủy bỏ</Text>
-                                    </Animated.View>
-                                </TouchableOpacity>
-                                <TouchableOpacity>
-                                    <Animated.View style={[styles.btn,{height: 50, width: 150, backgroundColor:'white', marginLeft:20}]}>
-                                        <TouchableOpacity onPress={this.onPressAdd}>
-                                            <Text style={{fontSize: 20, color:'#5aaf76', fontWeight:'bold'}}>Lưu</Text>
-                                        </TouchableOpacity>
-                                    </Animated.View>
-                                </TouchableOpacity>
+                            <TouchableOpacity onPress={this.onPressAdd}>
+                                <Animated.View style={[styles.btn,{marginLeft: 20,backgroundColor:'#5aaf76'}]}>
+                                    <Text style={{fontSize: 20, color:'white', fontWeight:'bold'}}>Lưu</Text>
+                                </Animated.View>
+                            </TouchableOpacity>
+                            </View>
+                            <View>
                             </View>
                         </View>
-                        </Modal>    
-                    </View>
+                    </Modal>
+                </View>
 
 
                 <View style={{flex: 3, alignItems:"center"}}>
