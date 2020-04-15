@@ -1,22 +1,18 @@
-import React, { Component } from 'react'
-import { 
-    View,
-    Text,
-    TextInput,
-    StyleSheet,
-    Dimensions,
-    TouchableOpacity,
-    YellowBox,
-    FlatList,
-} from 'react-native'
 
+import React, { Component } from 'react';
+import {
+    AppRegistry, FlatList,
+    StyleSheet, Text, View, Image, Alert, Platform,
+    TouchableHighlight,
+    RefreshControl, TextInput,YellowBox
+} from 'react-native';
+
+import firebase from 'react-native-firebase';
 import _ from 'lodash';
-import { ScrollView, } from 'react-native-gesture-handler'
-import Animated from 'react-native-reanimated';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import firebase from 'firebase';
 
-
+//Tắt khung cảnh báo màu vàng
 YellowBox.ignoreWarnings(["Setting a timer"]);
 const _console = _.clone(console);
 console.warn = (message) => {
@@ -26,25 +22,20 @@ console.warn = (message) => {
 };
 
 try {
-    firebase.initializeApp({
-    apiKey: 'AIzaSyDYmW5KUcA4YK9RFX8rmozMCmtb1q2sL5Q',
-    //authDomain: “FULL_AUTHDOMAIN_PUT_HERE”,
-    databaseURL: 'https://fir-outstay.firebaseio.com',
-    storageBucket: 'fir-outstay.appspot.com',
-    })
-    } catch (err) {
-    // we skip the “already exists” message which is
-    // not an actual error when we’re hot-reloading
-    if (!/already exists/.test(err.message)) {
-    console.error('Firebase initialization error raised', err.stack)
-    
+  firebase.initializeApp({
+  apiKey: 'AIzaSyDYmW5KUcA4YK9RFX8rmozMCmtb1q2sL5Q',
+  //authDomain: “FULL_AUTHDOMAIN_PUT_HERE”,
+  databaseURL: 'https://fir-outstay.firebaseio.com',
+  storageBucket: 'fir-outstay.appspot.com',
+  })
+  } catch (err) {
+  if (!/already exists/.test(err.message)) {
+  console.error('Firebase initialization error raised', err.stack)    
 }}
 
 const rootRef = firebase.database().ref();
 const LoaiPhongRef = rootRef.child('Loại phòng');
-
-
-export default class LoaiPhong extends Component {
+export default class DatabaseComponent extends Component {
     constructor(props) {
         super(props);
         this.state = ({
@@ -112,11 +103,11 @@ export default class LoaiPhong extends Component {
     _renderItem = ({item}) => {
 
         return(
-            <View style={{margin: 10}}>
-                <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Tên loại phòng :{item.TenLoaiPhong} </Text>
-                <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Diện tích :{item.DienTich}</Text>
-                <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Đơn giá :{item.DonGia}</Text>
-                <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Đơn vị tính :{item.DonViTinh}</Text>
+            <View >
+                <Text>{item.TenLoaiPhong} </Text>
+                <Text>{item.DienTich}</Text>
+                <Text>{item.DonGia}</Text>
+                <Text>{item.DonViTinh}</Text>
             </View>
 
 
@@ -124,63 +115,33 @@ export default class LoaiPhong extends Component {
 
     }
 
-
-
     render() {
         return (
-            <View style={styles.container}>
-                <View style={{flexDirection: 'row', justifyContent:"center", alignItems:"center"}}>
-                    <View style={{flex:1}}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhDichVu")}>
-                            <Icon
-                            name='chevron-left'
-                            type='FontAwesome5'
-                            style={{fontSize: 20}}
-                            />
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={{flex: 3, alignItems:"center"}}>
-                        <Text style={{color:'black', fontSize: 21, fontWeight:'bold'}}>
-                            Loại phòng
-                        </Text>
-                    </View>
-
-                    <View style={{flex: 1}}>
-                        <TouchableOpacity onPress={this.onPressAddLoaiPhong}>
-                            
-                            <Icon
-                                name='check'
-                                type='FontAwesome5'
-                                style={{fontSize: 25, marginLeft:'60%'}}
-                                />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-                <View>
-                    <ScrollView>
-                        <View style={{flex: 1, marginTop: 20}}>
-                            <Animated.View style={styles.vienkhung}>
-                            <View style={{padding: 8}}>
-                            <TextInput
+            <View style={{ flex: 1, marginTop: Platform.OS === 'ios' ? 34 : 0 }}>
+                <View style={{
+                    backgroundColor: 'green',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                    height: 64
+                }}>
+                    <TextInput
                                 placeholder='Tên loại phòng'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
                                 onChangeText={(text) => {this.setState({ textTenLoaiPhong: text });
                                     }
                                 }
-                                 value={this.state.textTenLoaiPhong}
-                                
+                                value={this.state.textTenLoaiPhong}
                             />
                             <TextInput
-                                placeholder='Diện tích'
+                                placeholder='Diện Tích'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
                                 onChangeText={(text) => {this.setState({ textDienTich: text });
                                     }
                                 }
-                                 value={this.state.textDienTich}
+                                value={this.state.textDienTich}
                             />
                             <TextInput
                                 placeholder='Đơn giá'
@@ -189,51 +150,45 @@ export default class LoaiPhong extends Component {
                                 onChangeText={(text) => {this.setState({ textDonGia: text });
                                     }
                                 }
-                                 value={this.state.textDonGia}
+                                value={this.state.textDonGia}
+                                
                             />
+
                             <TextInput
-                                placeholder='Đơn vị tính'
+                                placeholder='DVT'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
                                 onChangeText={(text) => {this.setState({ textDVT: text });
                                     }
                                 }
-                                 value={this.state.textDVT}
+                                value={this.state.textDVT}
+                                
                             />
-                            
-                            </View> 
-                            </Animated.View>    
-                        </View>
-                    </ScrollView>
-                </View>
-                <View>
-                
+
+                    <TouchableHighlight  
+                        
+                        underlayColor='tomato'
+                        onPress={this.onPressAddLoaiPhong}
+                        
+                    >
+                                <Icon
+                            name='building-o'
+                            type='FontAwesome'
+                            style={{fontSize: 25, marginLeft:'40%'}}
+                                />
+   
+                    </TouchableHighlight>
                 </View>
                 <FlatList
-                    style={{borderColor: '#5aaf76',borderWidth: 4,height:100,marginTop: 20}}
+                    style={{borderColor: '#5aaf76',borderWidth: 4,height:100,marginTop: 10,fontSize: 10}}
                     data={this.state.LoaiPhong}
                     renderItem={this._renderItem}  
                     
                 >
                 </FlatList>
-            </View>
-        )
+                </View>
+                
+            
+        );
     }
 }
-
-const width = Dimensions.get("screen").width;
-var styles = StyleSheet.create({
-    container: {
-        flex:1,
-        backgroundColor:'white',
-        padding: "5%"
-    },
-
-    vienkhung:{
-        paddingVertical:10,
-        borderColor: '#5aaf76',
-        borderWidth: 4,
-        padding: 15,
-        borderRadius: 20
-    },
-})

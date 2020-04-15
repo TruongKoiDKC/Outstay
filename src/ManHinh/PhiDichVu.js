@@ -49,8 +49,8 @@ export default class Chiphi_Dichvu extends Component {
         this.state = ({
             PhiDichVu: [],
             textTenPhiDV: '',
-            textDonGia: '',
-            textDVT: '',
+            textDonGiaPhiDV: '',
+            textDVTPhiDV: '',
             loading: false,
         });
     }
@@ -71,11 +71,11 @@ export default class Chiphi_Dichvu extends Component {
                     }),
                     loading: false,
                     PhiDichVu: PhiDichVu.sort((a, b) => {
-                        return (a.DonGia < b.DonGia);
+                        return (a.DonGiaPDV < b.DonGiaPDV);
                     }),
                     loading: false,
                     PhiDichVu: PhiDichVu.sort((a, b) => {
-                        return (a.DonViTinh < b.DonViTinh);
+                        return (a.DonViTinhPDV < b.DonViTinhPDV);
                     }),
                     loading: false,
                 });
@@ -84,8 +84,8 @@ export default class Chiphi_Dichvu extends Component {
     }
     onPressAdd = () => {
         if (this.state.textTenPhiDV.trim() === '' || 
-            this.state.textDonGia.trim() === '' ||
-            this.state.textDVT.trim() === '' )
+            this.state.textDonGiaPhiDV.trim() === '' ||
+            this.state.textDVTPhiDV.trim() === '' )
              {
             alert('Vui lòng nhập đầy đủ thông tin !');
             return;
@@ -95,15 +95,15 @@ export default class Chiphi_Dichvu extends Component {
         }
         PhiDVRef.push({
             PhiDichVu: this.state.textTenPhiDV,
-            DonGia: this.state.textDonGia,
-            DonViTinh: this.state.textDVT,
+            DonGia: this.state.textDonGiaPhiDV,
+            DonViTinh: this.state.textDVTPhiDV,
         });
     }
 
     _renderItem = ({item}) => {
 
         return(
-            <View style={{padding: 10,borderBottomColor: 'blue',borderWidth: 1}}>
+            <View style={{padding: 10}}>
                 
                 <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Tên phí dịch vụ :{item.PhiDichVu} </Text>
                 <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Đơn giá :{item.DonGia}</Text>
@@ -165,19 +165,19 @@ export default class Chiphi_Dichvu extends Component {
                                 placeholder='Đơn giá'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
-                                onChangeText={(text) => {this.setState({ textDonGia: text });
+                                onChangeText={(text) => {this.setState({ textDonGiaPhiDV: text });
                                     }
                                 }
-                                 value={this.state.textDonGia}
+                                 value={this.state.textDonGiaPhiDV}
                             />
                             <TextInput
                                 placeholder='Đơn vị tính'
                                 underlineColorAndroid='#5aaf76'
                                 style={{fontSize:15}}
-                                onChangeText={(text) => {this.setState({ textDVT: text });
+                                onChangeText={(text) => {this.setState({ textDVTPhiDV: text });
                                     }
                                 }
-                                 value={this.state.textDVT}
+                                 value={this.state.textDVTPhiDV}
                             />
                             </View> 
                             </Animated.View>         

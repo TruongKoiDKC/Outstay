@@ -134,7 +134,7 @@ export default class Chitiet_PhongTro extends Component {
         return ( 
             <View style={styles.container}>
                 <View style={{flexDirection: 'row', justifyContent:"center", alignItems:"center"}}>
-                    <View style={{flex: 1}}>
+                    <View style={{flex: 1,marginRight: 40}}>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhPhongTro")}>
                             <Icon
                             name='chevron-left'
