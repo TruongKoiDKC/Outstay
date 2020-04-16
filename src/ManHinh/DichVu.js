@@ -172,7 +172,7 @@ export default class DichVu extends React.Component {
 
 
     //Lưu Phí dịch vụ
-    onPressAdd = () => {
+    onPressAddPhiDV = () => {
       if (this.state.textTenPhiDV.trim() === '' || 
           this.state.textDonGiaPhiDV.trim() === '' ||
           this.state.textDVTPhiDV.trim() === '' )
