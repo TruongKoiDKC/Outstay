@@ -73,19 +73,17 @@ export default class DichVu extends React.Component {
             textDonGia: '',
             textDVT: '',
             loading: false,
-
             PhiDichVu: [],
             textTenPhiDV: '',
             textDonGiaPhiDV: '',
             textDVTPhiDV: '',
-
             loading: false,
 
             ////Khai báo Modal box
             modalPhiDV: false,
             modalLoaiPhong: false
         });
-    }
+      }
 
     //Component của Loại Phòng vs Phí dịch vụ ..UNSAFE_ ko hoạt động qua Flatlist
     componentDidMount() {
@@ -117,38 +115,39 @@ export default class DichVu extends React.Component {
                       return (a.DonViTinh < b.DonViTinh);
                   }),
                   loading: false,
-              });
+              });      
           });
       });
-  }
-    componentDidMount() {
       PhiDVRef.on('value', (childSnapshot) => {
-          const PhiDichVu = [];
-          childSnapshot.forEach((doc) => {
-              PhiDichVu.push({
-                  key: doc.key,
-                  PhiDichVu: doc.toJSON().PhiDichVu,
-                  DonGia: doc.toJSON().DonGia,
-                  DonViTinh: doc.toJSON().DonViTinh,
-                  
-              });
-              this.setState({
-                  PhiDichVu: PhiDichVu.sort((a, b) => {
-                      return (a.PhiDichVu < b.PhiDichVu);
-                  }),
-                  loading: false,
-                  PhiDichVu: PhiDichVu.sort((a, b) => {
-                      return (a.DonGia < b.DonGia);
-                  }),
-                  loading: false,
-                  PhiDichVu: PhiDichVu.sort((a, b) => {
-                      return (a.DonViTinh < b.DonViTinh);
-                  }),
-                  loading: false,
+        const PhiDichVu = [];
+        childSnapshot.forEach((doc) => {
+            PhiDichVu.push({
+                key: doc.key,
+                PhiDichVu: doc.toJSON().PhiDichVu,
+                DonGia: doc.toJSON().DonGia,
+                DonViTinh: doc.toJSON().DonViTinh,
+                
+            });
+            this.setState({
+                PhiDichVu: PhiDichVu.sort((a, b) => {
+                    return (a.PhiDichVu < b.PhiDichVu);
+                }),
+                loading: false,
+                PhiDichVu: PhiDichVu.sort((a, b) => {
+                    return (a.DonGiaPDV < b.DonGiaPDV);
+                }),
+                loading: false,
+                PhiDichVu: PhiDichVu.sort((a, b) => {
+                    return (a.DonViTinhPDV < b.DonViTinhPDV);
+                }),
+                loading: false,
               });
           });
       });
-  }
+    }
+
+    
+    
 
     //Lưu Loại phòng
     onPressAddLoaiPhong = () => {
@@ -166,16 +165,17 @@ export default class DichVu extends React.Component {
       LoaiPhongRef.push({
           TenLoaiPhong: this.state.textTenLoaiPhong,
           DienTich: this.state.textDienTich,
-          DonGiaLoaiPhong: this.state.textDonGia,
-          DonViTinhLoaiPhong: this.state.textDVT,
+          DonGia: this.state.textDonGia,
+          DonViTinh: this.state.textDVT,
       });
-  }
+    }
+
 
     //Lưu Phí dịch vụ
-    onPressAddPhiDV = () => {
+    onPressAdd = () => {
       if (this.state.textTenPhiDV.trim() === '' || 
-          this.state.textDonGia.trim() === '' ||
-          this.state.textDVT.trim() === '' )
+          this.state.textDonGiaPhiDV.trim() === '' ||
+          this.state.textDVTPhiDV.trim() === '' )
            {
           alert('Vui lòng nhập đầy đủ thông tin !');
           return;
@@ -188,34 +188,36 @@ export default class DichVu extends React.Component {
           DonGia: this.state.textDonGiaPhiDV,
           DonViTinh: this.state.textDVTPhiDV,
       });
-  }
-  _renderItemLoaiPhong = ({item}) => {
+    }
+    
+    renderItemLoaiPhong = ({item}) => {
+      return(
+          <View style={{margin: 10}}>
+              <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Tên loại phòng :{item.TenLoaiPhong} </Text>
+              <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Diện tích :{item.DienTich}</Text>
+              <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Đơn giá :{item.DonGia}</Text>
+              <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Đơn vị tính :{item.DonViTinh}</Text>
+              <Text style={{fontSize: 15,fontStyle: 'italic'}}> </Text>
+          </View>
+      );
+    }
 
-    return(
-        <View style={{margin: 10}}>
-            <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Tên loại phòng :{item.TenLoaiPhong} </Text>
-            <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Diện tích :{item.DienTich}</Text>
-            <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Đơn giá :{item.DonGia}</Text>
-            <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Đơn vị tính :{item.DonViTinh}</Text>
-            <Text style={{fontSize: 15,fontStyle: 'italic'}}> </Text>
-        </View>
-    );
-  }
+    renderItemPhiDichVu = ({item}) => {
 
-  _renderItemPhiDV = ({item}) => {
-
-    return(
-        <View style={{padding: 10,}}>
-            
-            <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Tên phí dịch vụ :{item.PhiDichVu} </Text>
-            <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Đơn giá :{item.DonGia}</Text>
-            <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Đơn vị tính :{item.DonViTinh}</Text>
-            <Text style={{fontSize: 15,fontStyle: 'italic'}}> </Text>
-        </View>
+      return(
+          <View style={{padding: 10}}>
+              
+              <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Tên phí dịch vụ :{item.PhiDichVu} </Text>
+              <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Đơn giá :{item.DonGia}</Text>
+              <Text style={{fontSize: 15,fontStyle: 'italic'}}>- Đơn vị tính :{item.DonViTinh}</Text>
+              <Text style={{fontSize: 15,fontStyle: 'italic'}}> </Text>
+          </View>
 
 
-    );
-  }
+      );
+    }
+
+    
 
     render() {
         return(
@@ -380,14 +382,14 @@ export default class DichVu extends React.Component {
             <FlatList
                         style={{borderColor: '#5aaf76',borderWidth: 4,height:200,marginTop: 20}}
                         data={this.state.LoaiPhong}
-                        renderItem={this._renderItemLoaiPhong}     
+                        renderItem={this.renderItemLoaiPhong}     
                         >
             </FlatList>
 
             <FlatList
                         style={{borderColor: '#5aaf76',borderWidth: 4,height:100,marginTop: 10,fontSize: 10}}
                         data={this.state.PhiDichVu}
-                        renderItem={this._renderItemPhiDV}
+                        renderItem={this.renderItemPhiDichVu}
                         >
             </FlatList>
               
