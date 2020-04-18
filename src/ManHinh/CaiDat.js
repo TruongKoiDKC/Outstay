@@ -18,7 +18,6 @@ import Modal from 'react-native-modal';
 import firebase from 'firebase';
 import _ from 'lodash';
 import Communications from 'react-native-communications';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {SocialIcon} from 'react-native-elements';
 
 //Tắt khung cảnh báo màu vàng
@@ -64,6 +63,9 @@ const Caidat2 = [
   },
 ];
 
+const rootRef = firebase.database().ref();
+const TTTKRef = rootRef.child('Thông tin tài khoản');
+
 export default class Home extends React.Component {
   //Mở Modal box
   openModalHotro = () => {
@@ -72,20 +74,80 @@ export default class Home extends React.Component {
   openModalVechungtoi = () => {
     this.setState({modalVechungtoi: true});
   };
+  openModalTTTK = () => {
+    this.setState({modalTTTK: true});
+  };
 
   constructor(props) {
     super(props);
     this.state = {
+      TTTK: [],
+      textHoten: '',
+      textSDT: '',
+      textemail: '',
+      loading: false,
+
       //Khai báo Modalbox
       modalHotro: false,
       modalVechungtoi: false,
     };
   }
 
+  componentDidMount() {
+    TTTKRef.on('value', childSnapshot => {
+      const TTTK = [];
+      childSnapshot.forEach(doc => {
+        TTTK.push({
+          key: doc.key,
+          Hoten: doc.toJSON().Hoten,
+          SDT: doc.toJSON().SDT,
+          Email: doc.toJSON().Email,
+        });
+        this.setState({
+          TTTK: TTTK.sort((a, b) => {
+            return a.Hoten < b.Hoten;
+          }),
+          loading: false,
+          TTTK: TTTK.sort((a, b) => {
+            return a.SDT < b.SDT;
+          }),
+          loading: false,
+          TTTK: TTTK.sort((a, b) => {
+            return a.Email < b.Email;
+          }),
+          loading: false,
+        });
+      });
+    });
+  }
+
+  //Lưu thông tin tài khoản
+  onPressAddTTTK = () => {
+    if (
+      this.state.textHoten.trim() === '' ||
+      this.state.textSDT.trim() === '' ||
+      this.state.textemail.trim() === ''
+    ) {
+      alert('Vui lòng nhập thông tin đầy đủ !');
+      return;
+    } else {
+      alert('Thông tin đã được lưu !');
+    }
+    TTTKRef.push({
+      Hoten: this.state.textHoten,
+      SDT: this.state.textSDT,
+      Email: this.state.textemail,
+    });
+    this.setState({
+      textHoten: this.state.textHoten,
+      textSDT: this.state.textSDT,
+      textemail: this.state.textemail,
+    });
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
           <Text style={{color: 'black', fontSize: 21, fontWeight: 'bold'}}>
             Cài đặt
@@ -95,7 +157,7 @@ export default class Home extends React.Component {
         <View style={{marginTop: '5%'}}>
           {Caidat.map((CD, index) => (
             <ListItem
-              onPress={() => this.props.navigation.navigate('ManHinhPhongTro')}
+              onPress={this.openModalTTTK}
               bottomDivider
               chevron
               key={index}
@@ -104,6 +166,84 @@ export default class Home extends React.Component {
               leftIcon={{name: CD.icon}}
             />
           ))}
+          <Modal
+            isVisible={this.state.modalTTTK}
+            onBackdropPress={() => this.setState({modalTTTK: false})}>
+            <View
+              style={{
+                width: 350,
+                height: 350,
+                position: 'relative',
+                backgroundColor: 'white',
+                borderRadius: 20,
+                shadowRadius: 20,
+                justifyContent: 'center',
+              }}>
+              <View style={{alignItems: 'center'}}>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontSize: 21,
+                    fontWeight: 'bold',
+                  }}>
+                  Thông tin tài khoản
+                </Text>
+              </View>
+              <View>
+                <Animated.View style={styles.vienkhung}>
+                  <View style={{padding: 8}}>
+                    <TextInput
+                      placeholder="Họ tên"
+                      underlineColorAndroid="#5aaf76"
+                      style={{fontSize: 15}}
+                      onChangeText={text => {
+                        this.setState({textHoten: text});
+                      }}
+                      value={this.state.textHoten}
+                    />
+                    <TextInput
+                      placeholder="Số điện thoại"
+                      underlineColorAndroid="#5aaf76"
+                      style={{fontSize: 15}}
+                      onChangeText={text => {
+                        this.setState({textSDT: text});
+                      }}
+                      value={this.state.textSDT}
+                    />
+                    <TextInput
+                      placeholder="E-mail"
+                      underlineColorAndroid="#5aaf76"
+                      style={{fontSize: 15}}
+                      onChangeText={text => {
+                        this.setState({textemail: text});
+                      }}
+                      value={this.state.textemail}
+                    />
+                  </View>
+                </Animated.View>
+              </View>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
+                <TouchableOpacity onPress={this.onPressAddTTTK}>
+                  <Animated.View
+                    style={[styles.btn, {backgroundColor: '#5aaf76'}]}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: 'white',
+                        fontWeight: 'bold',
+                      }}>
+                      Lưu
+                    </Text>
+                  </Animated.View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
         </View>
 
         <View style={{marginTop: '5%'}}>
@@ -254,15 +394,13 @@ export default class Home extends React.Component {
           </Modal>
         </View>
 
-        <View>
-          <TouchableOpacity>
-            <Animated.View style={styles.DX}>
-              <Text style={{fontSize: 18, color: 'white', fontWeight: 'bold'}}>
-                Đăng xuất
-              </Text>
-            </Animated.View>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity>
+          <Animated.View style={styles.DX}>
+            <Text style={{fontSize: 18, color: 'white', fontWeight: 'bold'}}>
+              Đăng xuất
+            </Text>
+          </Animated.View>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -284,6 +422,24 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 10,
-    marginTop: 280,
+  },
+
+  vienkhung: {
+    paddingVertical: 10,
+    borderColor: '#5aaf76',
+    borderWidth: 4,
+    margin: '5%',
+    borderRadius: 20,
+  },
+
+  btn: {
+    borderColor: '#5aaf76',
+    borderWidth: 4,
+    padding: 15,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    width: 120,
   },
 });
