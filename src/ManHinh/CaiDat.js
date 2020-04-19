@@ -3,13 +3,13 @@ import {
   View,
   Text,
   StyleSheet,
-  StatusBar,
   TextInput,
   Animated,
   Dimensions,
   TouchableOpacity,
   YellowBox,
   Image,
+  Platform,
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
@@ -19,6 +19,8 @@ import firebase from 'firebase';
 import _ from 'lodash';
 import Communications from 'react-native-communications';
 import {SocialIcon} from 'react-native-elements';
+import ImagePicker from 'react-native-image-picker';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 //Tắt khung cảnh báo màu vàng
 YellowBox.ignoreWarnings(['Setting a timer']);
@@ -66,6 +68,50 @@ const Caidat2 = [
 const rootRef = firebase.database().ref();
 const TTTKRef = rootRef.child('Thông tin tài khoản');
 
+const storage = firebase.storage();
+const Blob = RNFetchBlob.polyfill.Blob;
+const fs = RNFetchBlob.fs;
+
+const uploadImage = (uri, mime = 'img/jpg') => {
+  return new Promise((resolve, reject) => {
+    const uploadUri = Platform.OS === 'android' ? uri.replace('file://', '') : uri;
+    const sessionId = new Date().getTime();
+    let uploadBlob = null;
+    const imageRef = storage.ref('images').child(`${sessionId}.jpg`);
+
+    fs.readFile(uploadUri, 'base64')
+      .then((data) => {
+        return Blob.build(data, {type: `${mime}; BASE64`});
+      })
+      .then((blob) => {
+        uploadBlob = blob;
+        return imageRef.put(blob, {contentType: mime});
+      })
+      .then(() => {
+        uploadBlob.close();
+        return imageRef.getDownloadURL();
+      })
+      .then(url => {
+        resolve(url);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+window.Blob = Blob;
+
+//Các option của Image picker
+var options = {
+  title: 'Select Image',
+  storageOptions: {
+    skipBackup: true,
+    path: 'images',
+  },
+};
+
 export default class Home extends React.Component {
   //Mở Modal box
   openModalHotro = () => {
@@ -90,6 +136,9 @@ export default class Home extends React.Component {
       //Khai báo Modalbox
       modalHotro: false,
       modalVechungtoi: false,
+
+      //Khai báo của Image Picker
+      avatarSource: null,
     };
   }
 
@@ -145,7 +194,36 @@ export default class Home extends React.Component {
     });
   };
 
+  show() {
+    ImagePicker.showImagePicker(options, response => {
+      this.setState({avatarSource: ''});
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else {
+        uploadImage(response.uri)
+          .then(url => this.setState({avatarSource: url}))
+          .catch(error => console.log(error));
+      }
+    });
+  }
+
   render() {
+    let img =
+      this.state.avatarSource == null ? null : (
+        <Image
+          source={this.state.avatarSource}
+          style={{
+            height: 100,
+            width: 100,
+            borderRadius: 100,
+          }}
+        />
+      );
     return (
       <View style={styles.container}>
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
@@ -172,7 +250,7 @@ export default class Home extends React.Component {
             <View
               style={{
                 width: 350,
-                height: 350,
+                height: 460,
                 position: 'relative',
                 backgroundColor: 'white',
                 borderRadius: 20,
@@ -192,6 +270,20 @@ export default class Home extends React.Component {
               <View>
                 <Animated.View style={styles.vienkhung}>
                   <View style={{padding: 8}}>
+                    <View
+                      style={{flexDirection: 'column', alignItems: 'center'}}>
+                      <TouchableOpacity onPress={this.show.bind(this)}>
+                        {img}
+                        <Text
+                          style={{
+                            marginTop: '3%',
+                            fontWeight: 'bold',
+                            fontSize: 15,
+                          }}>
+                          Hình đại diện
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
                     <TextInput
                       placeholder="Họ tên"
                       underlineColorAndroid="#5aaf76"
