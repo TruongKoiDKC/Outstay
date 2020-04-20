@@ -72,6 +72,7 @@ const storage = firebase.storage();
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
 
+
 const uploadImage = (uri, mime = 'img/jpg') => {
   return new Promise((resolve, reject) => {
     const uploadUri = Platform.OS === 'android' ? uri.replace('file://', '') : uri;
@@ -204,11 +205,16 @@ export default class Home extends React.Component {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
+      } else if (response.uri) {
+        let source = {uri: response.uri}; 
+        this.setState({
+          avatarSource:source
+        });
       } else {
         uploadImage(response.uri)
           .then(url => this.setState({avatarSource: url}))
           .catch(error => console.log(error));
-      }
+        }
     });
   }
 
