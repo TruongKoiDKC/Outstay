@@ -387,6 +387,7 @@ export default class App extends React.Component {
                       icon={this.state.selecteditem === null ? "Thêm" : "Cập Nhật"}
                       mode="contained"
                       onPress={() => this.saveItem()}
+                      style={[styles.btn, {backgroundColor: '#5aaf76'}]}
                     >
                       {this.state.selecteditem === null ? "Thêm" : "Cập Nhật"}
                     </Button>
@@ -480,15 +481,15 @@ export default class App extends React.Component {
                         }
                       >
                         <View>
-                          <Text style={styles.item}>{item.TrangThaiPhong} </Text>
-                          <Text style={styles.item}>{item.TenPhong} </Text>
-                          <Text style={styles.item}>{item.LoaiPhong} </Text>
-                          <Text style={styles.item}>{item.TienPhong} </Text>
-                          <Text style={styles.item}>{item.SDTcu} </Text>
-                          <Text style={styles.item}>{item.SDThientai} </Text>
-                          <Text style={styles.item}>{item.SoNuocCu} </Text>
-                          <Text style={styles.item}>{item.SoNuocHienTai} </Text>
-                          <Text style={styles.item}>{item.PhiDichVu} </Text>
+                          <Text style={styles.item}>- Trạng thái phòng : {item.TrangThaiPhong} </Text>
+                          <Text style={styles.item}>- Tên phòng : {item.TenPhong} </Text>
+                          <Text style={styles.item}>- Loại phòng : {item.LoaiPhong} </Text>
+                          <Text style={styles.item}>- Tiền phòng : {item.TienPhong} </Text>
+                          <Text style={styles.item}>- Số ĐT cũ : {item.SDTcu} </Text>
+                          <Text style={styles.item}>- Số ĐT hiện tại : {item.SDThientai} </Text>
+                          <Text style={styles.item}>- Số nước cũ :  {item.SoNuocCu} </Text>
+                          <Text style={styles.item}>- Số nước mới : {item.SoNuocHienTai} </Text>
+                          <Text style={styles.item}>- Phí dịch vụ : {item.PhiDichVu} </Text>
                         </View>
                       </TouchableWithoutFeedback>
                     </ScrollView>
