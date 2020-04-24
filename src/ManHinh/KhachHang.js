@@ -28,7 +28,7 @@ export default class HopDong extends Component {
             <View style={styles.container}>
                 <View style={{flexDirection: 'row', justifyContent:"center", alignItems:"center"}}>
                     <View style={{flex:1}}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhCTPT")}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhPhongTro")}>
                             <Icon
                             name='chevron-left'
                             type='FontAwesome5'
