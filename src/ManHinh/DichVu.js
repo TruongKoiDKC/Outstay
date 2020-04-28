@@ -441,6 +441,7 @@ export default class DichVu extends React.Component {
               borderWidth: 4,
               height: 300,
               marginTop: 10,
+              borderRadius: 20,
             }}
             data={this.state.LoaiPhong}
             renderItem={this.renderItemLoaiPhong}
@@ -453,7 +454,8 @@ export default class DichVu extends React.Component {
               height: 200,
               marginTop: 10,
               fontSize: 10,
-              marginTop: 10
+              marginTop: 10,
+              borderRadius: 20,
             }}
             data={this.state.PhiDichVu}
             renderItem={this.renderItemPhiDichVu}
