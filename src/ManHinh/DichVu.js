@@ -434,24 +434,26 @@ export default class DichVu extends React.Component {
           </View>
         </View>
         <View>
+          <Text style={{fontSize: 20 , fontStyle: 'italic', marginTop: 20}}> Loại Phòng : </Text>
+          <FlatList
+            style={{
+              borderColor: '#5aaf76',
+              borderWidth: 4,
+              height: 300,
+              marginTop: 10,
+            }}
+            data={this.state.LoaiPhong}
+            renderItem={this.renderItemLoaiPhong}
+          />
+          <Text style={{fontSize: 20 , fontStyle: 'italic', marginTop: 20}}> Phí Dịch Vụ : </Text>
           <FlatList
             style={{
               borderColor: '#5aaf76',
               borderWidth: 4,
               height: 200,
-              marginTop: 20,
-            }}
-            data={this.state.LoaiPhong}
-            renderItem={this.renderItemLoaiPhong}
-          />
-
-          <FlatList
-            style={{
-              borderColor: '#5aaf76',
-              borderWidth: 4,
-              height: 100,
               marginTop: 10,
               fontSize: 10,
+              marginTop: 10
             }}
             data={this.state.PhiDichVu}
             renderItem={this.renderItemPhiDichVu}
