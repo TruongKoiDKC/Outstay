@@ -13,9 +13,6 @@ import PhongTro from './ManHinh/PhongTro';
 import DichVu from './ManHinh/DichVu';
 import ThongKe from './ManHinh/ThongKe';
 import CaiDat from './ManHinh/CaiDat';
-import PhiDichVu from './ManHinh/PhiDichVu';
-import LoaiPhong from './ManHinh/LoaiPhong';
-import Chitiet_PhongTro from "./ManHinh/Chitiet_PhongTro";
 import KhachHang from "./ManHinh/KhachHang";
 import HopDong from "./ManHinh/HopDong";
 
@@ -216,12 +213,6 @@ const StackNav = createStackNavigator({
             headerShown: false
         }
     },
-    ManHinhCTPT: {
-        screen: Chitiet_PhongTro,
-        navigationOptions:{
-            headerShown: false
-        }
-    },
     ManHinhKhachHang:{
         screen: KhachHang,
         navigationOptions:{
@@ -230,18 +221,6 @@ const StackNav = createStackNavigator({
     },
     ManHinhHopDong:{
         screen: HopDong,
-        navigationOptions:{
-            headerShown: false
-        }
-    },
-    ManHinhLoaiPhong:{
-        screen: LoaiPhong,
-        navigationOptions:{
-            headerShown: false
-        }
-    },
-    ManHinhPDV:{
-        screen: PhiDichVu,
         navigationOptions:{
             headerShown: false
         }
