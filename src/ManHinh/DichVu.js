@@ -8,7 +8,7 @@ import {
   TextInput,
   YellowBox,
   FlatList,
-  SectionList,
+  Alert,
 } from 'react-native';
 
 //import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
@@ -142,10 +142,10 @@ export default class DichVu extends React.Component {
       this.state.textDonGia.trim() === '' ||
       this.state.textDVT.trim() === ''
     ) {
-      alert('Vui lòng nhập đầy đủ thông tin !');
+      Alert.alert('Thông báo !!!','Vui lòng nhập đầy đủ thông tin');
       return;
     } else {
-      alert('Thông tin đã được lưu !');
+      Alert.alert('Thông báo !!!','Thông tin đã được lưu !');
     }
     LoaiPhongRef.push({
       TenLoaiPhong: this.state.textTenLoaiPhong,
@@ -168,10 +168,10 @@ export default class DichVu extends React.Component {
       this.state.textDonGiaPhiDV.trim() === '' ||
       this.state.textDVTPhiDV.trim() === ''
     ) {
-      alert('Vui lòng nhập đầy đủ thông tin !');
+      Alert.alert('Thông báo !!!','Vui lòng nhập đầy đủ thông tin');
       return;
     } else {
-      alert('Thông tin đã được lưu !');
+      Alert.alert('Thông báo !!!','Thông tin đã được lưu !');
     }
     PhiDVRef.push({
       PhiDichVu: this.state.textTenPhiDV,
