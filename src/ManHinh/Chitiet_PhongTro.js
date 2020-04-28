@@ -16,7 +16,6 @@ import { View,
 
 import { ScrollView } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated';
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 //import {CheckBox} from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'

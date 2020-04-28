@@ -9,7 +9,6 @@ import {
 
 import { ScrollView } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated';
-import RNPickerSelect from 'react-native-picker-select';
 import DatePicker from 'react-native-datepicker'
 import Icon from 'react-native-vector-icons/FontAwesome';
 

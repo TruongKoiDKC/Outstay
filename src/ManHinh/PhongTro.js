@@ -7,10 +7,10 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import * as firebaseApp from "firebase";
 import {
-  TextInput,
   Button,
   Snackbar,
   Portal,
@@ -24,7 +24,6 @@ import {SearchBar, ListItem} from 'react-native-elements';
 import Menu, {MenuItem, MenuDivider} from 'react-native-material-menu';
 import Modal from 'react-native-modal';
 import Animated from 'react-native-reanimated';
-import Swipeout from 'react-native-swipeout';
 import { Platform } from "react-native";
 
 
@@ -52,9 +51,11 @@ export default class App extends React.Component {
       confirmVisible: false,
 
       ////Khai báo Modal box
-      modalPhiDV: false,
-      modalLoaiPhong: false,
-    };
+      modal: false,
+
+      //Search
+      search:'',
+    };this.arrayholder = [];
   }
 
   //Menu chọn Khách hàng và Hợp đồng
@@ -234,7 +235,18 @@ export default class App extends React.Component {
     this.addItem(this.state.deleteItem.name);
   }
   
-  
+  updateSearch = text  => {
+    this.setState({
+      search: text,
+    })   
+    const newData = this.arrayholder.filter(item => {      
+      const itemData = `${item.itemTrangThaiPhong.toUpperCase()}`;
+       const textData = text.toUpperCase();
+        
+       return itemData.indexOf(textData) > -1;    
+    });    
+    this.setState({ dataSource: newData });  
+  };
 
   render() {
     return (
@@ -256,7 +268,7 @@ export default class App extends React.Component {
                 <View
                   style={{
                     width: 350,
-                    height: 650,
+                    height: 590,
                     position: 'relative',
                     backgroundColor: 'white',
                     borderRadius: 20,
@@ -384,12 +396,11 @@ export default class App extends React.Component {
                       flexDirection: 'row',
                     }}>
                    <Button 
-                      icon={this.state.selecteditem === null ? "Thêm" : "Cập Nhật"}
                       mode="contained"
                       onPress={() => this.saveItem()}
                       style={[styles.btn, {backgroundColor: '#5aaf76'}]}
                     >
-                      {this.state.selecteditem === null ? "Thêm" : "Cập Nhật"}
+                      {this.state.selecteditem === null ?  "Thêm" : "Cập Nhật"}
                     </Button>
                   </View>
                 </View>
@@ -437,13 +448,11 @@ export default class App extends React.Component {
           <View style={{marginTop: 10}}>
             <SearchBar
               placeholder="Tìm kiếm ..."
-              //value={this.state.PhongTro}
-              //onChange={this.setSearchText.bind(this)}
               platform="android"
               underlineColorAndroid="#5aaf76"
-              onChangeText={text => this.searchFilterFunction(text)}
+              onChangeText={text => this.updateSearch(text)}
               autoCorrect={false}
-              value={this.state.value}
+              value={this.state.search}
             />
           </View>
 
@@ -505,13 +514,13 @@ export default class App extends React.Component {
                   visible={this.state.confirmVisible}
                   onDismiss={() => this.hideDialog(false)}
                 >
-                  <Dialog.Title>Confirm</Dialog.Title>
+                  <Dialog.Title>Xác nhận</Dialog.Title>
                   <Dialog.Content>
-                    <Paragraph>Are you sure you want to delete this?</Paragraph>
+                    <Paragraph style={{fontSize: 15}}>Bạn thật sự muốn xoá ?</Paragraph>
                   </Dialog.Content>
                   <Dialog.Actions>
-                    <Button onPress={() => this.hideDialog(true)}>Yes</Button>
-                    <Button onPress={() => this.hideDialog(false)}>No</Button>
+                    <Button color="#5aaf76" onPress={() => this.hideDialog(true)}>Có</Button>
+                    <Button color="#5aaf76" onPress={() => this.hideDialog(false)}>Không</Button>
                   </Dialog.Actions>
                 </Dialog>
               </Portal>
@@ -520,14 +529,14 @@ export default class App extends React.Component {
               visible={this.state.snackbarVisible}
               onDismiss={() => this.setState({ snackbarVisible: false })}
               action={{
-                label: "Undo",
+                label: "Hoàn tác",
                 onPress: () => {
                   // Do something
                   this.undoDeleteItem();
                 }
               }}
             >
-              Item deleted successfully.
+              Xoá thông tin thành công .
             </Snackbar>
           </PaperProvider>
         </View>
