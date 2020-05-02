@@ -22,21 +22,18 @@ import {
 //import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'; 
 //import { ScrollView } from "react-native-gesture-handler";
 import Modal from 'react-native-modal';
 import Animated from 'react-native-reanimated';
 import * as firebaseApp from "firebase";
 import { Platform } from "react-native";
-import _ from 'lodash';
 
 
 export default class DichVu extends React.Component {
   //Mở Modal box
-  openModalPhiDV = () => {
-    this.setState({modalPhiDV: true});
-  };
-  openModalLoaiPhong = () => {
-    this.setState({modalLoaiPhong: true});
+  openModalDichVu = () => {
+    this.setState({modalDichVu: true});
   };
 
   constructor(props) {
@@ -49,25 +46,18 @@ export default class DichVu extends React.Component {
         storageBucket: 'fir-outstay.appspot.com',
       });
     }
-    this.DichVuRef = firebaseApp.database().ref("/Phí dịch vụ");
-    this.LoaiPhongRef = firebaseApp.database().ref("/Loại phòng");
+    this.DichVuRef = firebaseApp.database().ref("/Dịch vụ");
     
     const dataDichVu = [];
-    const dataLoaiPhong = [];
     this.state = {
       dataDichVu:dataDichVu,
       selecteditem: null,
       snackbarVisible: false,
       confirmVisible: false,
 
-      dataLoaiPhong:dataLoaiPhong,
-      selecteditem: null,
-      snackbarVisible: false,
-      confirmVisible: false,
-
       ////Khai báo Modal box
-      modalPhiDV: false,
-      modalLoaiPhong: false,
+      modalDichVu: false,
+
     };
   }
 
@@ -82,7 +72,10 @@ export default class DichVu extends React.Component {
       var tasks = [];
       dataSnapshot.forEach(child => {
         tasks.push({
+          MaSo: child.val().MaSo,
           PhiDichVu: child.val().PhiDichVu,
+          LoaiPhong: child.val().LoaiPhong,
+          DienTich: child.val().DienTich,
           DonGia: child.val().DonGia,
           DonViTinh: child.val().DonViTinh,
           key: child.key
@@ -93,22 +86,6 @@ export default class DichVu extends React.Component {
         dataDichVu: tasks
       });
       
-    });
-    LoaiPhongRef.on("value", dataSnapshot => {
-      var tasks = [];
-      dataSnapshot.forEach(child => {
-        tasks.push({
-          LoaiPhong: child.val().LoaiPhong,
-          DienTich: child.val().DienTich,
-          DonGia: child.val().DonGia,
-          DonViTinh: child.val().DonViTinh,
-          key: child.key
-        });
-      });
-
-      this.setState({
-        dataLoaiPhong: tasks
-      });
     });
   }
 
@@ -133,8 +110,7 @@ export default class DichVu extends React.Component {
 
   performDeleteItem(key) {
     var updates = {};
-    updates["/Phí dịch vụ/" + key] = null;
-    updates["/Loại phòng/" + key] = null;
+    updates["/Dịch vụ/" + key] = null;
     return firebaseApp
       .database()
       .ref()
@@ -142,26 +118,38 @@ export default class DichVu extends React.Component {
   }
 
   //Thêm Items
-  addItemPDV(itemName) {
+  addItemDV(itemName) {
     var newPostKey = firebaseApp
       .database()
       .ref()
-      .child("Phí dịch vụ")
+      .child("Dịch vụ")
       .push().key;
 
     var updates = {};
-    updates["/Phí dịch vụ/" + newPostKey] = {
+    updates["/Dịch vụ/" + newPostKey] = {
+      MaSo:
+          itemName === "" || itemName == undefined
+            ? this.state.itemMaSo
+            : itemName  ,
       PhiDichVu:
           itemName === "" || itemName == undefined
             ? this.state.itemPhiDichVu
             : itemName  ,
+      LoaiPhong:
+          itemName === "" || itemName == undefined
+            ? this.state.itemLoaiPhong
+            : itemName  ,
+      DienTich:
+            itemName === "" || itemName == undefined
+            ? this.state.itemDienTich
+            : itemName  ,      
       DonGia:
           itemName === "" || itemName == undefined
-            ? this.state.itemDonGiaDV
+            ? this.state.itemDonGia
             : itemName  ,
       DonViTinh:
           itemName === "" || itemName == undefined
-            ? this.state.itemDonViTinhDV
+            ? this.state.itemDonViTinh
             : itemName  ,
     };
     return firebaseApp
@@ -170,46 +158,18 @@ export default class DichVu extends React.Component {
       .update(updates);
   }
 
-  addItemLP(itemName) {
-    var newPostKey = firebaseApp
-      .database()
-      .ref()
-      .child("Loại phòng")
-      .push().key;
-
-    var updates = {};
-    updates["/Loại phòng/" + newPostKey] = {
-      LoaiPhong:
-        itemName === "" || itemName == undefined
-          ? this.state.itemLoaiPhong
-          : itemName  ,
-      DienTich:
-          itemName === "" || itemName == undefined
-            ? this.state.itemDienTich
-            : itemName  ,
-      DonGia:
-        itemName === "" || itemName == undefined
-          ? this.state.itemDonGiaLP
-          : itemName  ,
-      DonViTinh:
-          itemName === "" || itemName == undefined
-            ? this.state.itemDonViTinhLP
-            : itemName  ,
-    };
-    return firebaseApp
-      .database()
-      .ref()
-      .update(updates);    
-  }
 
   //Sửa Update lại Items
   updateItemPDV() {
     
     var updates = {};
-    updates["/Phí dịch vụ/" + this.state.selecteditem.key] = {
+    updates["/Dịch vụ/" + this.state.selecteditem.key] = {
+      MaSo: this.state.itemMaSo,
       PhiDichVu: this.state.itemPhiDichVu,
-      DonGia: this.state.itemDonGiaDV,
-      DonViTinh: this.state.itemDonViTinhDV,
+      LoaiPhong: this.state.itemLoaiPhong,
+      DienTich: this.state.itemDienTich,
+      DonGia: this.state.itemDonGia,
+      DonViTinh: this.state.itemDonViTinh,
     };
     return firebaseApp
       .database()
@@ -217,37 +177,17 @@ export default class DichVu extends React.Component {
       .update(updates);  
   }
 
-  updateItemLP() {
-    var updates = {};
-    updates["/Loại phòng/" + this.state.selecteditem.key] = {
-      LoaiPhong: this.state.itemLoaiPhong,
-      DienTich: this.state.itemDienTich,
-      DonGia: this.state.itemDonGiaLP,
-      DonViTinh: this.state.itemDonViTinhLP,
-    };
-
-    return firebaseApp
-      .database()
-      .ref()
-      .update(updates);   
-  }
-
   // Lưu các item của PDV và LP
-  saveItemPDV() {
-    if (this.state.selecteditem === null) this.addItemPDV();
+  saveItemDV() {
+    if (this.state.selecteditem === null) this.addItemDV();
     else this.updateItemPDV();
 
+    this.setState({ itemMaSo: "", selecteditem: null });
     this.setState({ itemPhiDichVu: "", selecteditem: null });
-    this.setState({ itemDonGiaDV: "", selecteditem: null });
-    this.setState({ itemDonViTinhDV: "", selecteditem: null });
-  }
-  saveItemLP() {
-      if (this.state.selecteditem === null) this.addItemLP();
-      else this.updateItemLP();
     this.setState({ itemLoaiPhong: "", selecteditem: null });
     this.setState({ itemDienTich: "", selecteditem: null });
-    this.setState({ itemDonGiaLP: "", selecteditem: null });
-    this.setState({ itemDonViTinhLP: "", selecteditem: null });
+    this.setState({ itemDonGia: "", selecteditem: null });
+    this.setState({ itemDonViTinh: "", selecteditem: null });
   }
   
   //Ẩn Dialog thông báo
@@ -274,270 +214,136 @@ export default class DichVu extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <View style={{flex: 1}}>
-            <TouchableOpacity onPress={this.openModalPhiDV}>
-              <Icon name="dollar" type="FontAwesome" style={{fontSize: 25}} />
-            </TouchableOpacity>
-            <Modal
-              isVisible={this.state.modalPhiDV}
-              onBackdropPress={() => this.setState({modalPhiDV: false})}>
-              <View
-                style={{
-                  width: 350,
-                  height: 300,
-                  position: 'relative',
-                  backgroundColor: 'white',
-                  borderRadius: 20,
-                  shadowRadius: 20,
-                  justifyContent: 'center',
-                }}>
-                <View style={{alignItems: 'center'}}>
-                  <Text
-                    style={{
-                      color: 'black',
-                      fontSize: 21,
-                      fontWeight: 'bold',
-                    }}>
-                    Chi phí dịch vụ
-                  </Text>
-                </View>
-                <View>
-                  <Animated.View style={styles.vienkhung}>
-                    <View style={{padding: 8}}>
-                      <TextInput
-                        placeholder="Tên phí dịch vụ"
-                        underlineColorAndroid="#5aaf76"
-                        style={{fontSize: 15}}
-                        onChangeText={text => this.setState({ itemPhiDichVu: text })}
-                        value={this.state.itemPhiDichVu}
-                      />
-                      <View style={{flexDirection: 'row'}}>
-                        <View style={{flex: 1}}>
-                          <TextInput
-                            placeholder="Đơn giá"
-                            underlineColorAndroid="#5aaf76"
-                            style={{fontSize: 15}}
-                            onChangeText={text => this.setState({ itemDonGiaDV: text })}
-                            value={this.state.itemDonGiaDV}
-                          />
-                        </View>
-                        <View style={{flex: 1}}>
-                          <TextInput
-                            placeholder="Đơn vị tính"
-                            underlineColorAndroid="#5aaf76"
-                            style={{fontSize: 15}}
-                            onChangeText={text => this.setState({ itemDonViTinhDV: text })}
-                            value={this.state.itemDonViTinhDV}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                  </Animated.View>
-                </View>
-
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                  }}>
-                  <Button 
-                      mode="contained"
-                      onPress={() => this.saveItemPDV()}
-                      style={[styles.btn, {backgroundColor: '#5aaf76'}]}
-                    >
-                      {this.state.selecteditem === null ?  "Thêm" : "Cập Nhật"}
-                    </Button>
-                </View>
-              </View>
-            </Modal>
-          </View>
-
           <View
-            style={{alignItems: 'center', justifyContent: 'center', flex: 3}}>
-            <Text style={{color: 'black', fontSize: 21, fontWeight: 'bold'}}>
-              Dịch vụ
-            </Text>
-          </View>
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <View style={{flex: 1}}>
+            
+        
+            </View>
 
-          <View style={{flex: 1}}>
-            <TouchableOpacity onPress={this.openModalLoaiPhong}>
-              <Icon
-                name="building-o"
-                type="FontAwesome"
-                style={{fontSize: 25, marginLeft: '70%'}}
-              />
-            </TouchableOpacity>
-            <Modal
-              isVisible={this.state.modalLoaiPhong}
-              onBackdropPress={() => this.setState({modalLoaiPhong: false})}>
-              <View
-                style={{
-                  width: 350,
-                  height: 350,
-                  position: 'relative',
-                  backgroundColor: 'white',
-                  borderRadius: 20,
-                  shadowRadius: 20,
-                  justifyContent: 'center',
-                }}>
-                <View style={{alignItems: 'center'}}>
-                  <Text
-                    style={{
-                      color: 'black',
-                      fontSize: 21,
-                      fontWeight: 'bold',
-                    }}>
-                    Loại phòng
-                  </Text>
-                </View>
-                <View>
-                  <Animated.View style={styles.vienkhung}>
-                    <View style={{padding: 8}}>
-                      <TextInput
-                        placeholder="Tên loại phòng"
-                        underlineColorAndroid="#5aaf76"
-                        style={{fontSize: 15}}
-                        onChangeText={text => this.setState({ itemLoaiPhong: text })}
-                        value={this.state.itemLoaiPhong}
-                      />
-                      <TextInput
-                        placeholder="Diện tích"
-                        underlineColorAndroid="#5aaf76"
-                        style={{fontSize: 15}}
-                        onChangeText={text => this.setState({ itemDienTich: text })}
-                        value={this.state.itemDienTich}
-                      />
-                      <View style={{flexDirection: 'row'}}>
-                        <View style={{flex: 1}}>
-                          <TextInput
-                            placeholder="Đơn giá"
-                            underlineColorAndroid="#5aaf76"
-                            style={{fontSize: 15}}
-                            onChangeText={text => this.setState({ itemDonGiaLP: text })}
-                            value={this.state.itemDonGiaLP}
-                          />
-                        </View>
-                        <View style={{flex: 1}}>
-                          <TextInput
-                            placeholder="Đơn vị tính"
-                            underlineColorAndroid="#5aaf76"
-                            style={{fontSize: 15}}
-                            onChangeText={text => this.setState({ itemDonViTinhLP: text })}
-                            value={this.state.itemDonViTinhLP}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                  </Animated.View>
-                </View>
+            <View
+              style={{alignItems: 'center', justifyContent: 'center', flex: 3}}>
+              <Text style={{color: 'black', fontSize: 21, fontWeight: 'bold',marginLeft: 8}}>
+                Dịch vụ
+              </Text>
+            </View>
+
+            <View style={{flex: 1}}>
+              <TouchableOpacity onPress={this.openModalDichVu}>
+                <MaterialCommunityIcons
+                  name="playlist-edit"
+                  type="MaterialCommunityIcons"
+                  style={{fontSize: 35, marginLeft: '53%'}}
+                />
+              </TouchableOpacity>
+              <Modal
+                isVisible={this.state.modalDichVu}
+                onBackdropPress={() => this.setState({modalDichVu: false})}>
                 <View
                   style={{
+                    width: 350,
+                    height: 420,
+                    position: 'relative',
+                    backgroundColor: 'white',
+                    borderRadius: 20,
+                    shadowRadius: 20,
                     justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'row',
                   }}>
-                  <Button 
-                      mode="contained"
-                      onPress={() => this.saveItemLP()}
-                      style={[styles.btn, {backgroundColor: '#5aaf76'}]}
-                    >
-                      {this.state.selecteditem === null ?  "Thêm" : "Cập Nhật"}
-                  </Button>
-                </View>
-                <View />
-              </View>
-            </Modal>
-          </View>
-        </View>
-        <View>
-      </View>
-      
-      <Text style={{fontSize: 20 , fontStyle: 'italic', marginTop: 20}}> Phí Dịch Vụ : </Text>  
-        <PaperProvider>
-            <ScrollView>
-              <FlatList
-                data={this.state.dataDichVu}
-                style={styles.vienkhung}
-                renderItem={({ item }) => (
-                  <View>
-                    <ScrollView horizontal={true}>
-                      <TouchableWithoutFeedback>
-                        <View style={{ paddingTop: 10 }}>
-                          <Text
-                            style={{ color: "#5aaf76" ,marginLeft: 20}}
-                            onPress={() => this.deleteItem(item)}
-                          >
-                            <Ionicons name="md-trash" size={20} />
-                          </Text>
-                        </View>
-                      </TouchableWithoutFeedback>
-                      <TouchableWithoutFeedback
-                        onPress={() =>
-                          this.setState({
-                            selecteditem: item,
-                            itemPhiDichVu: item.PhiDichVu,
-                            itemDonGiaDV: item.DonGia,
-                            itemDonViTinhDV: item.DonViTinh,
-                          })
-                        }
-                      >
-                        <View>
-                          <Text style={styles.item}>- Phí dịch vụ : {item.PhiDichVu} </Text>
-                          <Text style={styles.item}>- Đơn giá : {item.DonGia} </Text>
-                          <Text style={styles.item}>- Đơn vị tính : {item.DonViTinh} </Text>
-                        </View>
-                      </TouchableWithoutFeedback>
-                    </ScrollView>
+                  <View style={{alignItems: 'center'}}>
+                    <Text
+                      style={{
+                        color: 'black',
+                        fontSize: 21,
+                        fontWeight: 'bold',
+                      }}>
+                      Dịch Vụ
+                    </Text>
                   </View>
-                )}
-                ItemSeparatorComponent={this.renderSeparator}
-              />
-              <Text />
-
-              
-              <Portal>
-                <Dialog
-                  visible={this.state.confirmVisible}
-                  onDismiss={() => this.hideDialog(false)}
-                >
-                  <Dialog.Title>Xác nhận</Dialog.Title>
-                  <Dialog.Content>
-                    <Paragraph style={{fontSize: 15}}>Bạn thật sự muốn xoá ?</Paragraph>
-                  </Dialog.Content>
-                  <Dialog.Actions>
-                    <Button color="#5aaf76" onPress={() => this.hideDialog(true)}>Có</Button>
-                    <Button color="#5aaf76" onPress={() => this.hideDialog(false)}>Không</Button>
-                  </Dialog.Actions>
-                </Dialog>
-              </Portal>
-            </ScrollView>
-            <Snackbar
-              visible={this.state.snackbarVisible}
-              onDismiss={() => this.setState({ snackbarVisible: false })}
-              action={{
-                label: "Hoàn tác",
-                onPress: () => {
-                  // Do something
-                  this.undoDeleteItem();
-                }
-              }}
-            >
-              Xoá thông tin thành công .
-            </Snackbar>
-          </PaperProvider>
-
-        <Text style={{fontSize: 20 , fontStyle: 'italic', marginTop: 40}}> Loại Phòng : </Text>  
+                  <View>
+                    <Animated.View style={styles.vienkhung}>
+                      <View style={{padding: 8}}>
+                        <TextInput
+                          placeholder="Mã số"
+                          underlineColorAndroid="#5aaf76"
+                          style={{fontSize: 15}}
+                          onChangeText={text => this.setState({ itemMaSo: text })}
+                          value={this.state.itemMaSo}
+                        />
+                        <TextInput
+                          placeholder="Phí dịch vụ"
+                          underlineColorAndroid="#5aaf76"
+                          style={{fontSize: 15}}
+                          onChangeText={text => this.setState({ itemPhiDichVu: text })}
+                          value={this.state.itemPhiDichVu}
+                        />
+                        <TextInput
+                          placeholder="Tên loại phòng"
+                          underlineColorAndroid="#5aaf76"
+                          style={{fontSize: 15}}
+                          onChangeText={text => this.setState({ itemLoaiPhong: text })}
+                          value={this.state.itemLoaiPhong}
+                        />
+                        <TextInput
+                          placeholder="Diện tích"
+                          underlineColorAndroid="#5aaf76"
+                          style={{fontSize: 15}}
+                          onChangeText={text => this.setState({ itemDienTich: text })}
+                          value={this.state.itemDienTich}
+                        />
+                        <View style={{flexDirection: 'row'}}>
+                          <View style={{flex: 1}}>
+                            <TextInput
+                              placeholder="Đơn giá"
+                              underlineColorAndroid="#5aaf76"
+                              style={{fontSize: 15}}
+                              onChangeText={text => this.setState({ itemDonGia: text })}
+                              value={this.state.itemDonGia}
+                            />
+                          </View>
+                          <View style={{flex: 1}}>
+                            <TextInput
+                              placeholder="Đơn vị tính"
+                              underlineColorAndroid="#5aaf76"
+                              style={{fontSize: 15}}
+                              onChangeText={text => this.setState({ itemDonViTinh: text })}
+                              value={this.state.itemDonViTinh}
+                            />
+                          </View>
+                        </View>
+                      </View>
+                    </Animated.View>
+                  </View>
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                    }}>
+                    <Button 
+                        mode="contained"
+                        onPress={() => this.saveItemDV()}
+                        style={[styles.btn, {backgroundColor: '#5aaf76'}]}
+                      >
+                        {this.state.selecteditem === null ?  "Thêm" : "Cập Nhật"}
+                    </Button>
+                  </View>
+                  <View />
+                </View>
+              </Modal>
+            </View>
+          </View>
+          <View>
+        </View>
+        
+        <Text style={{fontSize: 20 , fontStyle: 'italic', marginTop: 20}}> Dịch Vụ : </Text>
           <PaperProvider>
             <ScrollView>
               <FlatList
-                data={this.state.dataLoaiPhong}
+                data={this.state.dataDichVu}
                 style={styles.vienkhung}
                 renderItem={({ item }) => (
                   <View>
@@ -556,6 +362,8 @@ export default class DichVu extends React.Component {
                         onPress={() =>
                           this.setState({
                             selecteditem: item,
+                            itemMaSo: item.MaSo,
+                            itemPhiDichVu: item.PhiDichVu,
                             itemLoaiPhong: item.LoaiPhong,
                             itemDienTich: item.DienTich,
                             itemDonGiaLP: item.DonGia,
@@ -564,6 +372,8 @@ export default class DichVu extends React.Component {
                         }
                       >
                         <View>
+                          <Text style={styles.item}>- Mã số : {item.MaSo} </Text>
+                          <Text style={styles.item}>- Phí Dịch Vụ : {item.PhiDichVu} </Text>
                           <Text style={styles.item}>- Loại phòng : {item.LoaiPhong} </Text>
                           <Text style={styles.item}>- Diện tích : {item.DienTich} </Text>
                           <Text style={styles.item}>- Đơn giá : {item.DonGia} </Text>
@@ -573,11 +383,11 @@ export default class DichVu extends React.Component {
                     </ScrollView>
                   </View>
                 )}
-                ItemSeparatorComponent={this.renderSeparator}
+                  ItemSeparatorComponent={this.renderSeparator}
               />
-              <Text />
+                
 
-              
+                
               <Portal>
                 <Dialog
                   visible={this.state.confirmVisible}
@@ -587,26 +397,29 @@ export default class DichVu extends React.Component {
                   <Dialog.Content>
                     <Paragraph style={{fontSize: 15}}>Bạn thật sự muốn xoá ?</Paragraph>
                   </Dialog.Content>
+
                   <Dialog.Actions>
                     <Button color="#5aaf76" onPress={() => this.hideDialog(true)}>Có</Button>
                     <Button color="#5aaf76" onPress={() => this.hideDialog(false)}>Không</Button>
                   </Dialog.Actions>
+
                 </Dialog>
               </Portal>
+
             </ScrollView>
-            <Snackbar
-              visible={this.state.snackbarVisible}
-              onDismiss={() => this.setState({ snackbarVisible: false })}
-              action={{
-                label: "Hoàn tác",
-                onPress: () => {
-                  // Do something
-                  this.undoDeleteItem();
-                }
-              }}
-            >
-              Xoá thông tin thành công .
-            </Snackbar>
+              <Snackbar
+                visible={this.state.snackbarVisible}
+                onDismiss={() => this.setState({ snackbarVisible: false })}
+                action={{
+                  label: "Hoàn tác",
+                  onPress: () => {
+                    // Do something
+                    this.undoDeleteItem();
+                  }
+                }}
+              >
+                Xoá thông tin thành công .
+              </Snackbar>
           </PaperProvider>
           
         

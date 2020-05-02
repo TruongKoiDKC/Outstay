@@ -82,15 +82,14 @@ export default class App extends React.Component {
       var tasks = [];
       dataSnapshot.forEach(child => {
         tasks.push({
+          MaSo: child.val().MaSo,
           TrangThaiPhong: child.val().TrangThaiPhong,
           TenPhong: child.val().TenPhong,
-          LoaiPhong: child.val().LoaiPhong,
           TienPhong: child.val().TienPhong,
           SDTcu: child.val().SDTcu,
           SDThientai: child.val().SDThientai,
           SoNuocCu: child.val().SoNuocCu,
           SoNuocHienTai: child.val().SoNuocHienTai,
-          PhiDichVu: child.val().PhiDichVu,
           key: child.key
         });
       });
@@ -137,6 +136,10 @@ export default class App extends React.Component {
    
     var updates = {};
     updates["/Phòng trọ/" + newPostKey] = {
+      MaSo:
+        itemName === "" || itemName == undefined
+          ? this.state.itemMaSo
+          : itemName  ,
       TrangThaiPhong:
         itemName === "" || itemName == undefined
           ? this.state.itemTrangThaiPhong
@@ -145,10 +148,6 @@ export default class App extends React.Component {
           itemName === "" || itemName == undefined
             ? this.state.itemTenPhong
             : itemName  ,
-      LoaiPhong:
-        itemName === "" || itemName == undefined
-          ? this.state.itemLoaiPhong
-          : itemName  ,
       TienPhong:
           itemName === "" || itemName == undefined
             ? this.state.itemTienPhong
@@ -169,10 +168,6 @@ export default class App extends React.Component {
           itemName === "" || itemName == undefined
             ? this.state.itemSoNuocHienTai
             : itemName  ,
-      PhiDichVu:
-          itemName === "" || itemName == undefined
-            ? this.state.itemPhiDichVu
-            : itemName  ,
     };
 
     return firebaseApp
@@ -185,15 +180,14 @@ export default class App extends React.Component {
     
     var updates = {};
     updates["/Phòng trọ/" + this.state.selecteditem.key] = {
+      MaSo: this.state.itemMaSo,
       TrangThaiPhong: this.state.itemTrangThaiPhong,
       TenPhong: this.state.itemTenPhong,
-      LoaiPhong: this.state.itemLoaiPhong,
       TienPhong: this.state.itemTienPhong,
       SDTcu: this.state.itemSDTcu,
       SDThientai: this.state.itemSDThientai,
       SoNuocCu: this.state.itemSoNuocCu,
       SoNuocHienTai: this.state.itemSoNuocHienTai,
-      PhiDichVu: this.state.itemPhiDichVu
     };
 
     return firebaseApp
@@ -206,15 +200,14 @@ export default class App extends React.Component {
     if (this.state.selecteditem === null) this.addItem();
     else this.updateItem();
 
+    this.setState({ itemMaSo: "", selecteditem: null });
     this.setState({ itemTrangThaiPhong: "", selecteditem: null });
     this.setState({ itemTenPhong: "", selecteditem: null });
-    this.setState({ itemLoaiPhong: "", selecteditem: null });
     this.setState({ itemTienPhong: "", selecteditem: null });
     this.setState({ itemSDTcu: "", selecteditem: null });
     this.setState({ itemSDThientai: "", selecteditem: null });
     this.setState({ itemSoNuocCu: "", selecteditem: null });
-    this.setState({ itemSoNuocHienTai: "", selecteditem: null });
-    this.setState({ itemPhiDichVu: "", selecteditem: null });
+    this.setState({ itemSoNuocHienTai: "", selecteditem: null });;
   }
 
   hideDialog(yesNo) {
@@ -313,6 +306,13 @@ export default class App extends React.Component {
                           Thông tin phòng
                         </Text>
                         <TextInput
+                          placeholder="Mã số"
+                          underlineColorAndroid="#5aaf76"
+                          style={[{fontSize: 15}]}
+                          onChangeText={text => this.setState({ itemMaSo: text })}
+                          value={this.state.itemMaSo}
+                        />
+                        <TextInput
                           placeholder="Tên phòng"
                           underlineColorAndroid="#5aaf76"
                           style={[{fontSize: 15}]}
@@ -320,15 +320,6 @@ export default class App extends React.Component {
                           value={this.state.itemTenPhong}
                         />
                         <View style={{flexDirection: 'row'}}>
-                          <View style={{flex: 1}}>
-                            <TextInput
-                              placeholder="Loại phòng"
-                              underlineColorAndroid="#5aaf76"
-                              style={{fontSize: 15}}
-                              onChangeText={text => this.setState({ itemLoaiPhong: text })}
-                              value={this.state.itemLoaiPhong}
-                            />
-                          </View>
                           <View style={{flex: 1}}>
                             <TextInput
                               placeholder="Tiền phòng"
@@ -379,13 +370,6 @@ export default class App extends React.Component {
                             />
                           </View>
                         </View>
-                        <TextInput
-                          placeholder="Phí dịch vụ"
-                          underlineColorAndroid="#5aaf76"
-                          style={{fontSize: 15}}
-                          onChangeText={text => this.setState({ itemPhiDichVu: text })}
-                          value={this.state.itemPhiDichVu}
-                        />
                       </View>
                     </Animated.View>
                   </View>
@@ -477,28 +461,26 @@ export default class App extends React.Component {
                         onPress={() =>
                           this.setState({
                             selecteditem: item,
+                            itemMaSo: item.MaSo,
                             itemTrangThaiPhong: item.TrangThaiPhong,
                             itemTenPhong: item.TenPhong,
-                            itemLoaiPhong: item.LoaiPhong,
                             itemTienPhong: item.TienPhong,
                             itemSDTcu: item.SDTcu,
                             itemSDThientai: item.SDThientai,
                             itemSoNuocCu: item.SoNuocCu,
                             itemSoNuocHienTai: item.SoNuocHienTai,
-                            itemPhiDichVu: item.PhiDichVu,
                           })
                         }
                       >
                         <View>
+                          <Text style={styles.item}>- Mã số : {item.MaSo} </Text>
                           <Text style={styles.item}>- Trạng thái phòng : {item.TrangThaiPhong} </Text>
                           <Text style={styles.item}>- Tên phòng : {item.TenPhong} </Text>
-                          <Text style={styles.item}>- Loại phòng : {item.LoaiPhong} </Text>
                           <Text style={styles.item}>- Tiền phòng : {item.TienPhong} </Text>
                           <Text style={styles.item}>- Số ĐT cũ : {item.SDTcu} </Text>
                           <Text style={styles.item}>- Số ĐT hiện tại : {item.SDThientai} </Text>
                           <Text style={styles.item}>- Số nước cũ :  {item.SoNuocCu} </Text>
                           <Text style={styles.item}>- Số nước mới : {item.SoNuocHienTai} </Text>
-                          <Text style={styles.item}>- Phí dịch vụ : {item.PhiDichVu} </Text>
                         </View>
                       </TouchableWithoutFeedback>
                     </ScrollView>
