@@ -1,539 +1,209 @@
-import React, { Component } from 'react';
-import { AppRegistry, 
-        TouchableOpacity, 
-        Animated,
-        StyleSheet, View, Text, 
-        FlatList,
-        TouchableWithoutFeedback,
-        ScrollView,
-        TextInput,
-       } from 'react-native';
-import { Button,} from "react-native-paper";
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
-import {SearchBar, ListItem} from 'react-native-elements';
-import Menu, {MenuItem, MenuDivider} from 'react-native-material-menu';
-import Modal from 'react-native-modal';
-//import Animated from 'react-native-reanimated';
-import * as firebaseApp from "firebase";
-import {Platform} from 'react-native';
+import React from 'react';
+import {
+    StyleSheet,
+    TouchableOpacity,
+    TouchableHighlight,
+    Dimensions,
+    SafeAreaView,
+    View,
+    Text,
+    PermissionsAndroid, Alert,
+} from 'react-native';
+
+import Pdf from 'react-native-pdf';
+import RNFetchBlob from 'rn-fetch-blob'
+//import Orientation from 'react-native-orientation-locker';
+
+const WIN_WIDTH = Dimensions.get('window').width;
+const WIN_HEIGHT = Dimensions.get('window').height;
 
 
-export default class PhongTro extends Component {
-
-  constructor() {
-    super();
-    if (!firebaseApp.apps.length) {
-      firebaseApp.initializeApp({
-        apiKey: 'AIzaSyDYmW5KUcA4YK9RFX8rmozMCmtb1q2sL5Q',
-        //authDomain: “FULL_AUTHDOMAIN_PUT_HERE”,
-        databaseURL: 'https://fir-outstay.firebaseio.com',
-        storageBucket: 'fir-outstay.appspot.com',
-      });
+export default class PDFExample extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            page: 1,
+            scale: 1,
+            numberOfPages: 0,
+            horizontal: false,
+            width: WIN_WIDTH
+        };
+        this.pdf = null;
     }
-    this.tasksRef = firebaseApp.database().ref('/Phòng trọ');
-    this.DichVuRef = firebaseApp.database().ref('/Phí dịch vụ');
-    this.LoaiPhongRef = firebaseApp.database().ref('/Loại phòng');
 
-    const dataSource = [];
-
-    //this.state = { valueArray: [], disabled: false }
-    this.index = 0;
-    this.animatedValue = new Animated.Value(0);
-
-    this.state = {
-      dataSource: dataSource,
-      selecteditem: null,
-      snackbarVisible: false,
-      confirmVisible: false,
-
-      ////Khai báo Modal box
-      modal: false,
-
-      //Search
-      search: '',
-
-      valueArray: [], disabled: false 
-    };
-  }
-   //Menu chọn Khách hàng và Hợp đồng
-   menu = null;
-   setMenuRef = ref => {
-     this.menu = ref;
-   };
-   showMenu = () => {
-     this.menu.show();
-   };
- 
-   //Mở Modal box
-   openModal = () => {
-     this.setState({modal: true});
-   };
- 
-   componentDidMount() {
-     // start listening for firebase updates
-     this.listenForTasks(this.tasksRef, this.DichVuRef, this.LoaiPhongRef);
-   }
- 
-   listenForTasks(tasksRef, DichVuRef, LoaiPhongRef) {
-     tasksRef.on('value', dataSnapshot => {
-       var tasks = [];
-       dataSnapshot.forEach(child => {
-         tasks.push({
-           TrangThaiPhong: child.val().TrangThaiPhong,
-           TenPhong: child.val().TenPhong,
-           LoaiPhong: child.val().LoaiPhong,
-           TienPhong: child.val().TienPhong,
-           SDTcu: child.val().SDTcu,
-           SDThientai: child.val().SDThientai,
-           SoNuocCu: child.val().SoNuocCu,
-           SoNuocHienTai: child.val().SoNuocHienTai,
-           PhiDichVu: child.val().PhiDichVu,
-           key: child.key,
-         });
-       });
- 
-       this.setState({
-         dataSource: tasks,
-       });
-     });
-   }
- 
-   renderSeparator = () => {
-     return (
-       <View
-         style={{
-           width: '90%',
-           height: 2,
-           backgroundColor: '#BBB5B3',
-         }}>
-         <View />
-       </View>
-     );
-   };
-   addItem(itemName) {
-    var newPostKey = firebaseApp
-      .database()
-      .ref()
-      .child('Phòng trọ')
-      .push().key;
-
-    var updates = {};
-    updates['/Phòng trọ/' + newPostKey] = {
-      TrangThaiPhong:
-        itemName === '' || itemName == undefined
-          ? this.state.itemTrangThaiPhong
-          : itemName,
-      TenPhong:
-        itemName === '' || itemName == undefined
-          ? this.state.itemTenPhong
-          : itemName,
-      TienPhong:
-        itemName === '' || itemName == undefined
-          ? this.state.itemTienPhong
-          : itemName,
-      SDTcu:
-        itemName === '' || itemName == undefined
-          ? this.state.itemSDTcu
-          : itemName,
-      SDThientai:
-        itemName === '' || itemName == undefined
-          ? this.state.itemSDThientai
-          : itemName,
-      SoNuocCu:
-        itemName === '' || itemName == undefined
-          ? this.state.itemSoNuocCu
-          : itemName,
-      SoNuocHienTai:
-        itemName === '' || itemName == undefined
-          ? this.state.itemSoNuocHienTai
-          : itemName,
-    };
-
-    return firebaseApp
-      .database()
-      .ref()
-      .update(updates);
-  }
-
-  updateItem() {
-    var updates = {};
-    updates['/Phòng trọ/' + this.state.selecteditem.key] = {
-      TrangThaiPhong: this.state.itemTrangThaiPhong,
-      TenPhong: this.state.itemTenPhong,
-      TienPhong: this.state.itemTienPhong,
-      SDTcu: this.state.itemSDTcu,
-      SDThientai: this.state.itemSDThientai,
-      SoNuocCu: this.state.itemSoNuocCu,
-      SoNuocHienTai: this.state.itemSoNuocHienTai,
-    };
-
-    return firebaseApp
-      .database()
-      .ref()
-      .update(updates);
-  }
-
-  saveItem() {
-    if (this.state.selecteditem === null) this.addItem();
-    else this.updateItem();
-
-    this.setState({itemTrangThaiPhong: '', selecteditem: null});
-    this.setState({itemTenPhong: '', selecteditem: null});
-    this.setState({itemTienPhong: '', selecteditem: null});
-    this.setState({itemSDTcu: '', selecteditem: null});
-    this.setState({itemSDThientai: '', selecteditem: null});
-    this.setState({itemSoNuocCu: '', selecteditem: null});
-    this.setState({itemSoNuocHienTai: '', selecteditem: null});
-  }
-
-  hideDialog(yesNo) {
-    this.setState({confirmVisible: false});
-    if (yesNo === true) {
-      this.performDeleteItem(this.state.deleteItem.key).then(() => {
-        this.setState({snackbarVisible: true});
-      });
-    }
-  }
-
-  showDialog() {
-    this.setState({confirmVisible: true});
-    console.log('in show dialog');
-  }
-
-  updateSearch = text => {
-    this.setState({
-      search: text,
-    });
-    const newData = this.arrayholder.filter(item => {
-      const itemData = `${item.itemTrangThaiPhong.toUpperCase()}`;
-      const textData = text.toUpperCase();
-
-      return itemData.indexOf(textData) > -1;
-    });
-    this.setState({dataSource: newData});
-  };
-
-  addMore = () => {
-    this.animatedValue.setValue(0);
-    let newlyAddedValue = { index: this.index }
-    this.setState({ disabled: true, valueArray: [...this.state.valueArray, newlyAddedValue] }, () => {
-      Animated.timing(
-        this.animatedValue,
-        {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: true
+    /*_onOrientationDidChange = (orientation) => {
+        if (orientation == 'LANDSCAPE-LEFT'||orientation == 'LANDSCAPE-RIGHT') {
+          this.setState({width:WIN_HEIGHT>WIN_WIDTH?WIN_HEIGHT:WIN_WIDTH,horizontal:true});
+        } else {
+          this.setState({width:WIN_HEIGHT>WIN_WIDTH?WIN_HEIGHT:WIN_WIDTH,horizontal:false});
         }
-      ).start(() => {
-        this.index = this.index + 1;
-        this.setState({ disabled: false });
-      });
-    });
-  }
+    };
 
+    componentDidMount() {
+        Orientation.addOrientationListener(this._onOrientationDidChange);
+    }
 
-  render() {
-    const animationValue = this.animatedValue.interpolate(
-      {
-        inputRange: [0, 1],
-        outputRange: [-59, 0]
-      });
+    componentWillUnmount() {
+        Orientation.removeOrientationListener(this._onOrientationDidChange);
+    }*/
 
-    let newArray = this.state.valueArray.map((item, key) => {
-      if ((key) == this.index) {
+    prePage = () => {
+        let prePage = this.state.page > 1 ? this.state.page - 1 : 1;
+        this.pdf.setPage(prePage);
+        console.log(`prePage: ${prePage}`);
+    };
+
+    nextPage = () => {
+        let nextPage = this.state.page + 1 > this.state.numberOfPages ? this.state.numberOfPages : this.state.page + 1;
+        this.pdf.setPage(nextPage);
+        console.log(`nextPage: ${nextPage}`);
+    };
+
+    zoomOut = () => {
+        let scale = this.state.scale > 1 ? this.state.scale / 1.2 : 1;
+        this.setState({scale: scale});
+        console.log(`zoomOut scale: ${scale}`);
+    };
+
+    zoomIn = () => {
+        let scale = this.state.scale * 1.2;
+        scale = scale > 3 ? 3 : scale;
+        this.setState({scale: scale});
+        console.log(`zoomIn scale: ${scale}`);
+    };
+
+    switchHorizontal = () => {
+        this.setState({horizontal: !this.state.horizontal, page: this.state.page});
+    };
+
+    actualDownload = () => {
+      const { dirs } = RNFetchBlob.fs;
+     RNFetchBlob.config({
+       fileCache: true,
+       addAndroidDownloads: {
+       useDownloadManager: true,
+       notification: true,
+       mediaScannable: true,
+       title: `test.pdf`,
+       path: `${dirs.DownloadDir}/test.pdf`,
+       },
+     })
+       .fetch('GET', 'https://timviec365.com.vn/pictures/files/m%E1%BA%ABu%20h%E1%BB%A3p%20%C4%91%E1%BB%93ng%20thu%C3%AA%20nh%C3%A0%20tr%E1%BB%8D.pdf', {})
+       .then((res) => {
+         console.log('The file saved to ', res.path());
+       })
+       .catch((e) => {
+         console.log(e)
+       });
+   }
+
+   downloadFile = async () => {
+    try {
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          this.actualDownload();
+        } else {
+          Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
+        }
+      } catch (err) {
+        console.warn(err);
+      } 
+   }
+
+    render() {
+        let source = {uri:'https://timviec365.com.vn/pictures/files/m%E1%BA%ABu%20h%E1%BB%A3p%20%C4%91%E1%BB%93ng%20thu%C3%AA%20nh%C3%A0%20tr%E1%BB%8D.pdf',cache:true};
+        //let source = require('./test.pdf');  // ios only
+        //let source = {uri:'bundle-assets://test.pdf'};
+
+        //let source = {uri:'../images/HP.pdf'};
+
         return (
-          <Animated.View key={key} style={[styles.viewHolder, { opacity: this.animatedValue, transform: [{ translateY: animationValue }] }]}>
-            <Text style={styles.headerText}>P {item.index}</Text>
-          </Animated.View>
-        );
-      }
-      else {
-        return (
-          <TouchableOpacity onPress={() => {this.Dangnhap()}}>
-            <View key={key} style={styles.viewHolder}>
-                <Text style={styles.headerText}>Phòng số : {item.index}</Text> 
-              
-            </View>
-          </TouchableOpacity>
-        );
-      }
-    });
-
-    return (
-      <View style={styles.container}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <View style={{flex: 1}}>
-              <TouchableOpacity onPress={this.openModal}>
-                <Icon name="plus" type="FontAwesome5" style={{fontSize: 25}} />
-              </TouchableOpacity>
-
-              <Modal
-                isVisible={this.state.modal}
-                onBackdropPress={() => this.setState({modal: false})}>
-                <View
-                  style={{
-                    width: 350,
-                    height: 590,
-                    position: 'relative',
-                    backgroundColor: 'white',
-                    borderRadius: 20,
-                    shadowRadius: 20,
-                    justifyContent:'center'
-                  }}>
-                  <View style={{alignItems: 'center'}}>
-                    <Text
-                      style={{
-                        color: 'black',
-                        fontSize: 21,
-                        fontWeight: 'bold',
-                      }}>
-                      Chi tiết phòng trọ
-                    </Text>
-                  </View>
-                  <View>
-                    <Animated.View style={styles.vienkhung}>
-                      <View style={{padding: 8}}>
-                        <Text
-                          style={{
-                            fontSize: 20,
-                            color: 'black',
-                            fontWeight: 'bold',
-                          }}>
-                          Trạng thái phòng
-                        </Text>
-                        <TextInput
-                          placeholder="Phòng trống / Đã cọc / Đang ở"
-                          underlineColorAndroid="#5aaf76"
-                          style={[{fontSize: 15}]}
-                          onChangeText={text => this.setState({ itemTrangThaiPhong: text })}
-                          value={this.state.itemTrangThaiPhong}
-                        />
-                        <Text
-                          style={{
-                            fontSize: 20,
-                            color: 'black',
-                            fontWeight: 'bold',
-                            marginTop: 20,
-                          }}>
-                          Thông tin phòng
-                        </Text>
-                        <TextInput
-                          placeholder="Tên phòng"
-                          underlineColorAndroid="#5aaf76"
-                          style={[{fontSize: 15}]}
-                          onChangeText={text => this.setState({ itemTenPhong: text })}
-                          value={this.state.itemTenPhong}
-                        />
-                        <View style={{flexDirection: 'row'}}>
-                          <View style={{flex: 1}}>
-                            <TextInput
-                              placeholder="Loại phòng"
-                              underlineColorAndroid="#5aaf76"
-                              style={{fontSize: 15}}
-                              onChangeText={text => this.setState({ itemLoaiPhong: text })}
-                              value={this.state.itemLoaiPhong}
-                            />
-                          </View>
-                          <View style={{flex: 1}}>
-                            <TextInput
-                              placeholder="Tiền phòng"
-                              underlineColorAndroid="#5aaf76"
-                              style={{fontSize: 15}}
-                              onChangeText={text => this.setState({ itemTienPhong: text })}
-                              value={this.state.itemTienPhong}
-                            />
-                          </View>
-                        </View>
-                        <View style={{flexDirection: 'row'}}>
-                          <View style={{flex: 1}}>
-                            <TextInput
-                              placeholder="Số điện cũ"
-                              underlineColorAndroid="#5aaf76"
-                              style={{fontSize: 15}}
-                              onChangeText={text => this.setState({ itemSDTcu: text })}
-                              value={this.state.itemSDTcu}
-                            />
-                          </View>
-                          <View style={{flex: 1}}>
-                            <TextInput
-                              placeholder="Số điện hiện tại"
-                              underlineColorAndroid="#5aaf76"
-                              style={{fontSize: 15}}
-                              onChangeText={text => this.setState({ itemSDThientai: text })}
-                              value={this.state.itemSDThientai}
-                            />
-                          </View>
-                        </View>
-                        <View style={{flexDirection: 'row'}}>
-                          <View style={{flex: 1}}>
-                            <TextInput
-                              placeholder="Số nước cũ"
-                              underlineColorAndroid="#5aaf76"
-                              style={{fontSize: 15}}
-                              onChangeText={text => this.setState({ itemSoNuocCu: text })}
-                              value={this.state.itemSoNuocCu}
-                            />
-                          </View>
-                          <View style={{flex: 1}}>
-                            <TextInput
-                              placeholder="Số nước hiện tại"
-                              underlineColorAndroid="#5aaf76"
-                              style={{fontSize: 15}}
-                              onChangeText={text => this.setState({ itemSoNuocHienTai: text })}
-                              value={this.state.itemSoNuocHienTai}
-                            />
-                          </View>
-                        </View>
-                        <TextInput
-                          placeholder="Phí dịch vụ"
-                          underlineColorAndroid="#5aaf76"
-                          style={{fontSize: 15}}
-                          onChangeText={text => this.setState({ itemPhiDichVu: text })}
-                          value={this.state.itemPhiDichVu}
-                        />
+            <SafeAreaView style={styles.container}>
+                <View style={{flexDirection: 'row'}}>
+                    <TouchableHighlight disabled={this.state.page === 1}
+                                        style={this.state.page === 1 ? styles.btnDisable : styles.btn}
+                                        onPress={() => this.prePage()}>
+                        <Text style={styles.btnText}>{'-'}</Text>
+                    </TouchableHighlight>
+                    <View style={styles.btnText}><Text style={styles.btnText}>Trang</Text></View>
+                    <TouchableHighlight disabled={this.state.page === this.state.numberOfPages}
+                                        style={this.state.page === this.state.numberOfPages ? styles.btnDisable : styles.btn}
+                                        onPress={() => this.nextPage()}>
+                        <Text style={styles.btnText}>{'+'}</Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight disabled={this.state.scale === 1}
+                                        style={this.state.scale === 1 ? styles.btnDisable : styles.btn}
+                                        onPress={() => this.zoomOut()}>
+                        <Text style={styles.btnText}>{'-'}</Text>
+                    </TouchableHighlight>
+                    <View style={styles.btnText}><Text style={styles.btnText}>Tỉ lệ</Text></View>
+                    <TouchableHighlight disabled={this.state.scale >= 3}
+                                        style={this.state.scale >= 3 ? styles.btnDisable : styles.btn}
+                                        onPress={() => this.zoomIn()}>
+                        <Text style={styles.btnText}>{'+'}</Text>
+                    </TouchableHighlight>
+                    <View style={styles.btnText}><Text style={styles.btnText}>{'Kiểu:'}</Text></View>
+                    <TouchableHighlight style={styles.btn} onPress={() => this.switchHorizontal()}>
+                        {!this.state.horizontal ? (<Text style={styles.btnText}>{'dọc'}</Text>) : (
+                            <Text style={styles.btnText}>{'ngang'}</Text>)}
+                    </TouchableHighlight>
+                    <TouchableOpacity onPress={this.downloadFile}>
+                      <View style={{margin: 2,padding: 2,marginTop: 5,marginLeft: 15}}>
+                        <Text style={{color: 'red',fontSize: 15 ,fontWeight: 'bold'}}>Tải xuống</Text>
                       </View>
-                    </Animated.View>
-                  </View>
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                    }}>
-                   <Button 
-                      mode="contained"
-                      onPress={() => this.saveItem()}
-                      style={[styles.btn, {backgroundColor: '#5aaf76'}]}
-                    >
-                      {this.state.selecteditem === null ?  "Thêm" : "Cập Nhật"}
-                    </Button>
-                  </View>
+                    </TouchableOpacity>
+
                 </View>
-              </Modal>
-            </View>
-
-            <View
-              style={{flex: 3, justifyContent: 'center', alignItems: 'center'}}>
-              <Text style={{color: 'black', fontSize: 21, fontWeight: 'bold'}}>
-                Phòng trọ
-              </Text>
-            </View>
-            <View style={{flex: 1}}>
-              <Menu
-                style={{width: 150, height: 100}}
-                ref={this.setMenuRef}
-                button={
-                  <Text style={{marginLeft: '80%'}} onPress={this.showMenu}>
-                    <Icon
-                      name="ellipsis-v"
-                      type="FontAwesome5"
-                      style={{fontSize: 25}}
-                    />
-                  </Text>
-                }>
-                <MenuItem
-                  onPress={() =>
-                    this.props.navigation.navigate('ManHinhKhachHang')
-                  }>
-                  Khách thuê
-                </MenuItem>
-                <MenuItem
-                  onPress={() =>
-                    this.props.navigation.navigate('ManHinhHopDong')
-                  }>
-                  Hợp đồng
-                </MenuItem>
-                <MenuItem onPress={this.hideMenu} disabled>
-                  {' '}
-                </MenuItem>
-              </Menu>
-            </View>
-          </View>
-
-          <View style={{marginTop: 10}}>
-            <SearchBar
-              placeholder="Tìm kiếm ..."
-              platform="android"
-              underlineColorAndroid="#5aaf76"
-              onChangeText={text => this.updateSearch(text)}
-              autoCorrect={false}
-              value={this.state.search}
-            />
-          </View>
-
-          <View>
-        <ScrollView>
-          <View style={{ flex: 1, padding: 4 }}>
-            {
-              newArray
-            }
-          </View>
-        </ScrollView>
-
-        <TouchableOpacity activeOpacity={0.8} style={styles.buttonDesign} disabled={this.state.disabled} onPress={this.addMore}>
-        <Feather name="plus" size={40} />
-        </TouchableOpacity>
-      </View>
-
-        </View>
-    );
-  }
+                <View style={{flex:1,width: this.state.width}}>
+                    <Pdf ref={(pdf) => {
+                        this.pdf = pdf;
+                    }}
+                         source={source}
+                         scale={this.state.scale}
+                         horizontal={this.state.horizontal}
+                         onLoadComplete={(numberOfPages, filePath,{width,height},tableContents) => {
+                             this.setState({
+                                numberOfPages: numberOfPages 
+                             });
+                             console.log(`total page count: ${numberOfPages}`);
+                             console.log(tableContents);
+                         }}
+                         onPageChanged={(page, numberOfPages) => {
+                             this.setState({
+                                 page: page
+                             });
+                             console.log(`current page: ${page}`);
+                         }}
+                         onError={(error) => {
+                             console.log(error);
+                         }}
+                         style={{flex:1}}
+                         />
+                </View>
+            </SafeAreaView>
+        )
+    }
 }
 
-      
-
-
-const styles = StyleSheet.create(
-  {
+const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      paddingTop: Platform.OS === 'ios' ? 38 : 22,
-      backgroundColor: 'white',
-      padding: '5%',
-    },
-  
-    vienkhung: {
-      paddingVertical: 10,
-      borderColor: '#5aaf76',
-      borderWidth: 4,
-      margin: '5%',
-      borderRadius: 20,
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginTop: 25,
     },
     btn: {
-      borderColor: '#5aaf76',
-      borderWidth: 4,
-      padding: 15,
-      borderRadius: 20,
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: 50,
-      width: 120,
+        margin: 2,
+        padding: 2,
+        backgroundColor: "#5aaf76",
     },
-    viewHolder: {
-      height: 55,
-      backgroundColor: '#5aaf76',
-      justifyContent: 'center',
-      alignItems: 'center',
-      margin: 4
+    btnDisable: {
+        margin: 2,
+        padding: 2,
+        backgroundColor: "gray",
     },
-    headerText: {
-      color: 'white',
-      fontSize: 25
-    },
-    buttonDesign: {
-      position: 'absolute',
-      right: 25,
-      bottom: 25,
-      borderRadius: 30,
-      width: 60,
-      height: 60,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  });
+    btnText: {
+        margin: 2,
+        padding: 2,
+    }
+});
