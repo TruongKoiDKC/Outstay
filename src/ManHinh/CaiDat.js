@@ -20,7 +20,7 @@ import _ from 'lodash';
 import Communications from 'react-native-communications';
 import {SocialIcon} from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 
 //Tắt khung cảnh báo màu vàng
 YellowBox.ignoreWarnings(['Setting a timer']);
@@ -64,6 +64,12 @@ const Caidat2 = [
     icon: 'info',
   },
 ];
+const Caidat3 = [
+  {
+    title: 'Biểu mẫu',
+    icon: 'print',
+  },
+];
 
 const rootRef = firebase.database().ref();
 const TTTKRef = rootRef.child('Thông tin tài khoản');
@@ -72,19 +78,19 @@ const storage = firebase.storage();
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
 
-
 const uploadImage = (uri, mime = 'img/jpg') => {
   return new Promise((resolve, reject) => {
-    const uploadUri = Platform.OS === 'android' ? uri.replace('file://', '') : uri;
+    const uploadUri =
+      Platform.OS === 'android' ? uri.replace('file://', '') : uri;
     const sessionId = new Date().getTime();
     let uploadBlob = null;
     const imageRef = storage.ref('images').child(`${sessionId}.jpg`);
 
     fs.readFile(uploadUri, 'base64')
-      .then((data) => {
+      .then(data => {
         return Blob.build(data, {type: `${mime}; BASE64`});
       })
-      .then((blob) => {
+      .then(blob => {
         uploadBlob = blob;
         return imageRef.put(blob, {contentType: mime});
       })
@@ -95,7 +101,7 @@ const uploadImage = (uri, mime = 'img/jpg') => {
       .then(url => {
         resolve(url);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });
@@ -124,6 +130,10 @@ export default class Home extends React.Component {
   openModalTTTK = () => {
     this.setState({modalTTTK: true});
   };
+  openModalBieuMau = () => {
+    this.setState({modalBieuMau: true});
+  };
+  //////////////////////////////////////
 
   constructor(props) {
     super(props);
@@ -137,6 +147,7 @@ export default class Home extends React.Component {
       //Khai báo Modalbox
       modalHotro: false,
       modalVechungtoi: false,
+      modalBieuMau: false,
 
       //Khai báo của Image Picker
       avatarSource: null,
@@ -206,15 +217,15 @@ export default class Home extends React.Component {
         console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
       } else if (response.uri) {
-        let source = {uri: response.uri}; 
+        let source = {uri: response.uri};
         this.setState({
-          avatarSource:source
+          avatarSource: source,
         });
       } else {
         uploadImage(response.uri)
           .then(url => this.setState({avatarSource: url}))
           .catch(error => console.log(error));
-        }
+      }
     });
   }
 
@@ -433,6 +444,112 @@ export default class Home extends React.Component {
         </View>
 
         <View style={{marginTop: '5%'}}>
+          {Caidat3.map((CD3, index) => (
+            <ListItem
+              onPress={this.openModalBieuMau}
+              bottomDivider
+              chevron
+              key={index}
+              title={CD3.title}
+              subtitle={CD3.subtitle}
+              leftIcon={{name: CD3.icon}}
+            />
+          ))}
+          <Modal
+            isVisible={this.state.modalBieuMau}
+            onBackdropPress={() => this.setState({modalBieuMau: false})}>
+            <View
+              style={{
+                width: 350,
+                height: 300,
+                position: 'relative',
+                backgroundColor: 'white',
+                borderRadius: 20,
+                shadowRadius: 20,
+                justifyContent: 'center',
+              }}>
+              <View style={{alignItems: 'center'}}>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontSize: 21,
+                    fontWeight: 'bold',
+                  }}>
+                  Biểu mẫu
+                </Text>
+              </View>
+              <View style={{padding: '5%'}}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhHDTN")}>
+                  <Animated.View
+                    style={{
+                      borderColor: '#5aaf76',
+                      borderWidth: 2.5,
+                      padding: 15,
+                      borderRadius: 100,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      paddingVertical: 10,
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        color: '#5aaf76',
+                      }}>
+                      Bản hợp đồng thuê nhà
+                    </Text>
+                  </Animated.View>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhNhanKhau")} style={{marginTop: 20}}>
+                  <Animated.View
+                    style={{
+                      borderColor: '#f5be27',
+                      borderWidth: 2.5,
+                      padding: 15,
+                      borderRadius: 100,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      paddingVertical: 10,
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        color: '#f5be27',
+                      }}>
+                      Bản khai nhân khẩu
+                    </Text>
+                  </Animated.View>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhTDNK")} style={{marginTop: 20}}>
+                  <Animated.View
+                    style={{
+                      borderColor: '#278df2',
+                      borderWidth:2.5,
+                      padding: 15,
+                      borderRadius: 100,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      paddingVertical: 10,
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        color: '#278df2',
+                      }}>
+                      Bản khai thay đổi nhân khẩu
+                    </Text>
+                  </Animated.View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+        </View>
+
+        <View style={{marginTop: '5%'}}>
           {Caidat2.map((CD2, index) => (
             <ListItem
               onPress={this.openModalVechungtoi}
@@ -492,7 +609,8 @@ export default class Home extends React.Component {
           </Modal>
         </View>
 
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('ManHinhLogin')}>
           <Animated.View style={styles.DX}>
             <Text style={{fontSize: 18, color: 'white', fontWeight: 'bold'}}>
               Đăng xuất
@@ -520,6 +638,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 10,
+    marginTop: 10
   },
 
   vienkhung: {
