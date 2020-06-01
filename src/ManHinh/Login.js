@@ -9,7 +9,6 @@ import {
   Animated,
   Dimensions,
   TouchableOpacity,
-  console
 } from "react-native";
 import { TypingAnimation } from 'react-native-typing-animation';
 import FontAwesome  from "react-native-vector-icons/FontAwesome";
@@ -90,7 +89,7 @@ export default class Login extends React.Component{
 
   goHome(){
     const {navigate} = this.props.navigation;
-    navigate('ManHinhHome');
+    navigate('ManHinhLogin');
   }
 
   //Đăng nhập bằng Email vs Password push lên firebase 
@@ -286,9 +285,11 @@ export default class Login extends React.Component{
             </View>
           </TouchableOpacity> 
 
-          <View style={{marginTop: 20, flexDirection:'row', justifyContent:'center'}}>
-            <Text style={{color:'red', fontSize:15}}> Quên mật khẩu ?</Text>
-          </View>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("ManHinhQuenTK")}>
+            <View style={{marginTop: 20, flexDirection:'row', justifyContent:'center'}}>
+              <Text style={{color:'red', fontSize:15}}> Quên mật khẩu ?</Text>
+            </View>
+          </TouchableOpacity>
 
           <View style={{marginTop: 20, alignItems:"center"}}>
             <Text>Hoặc</Text>
