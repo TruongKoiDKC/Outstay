@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Login from './ManHinh/Login';
 import CreateAcc from './ManHinh/CreateAcc';
 import Splash from './ManHinh/Splash';
+import ForgetPass from './ManHinh/ForgetPass';
 import Chat from './ManHinh/Chat';
 import HoaDon from './ManHinh/HoaDon';
 import PhongTro from './ManHinh/PhongTro';
@@ -205,6 +206,14 @@ const StackNav = createStackNavigator({
             headerShown: false
         }
     },
+
+    ManHinhQuenTK:{
+        screen: ForgetPass,
+        navigationOptions:{
+            headerShown: false
+        }
+    },
+    
     ManHinhCaiDat: {
         screen: CaiDat,
         navigationOptions:{
