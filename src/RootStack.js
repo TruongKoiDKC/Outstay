@@ -8,10 +8,9 @@ import Login from './ManHinh/Login';
 import CreateAcc from './ManHinh/CreateAcc';
 import Splash from './ManHinh/Splash';
 import ForgetPass from './ManHinh/ForgetPass';
-import Chat from './ManHinh/Chat';
-import HoaDon from './ManHinh/HoaDon';
 import PhongTro from './ManHinh/PhongTro';
 import DichVu from './ManHinh/DichVu';
+import HoaDon from './ManHinh/HoaDon';
 import ThongKe from './ManHinh/ThongKe';
 import CaiDat from './ManHinh/CaiDat';
 import KhachHang from "./ManHinh/KhachHang";
@@ -26,6 +25,7 @@ import ThayDoiNhanKhau from './ManHinh/FrmPDF/ThayDoiNhanKhau';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Foundation from 'react-native-vector-icons/Foundation'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Feather from 'react-native-vector-icons/Feather'
 
 const TabsNav = createBottomTabNavigator({
     ManHinhPhongTro:{
@@ -112,48 +112,26 @@ const TabsNav = createBottomTabNavigator({
         }
     },
 
-    ManHinhChat:{
-        screen:Chat,
+    ManHinhKhachHang:{
+        screen:KhachHang,
         navigationOptions:{
-            tabBarLabel: 'Nhắn tin',
+            tabBarLabel: 'Khách hàng',
             tabBarIcon: ({tintColor,focused}) => {
                 if(focused){
                     return (
-                        <MaterialIcons name="message" size={25}
+                        <Feather name="user" size={26}
                         color={"#5aaf76"} />
                     )
                 }
                 else{
                     return(
-                        <MaterialIcons name="message" size={25}
+                        <Feather name="user" size={26}
                         color={"gray"} />
                     )
                     }
                 }
             }
         },
-
-    ManHinhCaiDat:{
-        screen:CaiDat,
-        navigationOptions:{
-            tabBarLabel: 'Cài đặt',
-            tabBarIcon: ({tintColor,focused}) => {
-                if(focused){
-                    return (
-                        <MaterialIcons name="settings" size={25}
-                        color={"#5aaf76"} />
-                    )
-                }
-                else{
-                    return(
-                        <MaterialIcons name="settings" size={25}
-                        color={"gray"} />
-
-                )
-                }
-            }
-        }
-    },
 
     ManHinhCaiDat:{
         screen:CaiDat,
