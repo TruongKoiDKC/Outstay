@@ -28,6 +28,7 @@ import Modal from 'react-native-modal';
 import Animated from 'react-native-reanimated';
 import * as firebaseApp from "firebase";
 import { Platform } from "react-native";
+import {SearchBar, ListItem} from 'react-native-elements';
 
 
 export default class DichVu extends React.Component {
@@ -64,17 +65,16 @@ export default class DichVu extends React.Component {
   //Component của Loại Phòng vs Phí dịch vụ ..UNSAFE_ ko hoạt động qua Flatlist
   componentDidMount() {
     // start listening for firebase updates
-    this.listenForTasks(this.DichVuRef , this.LoaiPhongRef);
+    this.listenForTasks(this.DichVuRef);
   }
   //Dịch Vụ và Loại phòng 
-  listenForTasks(DichVuRef , LoaiPhongRef) {
+  listenForTasks(DichVuRef) {
     DichVuRef.on("value", dataSnapshot => {
       var tasks = [];
       dataSnapshot.forEach(child => {
         tasks.push({
           MaSo: child.val().MaSo,
-          PhiDichVu: child.val().PhiDichVu,
-          LoaiPhong: child.val().LoaiPhong,
+          LoaiDichVu: child.val().LoaiDichVu,
           DienTich: child.val().DienTich,
           DonGia: child.val().DonGia,
           DonViTinh: child.val().DonViTinh,
@@ -131,13 +131,9 @@ export default class DichVu extends React.Component {
           itemName === "" || itemName == undefined
             ? this.state.itemMaSo
             : itemName  ,
-      PhiDichVu:
+      LoaiDichVu:
           itemName === "" || itemName == undefined
-            ? this.state.itemPhiDichVu
-            : itemName  ,
-      LoaiPhong:
-          itemName === "" || itemName == undefined
-            ? this.state.itemLoaiPhong
+            ? this.state.itemLoaiDichVu
             : itemName  ,
       DienTich:
             itemName === "" || itemName == undefined
@@ -165,8 +161,7 @@ export default class DichVu extends React.Component {
     var updates = {};
     updates["/Dịch vụ/" + this.state.selecteditem.key] = {
       MaSo: this.state.itemMaSo,
-      PhiDichVu: this.state.itemPhiDichVu,
-      LoaiPhong: this.state.itemLoaiPhong,
+      LoaiDichVu: this.state.itemLoaiDichVu,
       DienTich: this.state.itemDienTich,
       DonGia: this.state.itemDonGia,
       DonViTinh: this.state.itemDonViTinh,
@@ -183,8 +178,7 @@ export default class DichVu extends React.Component {
     else this.updateItemPDV();
 
     this.setState({ itemMaSo: "", selecteditem: null });
-    this.setState({ itemPhiDichVu: "", selecteditem: null });
-    this.setState({ itemLoaiPhong: "", selecteditem: null });
+    this.setState({ itemLoaiDichVu: "", selecteditem: null });
     this.setState({ itemDienTich: "", selecteditem: null });
     this.setState({ itemDonGia: "", selecteditem: null });
     this.setState({ itemDonViTinh: "", selecteditem: null });
@@ -220,25 +214,19 @@ export default class DichVu extends React.Component {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <View style={{flex: 1}}>
             
-        
-            </View>
+            <View style={{flex: 1}}></View>
 
             <View
               style={{alignItems: 'center', justifyContent: 'center', flex: 3}}>
-              <Text style={{color: 'black', fontSize: 21, fontWeight: 'bold',marginLeft: 8}}>
+              <Text style={{color: 'black', fontSize: 21, fontWeight: 'bold'}}>
                 Dịch vụ
               </Text>
             </View>
 
             <View style={{flex: 1}}>
-              <TouchableOpacity onPress={this.openModalDichVu}>
-                <MaterialCommunityIcons
-                  name="playlist-edit"
-                  type="MaterialCommunityIcons"
-                  style={{fontSize: 35, marginLeft: '53%'}}
-                />
+              <TouchableOpacity onPress={this.openModalDichVu} style={{marginLeft: 30}}>
+                <Icon name="plus" type="MaterialCommunityIcons" style={{fontSize: 25}} />
               </TouchableOpacity>
               <Modal
                 isVisible={this.state.modalDichVu}
@@ -274,18 +262,11 @@ export default class DichVu extends React.Component {
                           value={this.state.itemMaSo}
                         />
                         <TextInput
-                          placeholder="Phí dịch vụ"
+                          placeholder="Loại dịch vụ"
                           underlineColorAndroid="#5aaf76"
                           style={{fontSize: 15}}
-                          onChangeText={text => this.setState({ itemPhiDichVu: text })}
-                          value={this.state.itemPhiDichVu}
-                        />
-                        <TextInput
-                          placeholder="Tên loại phòng"
-                          underlineColorAndroid="#5aaf76"
-                          style={{fontSize: 15}}
-                          onChangeText={text => this.setState({ itemLoaiPhong: text })}
-                          value={this.state.itemLoaiPhong}
+                          onChangeText={text => this.setState({ itemLoaiDichVu: text })}
+                          value={this.state.itemLoaiDichVu}
                         />
                         <TextInput
                           placeholder="Diện tích"
@@ -335,11 +316,23 @@ export default class DichVu extends React.Component {
                 </View>
               </Modal>
             </View>
+
+            
           </View>
           <View>
         </View>
         
-        <Text style={{fontSize: 20 , fontStyle: 'italic', marginTop: 20}}> Dịch Vụ : </Text>
+        <View style={{marginTop: 10}}>
+            <SearchBar
+              placeholder="Tìm kiếm ..."
+              platform="android"
+              underlineColorAndroid="#5aaf76"
+              onChangeText={text => this.updateSearch(text)}
+              autoCorrect={false}
+              value={this.state.search}
+            />
+          </View>
+        
           <PaperProvider>
             <ScrollView>
               <FlatList
@@ -363,8 +356,7 @@ export default class DichVu extends React.Component {
                           this.setState({
                             selecteditem: item,
                             itemMaSo: item.MaSo,
-                            itemPhiDichVu: item.PhiDichVu,
-                            itemLoaiPhong: item.LoaiPhong,
+                            itemLoaiDichVu: item.LoaiDichVu,
                             itemDienTich: item.DienTich,
                             itemDonGiaLP: item.DonGia,
                             itemDonViTinhLP: item.DonViTinh
@@ -372,12 +364,9 @@ export default class DichVu extends React.Component {
                         }
                       >
                         <View>
-                          <Text style={styles.item}>- Mã số : {item.MaSo} </Text>
-                          <Text style={styles.item}>- Phí Dịch Vụ : {item.PhiDichVu} </Text>
-                          <Text style={styles.item}>- Loại phòng : {item.LoaiPhong} </Text>
-                          <Text style={styles.item}>- Diện tích : {item.DienTich} </Text>
-                          <Text style={styles.item}>- Đơn giá : {item.DonGia} </Text>
-                          <Text style={styles.item}>- Đơn vị tính : {item.DonViTinh} </Text>
+                          <Text style={styles.item}>Mã số : {item.MaSo} </Text>
+                          <Text style={styles.item}>Loại phòng : {item.LoaiDichVu} </Text>
+                          <Text style={styles.item}>Đơn giá : {item.DonGia} </Text>
                         </View>
                       </TouchableWithoutFeedback>
                     </ScrollView>
@@ -432,10 +421,10 @@ const width = Dimensions.get('screen').width;
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Platform.OS === "ios" ? 38 : 22,
     backgroundColor: 'white',
     padding: '5%',
   },
+
   item: {
     marginLeft: 5,
     padding: 10,

@@ -250,9 +250,19 @@ export default class App extends React.Component {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
+
+            <View style={{flex: 1}}></View>
+            
+            <View
+              style={{flex: 3, justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={{color: 'black', fontSize: 21, fontWeight: 'bold'}}>
+                Phòng trọ
+              </Text>
+            </View>
+
             <View style={{flex: 1}}>
-              <TouchableOpacity onPress={this.openModal}>
-                <Icon name="plus" type="FontAwesome5" style={{fontSize: 25}} />
+              <TouchableOpacity onPress={this.openModal} style={{marginLeft: 30}}>
+                <Icon name="plus" type="MaterialCommunityIcons" style={{fontSize: 25}} />
               </TouchableOpacity>
 
               <Modal
@@ -391,42 +401,7 @@ export default class App extends React.Component {
               </Modal>
             </View>
 
-            <View
-              style={{flex: 3, justifyContent: 'center', alignItems: 'center'}}>
-              <Text style={{color: 'black', fontSize: 21, fontWeight: 'bold'}}>
-                Phòng trọ
-              </Text>
-            </View>
-            <View style={{flex: 1}}>
-              <Menu
-                style={{width: 150, height: 100}}
-                ref={this.setMenuRef}
-                button={
-                  <Text style={{marginLeft: '80%'}} onPress={this.showMenu}>
-                    <Icon
-                      name="ellipsis-v"
-                      type="FontAwesome5"
-                      style={{fontSize: 25}}
-                    />
-                  </Text>
-                }>
-                <MenuItem
-                  onPress={() =>
-                    this.props.navigation.navigate('ManHinhKhachHang')
-                  }>
-                  Khách thuê
-                </MenuItem>
-                <MenuItem
-                  onPress={() =>
-                    this.props.navigation.navigate('ManHinhHopDong')
-                  }>
-                  Hợp đồng
-                </MenuItem>
-                <MenuItem onPress={this.hideMenu} disabled>
-                  {' '}
-                </MenuItem>
-              </Menu>
-            </View>
+            
           </View>
 
           <View style={{marginTop: 10}}>
@@ -443,17 +418,18 @@ export default class App extends React.Component {
           <PaperProvider>
             <ScrollView>
               <FlatList
+              style={styles.vienkhung}
                 data={this.state.dataSource}
                 renderItem={({ item }) => (
                   <View>
                     <ScrollView horizontal={true}>
                       <TouchableWithoutFeedback>
-                        <View style={{ paddingTop: 10 }}>
+                        <View style={{ paddingTop: 10, marginLeft: 10 }}>
                           <Text
                             style={{ color: "#5aaf76" }}
                             onPress={() => this.deleteItem(item)}
                           >
-                            <Ionicons name="md-trash" size={20} />
+                            <Ionicons name="md-trash" size={20}/>
                           </Text>
                         </View>
                       </TouchableWithoutFeedback>
@@ -473,14 +449,9 @@ export default class App extends React.Component {
                         }
                       >
                         <View>
-                          <Text style={styles.item}>- Mã số : {item.MaSo} </Text>
-                          <Text style={styles.item}>- Trạng thái phòng : {item.TrangThaiPhong} </Text>
-                          <Text style={styles.item}>- Tên phòng : {item.TenPhong} </Text>
-                          <Text style={styles.item}>- Tiền phòng : {item.TienPhong} </Text>
-                          <Text style={styles.item}>- Số ĐT cũ : {item.SDTcu} </Text>
-                          <Text style={styles.item}>- Số ĐT hiện tại : {item.SDThientai} </Text>
-                          <Text style={styles.item}>- Số nước cũ :  {item.SoNuocCu} </Text>
-                          <Text style={styles.item}>- Số nước mới : {item.SoNuocHienTai} </Text>
+                          <Text style={styles.item}>Mã số : {item.MaSo} </Text>
+                          <Text style={styles.item}>Trạng thái phòng : {item.TrangThaiPhong} </Text>
+                          <Text style={styles.item}>Tên phòng : {item.TenPhong} </Text>
                         </View>
                       </TouchableWithoutFeedback>
                     </ScrollView>
@@ -529,7 +500,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Platform.OS === "ios" ? 38 : 22,
     backgroundColor: 'white',
     padding: '5%',
   },
@@ -538,9 +508,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderColor: '#5aaf76',
     borderWidth: 4,
-    margin: '5%',
+    margin: '3%',
     borderRadius: 20,
   },
+
   btn: {
     borderColor: '#5aaf76',
     borderWidth: 4,
@@ -551,6 +522,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 120,
   },
+
   item: {
     padding: 10,
     fontSize: 18,
